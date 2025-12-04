@@ -42,7 +42,7 @@ export default function Carousel() {
   return (
     <>
       <div className="text-primary font-nunito bg-white flex flex-col items-center justify-center py-8 px-4 text-center relative">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: '#00435a' }}>
           Uzmanlarımızla Tanışın
         </h1>
 
@@ -57,15 +57,15 @@ export default function Carousel() {
                 key={index}
                 className="min-w-full flex flex-col items-center justify-center text-center px-4"
               >
-                <div className="w-24 h-24 rounded-full mb-2 shadow-sm overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mx-auto">
+                <div className="w-24 h-24 rounded-full mb-2 shadow-sm overflow-hidden flex items-center justify-center mx-auto" style={{ backgroundColor: '#f4f4f4' }}>
                   <img
                     src={expert.image}
                     alt={expert.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-0.5">{expert.name}</h2>
-                <p className="text-2xl text-gray-600">{expert.title}</p>
+                <h2 className="text-2xl font-semibold mb-0.5" style={{ color: '#00435a' }}>{expert.name}</h2>
+                <p className="text-2xl" style={{ color: '#00435a', opacity: 0.8 }}>{expert.title}</p>
               </div>
             ))}
           </div>
@@ -73,17 +73,19 @@ export default function Carousel() {
           {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white border border-gray-300 rounded-full p-1.5 shadow-sm hover:bg-gray-50 transition-colors z-10"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white border rounded-full p-1.5 shadow-sm hover:bg-gray-50 transition-colors z-10"
+            style={{ borderColor: '#00435a' }}
             aria-label="Önceki"
           >
-            <ChevronLeft size={16} className="text-gray-700" />
+            <ChevronLeft size={16} style={{ color: '#00435a' }} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border border-gray-300 rounded-full p-1.5 shadow-sm hover:bg-gray-50 transition-colors z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border rounded-full p-1.5 shadow-sm hover:bg-gray-50 transition-colors z-10"
+            style={{ borderColor: '#00435a' }}
             aria-label="Sonraki"
           >
-            <ChevronRight size={16} className="text-gray-700" />
+            <ChevronRight size={16} style={{ color: '#00435a' }} />
           </button>
 
           {/* Dots Indicator */}
@@ -92,8 +94,8 @@ export default function Carousel() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-1.5 h-1.5 rounded-full transition-all ${index === currentIndex ? 'bg-slate-600 w-4' : 'bg-gray-300'
-                  }`}
+                className={`rounded-full transition-all ${index === currentIndex ? 'w-4' : 'w-1.5'} h-1.5`}
+                style={{ backgroundColor: index === currentIndex ? '#00435a' : '#cccccc' }}
                 aria-label={`Slide ${index + 1}`}
               />
             ))}

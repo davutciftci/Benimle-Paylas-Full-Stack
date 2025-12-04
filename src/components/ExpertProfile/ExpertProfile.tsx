@@ -11,7 +11,7 @@ export default function ExpertProfile() {
       title: "Klinik Psikolog",
       description: "Travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmıştır. Bilişsel Davranışçı Terapi (BDT) ve EMDR tekniklerini kullanmaktadır.",
       image: "/src/assets/img/davut ciftci.jpg",
-      bgColor: "bg-slate-50"
+      bgColor: "#f4f4f4"
     },
     {
       id: 'mehmet-yilmaz',
@@ -19,7 +19,7 @@ export default function ExpertProfile() {
       title: "Aile ve Çift Terapisti",
       description: "İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır. Duygu Odaklı Çift Terapisi yöntemini benimsemektedir.",
       image: "/src/assets/img/freud.png",
-      bgColor: "bg-orange-50"
+      bgColor: "#f4f4f4"
     },
     {
       id: 'elif-kaya',
@@ -27,7 +27,7 @@ export default function ExpertProfile() {
       title: "Bireysel Terapist",
       description: "Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir. Varoluşçu terapi ekolünden yararlanır.",
       image: "/src/assets/img/Alfred Binet.png",
-      bgColor: "bg-orange-50"
+      bgColor: "#f4f4f4"
     },
     {
       id: 'can-arslan',
@@ -35,7 +35,7 @@ export default function ExpertProfile() {
       title: "Grup Terapisti",
       description: "Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir. Psikodrama ve grup dinamikleri üzerine odaklanmaktadır.",
       image: "/src/assets/img/Carl Gustavt Jung.png",
-      bgColor: "bg-slate-50"
+      bgColor: "#f4f4f4"
     }
   ];
 
@@ -46,10 +46,10 @@ export default function ExpertProfile() {
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 py-6 pt-16">
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3" style={{ color: '#00435a' }}>
               Ekibimizle Tanışın
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: '#00435a', opacity: 0.8 }}>
               ZihinSağlığı Kliniği'nde, her biri kendi alanında uzmanlaşmış, deneyimli ve özverili bir psikolog ekibiyle hizmet vermekteyiz. Ekibimiz, bireysel terapi, aile danışmanlığı, çift terapisi ve grup terapisi gibi geniş bir yelpazede hizmet sunmaktadır. Her bir psikoloğumuz, danışanlarımızın ihtiyaçlarına uygun, kişiye özel yaklaşımlarla destek sağlamaktadır.
             </p>
           </div>
@@ -61,7 +61,7 @@ export default function ExpertProfile() {
                 key={index}
                 className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col items-center text-center gap-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className={`w-32 h-32 ${expert.bgColor} rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden border-4 border-white shadow-md`}>
+                <div className="w-32 h-32 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden border-4 border-white shadow-md" style={{ backgroundColor: expert.bgColor }}>
                   <img
                     src={expert.image}
                     alt={expert.name}
@@ -69,19 +69,20 @@ export default function ExpertProfile() {
                   />
                 </div>
                 <div className="flex-1 flex flex-col items-center">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-1">
+                  <h3 className="text-2xl font-bold mb-1" style={{ color: '#00435a' }}>
                     {expert.name}
                   </h3>
-                  <p className="text-slate-600 text-base font-bold mb-3 uppercase tracking-wide">
+                  <p className="text-base font-bold mb-3 uppercase tracking-wide" style={{ color: '#00435a', opacity: 0.8 }}>
                     {expert.title}
                   </p>
-                  <p className="text-gray-500 text-base mb-5 leading-relaxed line-clamp-3">
+                  <p className="text-base mb-5 leading-relaxed line-clamp-3" style={{ color: '#00435a', opacity: 0.7 }}>
                     {expert.description}
                   </p>
                   <div className="mt-auto">
                     <Link
                       to={`/uzman/${expert.id}`}
-                      className="bg-gradient-to-r from-slate-500 to-slate-700 text-white rounded-md px-6 py-3 text-base font-semibold flex items-center gap-2 hover:from-slate-600 hover:to-slate-800 hover:shadow-md transition-all inline-flex group"
+                      className="rounded-md px-6 py-3 text-base font-semibold flex items-center gap-2 hover:opacity-90 hover:shadow-md transition-all inline-flex group"
+                      style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}
                     >
                       Profilini Gör
                       <ArrowRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
@@ -94,7 +95,7 @@ export default function ExpertProfile() {
 
           {/* İşaret Dili Desteği */}
           <div className="flex justify-center">
-            <button className="bg-white border border-gray-300 text-gray-700 rounded px-5 py-2.5 text-base flex items-center gap-2 hover:bg-gray-50 transition-colors">
+            <button className="bg-white border rounded px-5 py-2.5 text-base flex items-center gap-2 hover:bg-gray-50 transition-colors" style={{ borderColor: '#00435a', color: '#00435a' }}>
               <LiaSignLanguageSolid className="text-xl" />
               <span className="font-medium">İşaret Dili Desteği</span>
             </button>
@@ -104,4 +105,3 @@ export default function ExpertProfile() {
     </>
   );
 }
-

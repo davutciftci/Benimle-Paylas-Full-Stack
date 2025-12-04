@@ -50,7 +50,7 @@ export default function FindTherapist() {
 
   return (
     <>
-      <div className="font-nunito min-h-screen bg-gray-50">
+      <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f4f4f4' }}>
         <div className="max-w-7xl mx-auto px-4 py-6 pt-24">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             {/* Left Sidebar - Filters */}
@@ -59,20 +59,24 @@ export default function FindTherapist() {
                 {/* Search */}
                 <div className="mb-6">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} style={{ color: '#00435a', opacity: 0.6 }} />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={handleSearch}
                       placeholder="Terapist ara"
-                      className="w-full pl-10 pr-4 py-2 text-base text-gray-700 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full pl-10 pr-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-2 focus:border-transparent"
+                      style={{
+                        color: '#00435a',
+                        focusRingColor: '#00435a'
+                      }}
                     />
                   </div>
                 </div>
 
                 {/* Price Range */}
                 <div className="mb-6">
-                  <h4 className="text-base font-semibold text-gray-900 mb-3">
+                  <h4 className="text-base font-semibold mb-3" style={{ color: '#00435a' }}>
                     Seans Ücreti: ₺{priceRange}
                   </h4>
                   <input
@@ -83,12 +87,16 @@ export default function FindTherapist() {
                     value={priceRange}
                     onChange={handlePriceChange}
                     className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      accentColor: '#00435a'
+                    }}
                   />
                 </div>
 
                 <button
                   onClick={clearFilters}
-                  className="w-full text-sm text-gray-600 hover:text-gray-900"
+                  className="w-full text-sm hover:opacity-70 transition-opacity"
+                  style={{ color: '#00435a' }}
                 >
                   Filtreleri Temizle
                 </button>
@@ -98,8 +106,8 @@ export default function FindTherapist() {
             {/* Right Content - Therapist List */}
             <main className="lg:col-span-3">
               <div className="flex items-center justify-between mb-4">
-                <h1 className="text-2xl font-bold text-gray-900">Terapist Bul</h1>
-                <p className="text-gray-600">
+                <h1 className="text-2xl font-bold" style={{ color: '#00435a' }}>Terapist Bul</h1>
+                <p style={{ color: '#00435a', opacity: 0.8 }}>
                   {pagination.total} sonuç bulundu
                 </p>
               </div>
@@ -110,7 +118,7 @@ export default function FindTherapist() {
                 </div>
               ) : experts.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-                  <p className="text-gray-500">Sonuç bulunamadı</p>
+                  <p style={{ color: '#00435a', opacity: 0.7 }}>Sonuç bulunamadı</p>
                 </div>
               ) : (
                 <>
@@ -120,7 +128,7 @@ export default function FindTherapist() {
                         key={therapist.id}
                         className="bg-white rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
                       >
-                        <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0" style={{ backgroundColor: '#f4f4f4' }}>
                           <img
                             src={therapist.image}
                             alt={therapist.name}
@@ -128,18 +136,19 @@ export default function FindTherapist() {
                           />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                          <h3 className="text-xl font-semibold mb-1" style={{ color: '#00435a' }}>
                             {therapist.name}
                           </h3>
-                          <p className="text-base text-gray-600 mb-2">
+                          <p className="text-base mb-2" style={{ color: '#00435a', opacity: 0.8 }}>
                             {therapist.title} | {therapist.experience}
                           </p>
-                          <p className="text-sm text-gray-500 mb-2">
+                          <p className="text-sm mb-2" style={{ color: '#00435a', opacity: 0.7 }}>
                             ₺{therapist.priceRange.min} - ₺{therapist.priceRange.max}
                           </p>
                           <Link
                             to={`/expert/${therapist.id}`}
-                            className="bg-gradient-to-r from-slate-500 to-slate-700 hover:from-slate-600 hover:to-slate-800 text-white rounded px-4 py-1.5 text-sm font-medium transition-colors inline-block"
+                            className="rounded px-4 py-1.5 text-sm font-medium transition-opacity hover:opacity-90 inline-block"
+                            style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}
                           >
                             Profili Gör
                           </Link>
@@ -155,6 +164,7 @@ export default function FindTherapist() {
                         onClick={() => handlePageChange(pagination.page - 1)}
                         disabled={pagination.page === 1}
                         className="p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ color: '#00435a' }}
                       >
                         <ChevronLeft size={20} />
                       </button>
@@ -162,10 +172,15 @@ export default function FindTherapist() {
                         <button
                           key={page}
                           onClick={() => handlePageChange(page)}
-                          className={`w-8 h-8 rounded text-base font-medium transition-colors ${page === pagination.page
-                            ? 'bg-gradient-to-r from-slate-500 to-slate-700 text-white'
-                            : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                          className={`w-8 h-8 rounded text-base font-medium transition-all ${page === pagination.page
+                              ? ''
+                              : 'bg-white border border-gray-300 hover:bg-gray-50'
                             }`}
+                          style={
+                            page === pagination.page
+                              ? { backgroundColor: '#00435a', color: '#f4f4f4' }
+                              : { color: '#00435a' }
+                          }
                         >
                           {page}
                         </button>
@@ -174,6 +189,7 @@ export default function FindTherapist() {
                         onClick={() => handlePageChange(pagination.page + 1)}
                         disabled={pagination.page === pagination.totalPages}
                         className="p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ color: '#00435a' }}
                       >
                         <ChevronRight size={20} />
                       </button>

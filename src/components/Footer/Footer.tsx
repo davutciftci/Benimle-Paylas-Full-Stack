@@ -6,7 +6,7 @@ export default function Footer() {
     <>
       <footer className="text-primary font-nunito footer w-full bg-white relative bottom-0 py-4 px-4 border-t border-gray-200">
         <div className="mx-auto flex w-full max-w-3xl flex-wrap justify-between items-center gap-3">
-          <div className="flex flex-wrap gap-2 text-md">
+          <div className="flex flex-wrap gap-4 text-md">
             <Link to="/about" className="text-gray-600 hover:text-gray-900 transition-colors">
               Hakkımızda
             </Link>
@@ -23,7 +23,7 @@ export default function Footer() {
               SSS
             </Link>
           </div>
-          <div className="text-md text-gray-600">
+          <div className="text-md" style={{ color: '#00435a' }}>
             © 2025 Benimle Paylaş. Tüm hakları saklıdır.
           </div>
         </div>

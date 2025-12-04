@@ -13,7 +13,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-1 rtl:space-x-reverse">
-            <span className="text-slate-600 self-center text-3xl font-nunito whitespace-nowrap font-medium">
+            <span className="self-center text-3xl font-nunito whitespace-nowrap font-medium" style={{ color: '#00435a' }}>
               Benimle Paylaş
             </span>
           </Link>
@@ -23,13 +23,15 @@ export default function Navbar() {
 
             <Link
               to="/find-therapist"
-              className="bg-gradient-to-r from-slate-500 to-slate-700 font-nunito text-white rounded-md text-sm px-4 py-2 text-center flex items-center justify-center hover:from-slate-600 hover:to-slate-800 hover:shadow-md transition-all duration-300 ml-4">
+              className="font-nunito rounded-md text-sm px-4 py-2 text-center flex items-center justify-center hover:opacity-90 hover:shadow-md transition-all duration-300 ml-4"
+              style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}>
               Randevu Al
             </Link>
 
             <Link
               to="/login"
-              className="bg-white border border-slate-600 font-nunito text-slate-600 rounded-md text-sm px-4 py-2 text-center hover:bg-slate-50 hover:shadow-sm transition-all duration-300">
+              className="bg-white font-nunito rounded-md text-sm px-4 py-2 text-center hover:bg-gray-50 hover:shadow-sm transition-all duration-300"
+              style={{ border: '1px solid #00435a', color: '#00435a' }}>
               Giriş Yap
             </Link>
 
@@ -52,25 +54,25 @@ export default function Navbar() {
               md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
 
               <li>
-                <Link to="/" className="text-slate-600 hover:text-gray-600 block py-1 px-1.5 rounded text-lg">
+                <Link to="/" className="hover:opacity-70 block py-1 px-1.5 rounded text-lg" style={{ color: '#00435a' }}>
                   Anasayfa
                 </Link>
               </li>
 
               <li>
-                <Link to="/services" className="text-slate-600 hover:text-gray-600 block py-1 px-1.5 rounded text-lg">
+                <Link to="/services" className="hover:opacity-70 block py-1 px-1.5 rounded text-lg" style={{ color: '#00435a' }}>
                   Hizmetler
                 </Link>
               </li>
 
               <li>
-                <Link to="/experts" className="text-slate-600 hover:text-gray-600 block py-1 px-1.5 rounded text-lg">
+                <Link to="/experts" className="hover:opacity-70 block py-1 px-1.5 rounded text-lg" style={{ color: '#00435a' }}>
                   Uzmanlar
                 </Link>
               </li>
 
               <li>
-                <Link to="/about" className="text-slate-600 hover:text-gray-600 block py-1 px-1.5 rounded text-lg">
+                <Link to="/about" className="hover:opacity-70 block py-1 px-1.5 rounded text-lg" style={{ color: '#00435a' }}>
                   Hakkımızda
                 </Link>
               </li>
