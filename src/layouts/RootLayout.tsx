@@ -9,9 +9,7 @@ export default function RootLayout() {
   return (
     <>
       <Navbar />
-      <main className="">
-        <Outlet />
-      </main>
+      <Outlet />
       <SignLanguageSupport />
       <Footer />
     </>
