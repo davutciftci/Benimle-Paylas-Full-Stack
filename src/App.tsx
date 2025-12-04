@@ -17,6 +17,7 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import DashboardPage from './pages/admin/DashboardPage';
 import ProfileManagementPage from './pages/admin/ProfileManagementPage';
 import AppointmentsPage from './pages/admin/AppointmentsPage';
+import UserDashboardPage from './pages/UserDashboardPage';
 import { ToastProvider } from './components/common/Toast';
 
 function App() {
@@ -35,6 +36,16 @@ function App() {
             <Route path="experts" element={<ExpertProfile />} />
             <Route path="expert/:id" element={<ExpertDetailPage />} />
             <Route path="find-therapist" element={<FindTherapist />} />
+
+            {/* Protected User Routes */}
+            <Route
+              path="user/dashboard"
+              element={
+                <ProtectedRoute>
+                  <UserDashboardPage />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Protected Admin Routes */}
             <Route
