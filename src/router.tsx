@@ -17,6 +17,10 @@ import DashboardPage from './pages/admin/DashboardPage';
 import ProfileManagementPage from './pages/admin/ProfileManagementPage';
 import AppointmentsPage from './pages/admin/AppointmentsPage';
 import UserDashboardPage from './pages/UserDashboardPage';
+import PsychologistApplicationPage from './pages/PsychologistApplicationPage';
+import HowItWorksPage from './pages/HowItWorksPage';
+import PsychologicalTestsPage from './pages/PsychologicalTestsPage';
+import BlogPage from './pages/BlogPage';
 
 /**
  * Application router configuration using createBrowserRouter
@@ -66,6 +70,22 @@ export const router = createBrowserRouter([
             {
                 path: 'find-therapist',
                 element: <FindTherapist />,
+            },
+            {
+                path: 'psychologist-application',
+                element: <PsychologistApplicationPage />,
+            },
+            {
+                path: 'how-it-works',
+                element: <HowItWorksPage />,
+            },
+            {
+                path: 'psychological-tests',
+                element: <PsychologicalTestsPage />,
+            },
+            {
+                path: 'blog',
+                element: <BlogPage />,
             },
             // Protected User Routes
             {

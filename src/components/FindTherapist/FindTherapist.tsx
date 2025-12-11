@@ -16,7 +16,9 @@ export default function FindTherapist() {
   } = useExpertStore();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [priceRange, setPriceRange] = useState(2000);
+  const [specialty, setSpecialty] = useState('');
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
 
   useEffect(() => {
     fetchExperts();
@@ -28,10 +30,34 @@ export default function FindTherapist() {
     setFilters({ search: value });
   };
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setPriceRange(value);
-    setFilters({ maxPrice: value });
+  const handleSpecialtyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setSpecialty(value);
+    setFilters({ specialty: value ? [value] : [] });
+  };
+
+  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMinPrice(value);
+    if (value) {
+      setFilters({ minPrice: parseInt(value) });
+    }
+  };
+
+  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMaxPrice(value);
+    if (value) {
+      setFilters({ maxPrice: parseInt(value) });
+    }
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setSpecialty('');
+    setMinPrice('');
+    setMaxPrice('');
+    clearFilters();
   };
 
   const handlePageChange = (newPage: number) => {
@@ -55,48 +81,102 @@ export default function FindTherapist() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             {/* Left Sidebar - Filters */}
             <aside className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-4 sticky top-4">
-                {/* Search */}
+              <div className="bg-white rounded-lg shadow-sm p-4 sticky top-20">
+                {/* Psikolog Adı */}
                 <div className="mb-6">
+                  <h4 className="text-base font-semibold mb-3" style={{ color: '#00435a' }}>
+                    Psikolog Adı
+                  </h4>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" size={18} style={{ color: '#00435a', opacity: 0.6 }} />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={handleSearch}
-                      placeholder="Terapist ara"
-                      className="w-full pl-10 pr-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-2 focus:border-transparent"
+                      placeholder="İsim ile ara..."
+                      className="w-full pl-10 pr-4 py-2 text-base border rounded outline-none focus:ring-2 focus:border-transparent"
                       style={{
                         color: '#00435a',
-                        focusRingColor: '#00435a'
+                        borderColor: '#8aa6b1'
                       }}
                     />
                   </div>
                 </div>
 
-                {/* Price Range */}
+                {/* Uzmanlık Alanı */}
                 <div className="mb-6">
                   <h4 className="text-base font-semibold mb-3" style={{ color: '#00435a' }}>
-                    Seans Ücreti: ₺{priceRange}
+                    Uzmanlık Alanı
                   </h4>
-                  <input
-                    type="range"
-                    min="500"
-                    max="2000"
-                    step="100"
-                    value={priceRange}
-                    onChange={handlePriceChange}
-                    className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  <select
+                    value={specialty}
+                    onChange={handleSpecialtyChange}
+                    className="w-full px-4 py-2 text-base border rounded outline-none focus:ring-2 cursor-pointer"
                     style={{
-                      accentColor: '#00435a'
+                      color: '#00435a',
+                      borderColor: '#8aa6b1',
+                      backgroundColor: 'white'
                     }}
-                  />
+                  >
+                    <option value="">Tümü</option>
+                    <option value="anksiyete">Anksiyete</option>
+                    <option value="depresyon">Depresyon</option>
+                    <option value="ilişki">İlişki Sorunları</option>
+                    <option value="travma">Travma</option>
+                    <option value="stres">Stres Yönetimi</option>
+                    <option value="aile">Aile Terapisi</option>
+                    <option value="çift">Çift Terapisi</option>
+                    <option value="çocuk">Çocuk Psikolojisi</option>
+                    <option value="ergen">Ergen Psikolojisi</option>
+                  </select>
+                </div>
+
+                {/* Fiyat Aralığı */}
+                <div className="mb-6">
+                  <h4 className="text-base font-semibold mb-3" style={{ color: '#00435a' }}>
+                    Fiyat Aralığı (₺)
+                  </h4>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <label className="text-sm mb-1 block" style={{ color: '#8aa6b1' }}>Min</label>
+                      <input
+                        type="number"
+                        value={minPrice}
+                        onChange={handleMinPriceChange}
+                        placeholder="500"
+                        min="0"
+                        className="w-full px-3 py-2 text-base border rounded outline-none focus:ring-2"
+                        style={{
+                          color: '#00435a',
+                          borderColor: '#8aa6b1'
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="text-sm mb-1 block" style={{ color: '#8aa6b1' }}>Max</label>
+                      <input
+                        type="number"
+                        value={maxPrice}
+                        onChange={handleMaxPriceChange}
+                        placeholder="2000"
+                        min="0"
+                        className="w-full px-3 py-2 text-base border rounded outline-none focus:ring-2"
+                        style={{
+                          color: '#00435a',
+                          borderColor: '#8aa6b1'
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <button
-                  onClick={clearFilters}
-                  className="w-full text-sm hover:opacity-70 transition-opacity"
-                  style={{ color: '#00435a' }}
+                  onClick={handleClearFilters}
+                  className="w-full py-2 text-sm rounded transition-all hover:opacity-90"
+                  style={{
+                    backgroundColor: '#8aa6b1',
+                    color: 'white'
+                  }}
                 >
                   Filtreleri Temizle
                 </button>
@@ -173,8 +253,8 @@ export default function FindTherapist() {
                           key={page}
                           onClick={() => handlePageChange(page)}
                           className={`w-8 h-8 rounded text-base font-medium transition-all ${page === pagination.page
-                              ? ''
-                              : 'bg-white border border-gray-300 hover:bg-gray-50'
+                            ? ''
+                            : 'bg-white border border-gray-300 hover:bg-gray-50'
                             }`}
                           style={
                             page === pagination.page

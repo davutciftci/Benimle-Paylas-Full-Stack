@@ -5,6 +5,8 @@
     --color-primary: #00435a;
     --color-secondary: #137393;
     --color-light: #f4f4f4;
+    --color-accent: #f28f3b;
+    --color-muted: #8aa6b1;
     --color-button-hover: #608794;
     --font-nunito: "Nunito Sans", sans-serif;
 }
