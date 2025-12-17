@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UserPlus, FileText, Video } from 'lucide-react';
+import { UserPlus, FileText, Video, CheckCircle, Hand, Shield, Users, Clock } from 'lucide-react';
 
 export default function PsychologistApplicationPage() {
     const steps = [
@@ -8,13 +8,24 @@ export default function PsychologistApplicationPage() {
             icon: <UserPlus size={48} />,
             title: 'Başvuru Yap',
             description: 'Üye olun, fotoğrafınızı, CV\'nizi ve diploma bilgilerinizi yükleyerek başvurunuzu gönderin.',
-            features: ['Üyelik oluşturma', 'Fotoğraf yükleme', 'CV yükleme', 'Diploma bilgileri']
+            features: [
+                'Üyelik oluşturma',
+                'Fotoğraf yükleme',
+                'CV yükleme',
+                'Diploma bilgileri',
+                'Türk İşaret Dili Sertifikası (MEB Onaylı)'
+            ]
         },
         {
             icon: <FileText size={48} />,
             title: 'Profil Oluştur',
             description: 'Hangi alanlarda uzmansınız, çalıştığınız alanlar neler gibi bilgileri düzenleyin.',
-            features: ['Uzmanlık alanları', 'Çalışma yöntemleri', 'Deneyim bilgileri', 'Seans ücretleri']
+            features: [
+                'Uzmanlık alanları',
+                'Çalışma yöntemleri',
+                'Deneyim bilgileri',
+                'İşaret dili bilgisi'
+            ]
         },
         {
             icon: <Video size={48} />,
@@ -24,15 +35,38 @@ export default function PsychologistApplicationPage() {
         }
     ];
 
+    const whyChooseUs = [
+        {
+            icon: <Hand size={32} />,
+            title: 'İşaret Dili Desteği',
+            description: 'Türk İşaret Dili bilen uzmanlarımız sayesinde Sağır/İşitme engelli danışanlarımıza da hizmet sunuyoruz.'
+        },
+        {
+            icon: <Users size={32} />,
+            title: 'Geniş Danışan Kitlesi',
+            description: 'Platformumuz üzerinden binlerce danışana ulaşma imkanı.'
+        },
+        {
+            icon: <Shield size={32} />,
+            title: 'Güvenli Platform',
+            description: 'Tüm görüşmeler şifrelenmiş ve güvenli altyapımızda gerçekleşir.'
+        },
+        {
+            icon: <Clock size={32} />,
+            title: 'Esnek Çalışma',
+            description: 'Kendi çalışma saatlerinizi belirleyin, istediğiniz yerden çalışın.'
+        }
+    ];
+
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f4f4f4' }}>
-            <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+            <div className="max-w-7xl mx-auto px-4 py-12 pt-28">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00435a' }}>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
                         Psikolog Başvurusu
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#00435a', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
                         Benimle Paylaş platformunda psikolog olarak yer alın ve danışanlarınıza online terapi hizmeti sunun.
                     </p>
                 </div>
@@ -43,36 +77,36 @@ export default function PsychologistApplicationPage() {
                         <div
                             key={index}
                             className="bg-white rounded-xl shadow-sm border p-8 text-center hover:shadow-lg transition-all duration-300"
-                            style={{ borderColor: '#8aa6b1' }}
+                            style={{ borderColor: '#3C486B' }}
                         >
                             {/* Step Number */}
                             <div
                                 className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 mx-auto"
-                                style={{ backgroundColor: '#f28f3b' }}
+                                style={{ backgroundColor: '#F45050' }}
                             >
                                 {index + 1}
                             </div>
 
                             {/* Icon */}
-                            <div className="mb-4 flex justify-center" style={{ color: '#00435a' }}>
+                            <div className="mb-4 flex justify-center" style={{ color: '#3C486B' }}>
                                 {step.icon}
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-2xl font-bold mb-3" style={{ color: '#00435a' }}>
+                            <h3 className="text-2xl font-bold mb-3" style={{ color: '#3C486B' }}>
                                 {step.title}
                             </h3>
 
                             {/* Description */}
-                            <p className="mb-4" style={{ color: '#00435a', opacity: 0.8 }}>
+                            <p className="mb-4" style={{ color: '#3C486B', opacity: 0.8 }}>
                                 {step.description}
                             </p>
 
                             {/* Features */}
                             <ul className="text-left space-y-2">
                                 {step.features.map((feature, idx) => (
-                                    <li key={idx} className="flex items-center gap-2" style={{ color: '#00435a' }}>
-                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#f28f3b' }}></span>
+                                    <li key={idx} className="flex items-center gap-2" style={{ color: '#3C486B' }}>
+                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#F45050' }}></span>
                                         {feature}
                                     </li>
                                 ))}
@@ -81,18 +115,70 @@ export default function PsychologistApplicationPage() {
                     ))}
                 </div>
 
+                {/* Sign Language Info Banner */}
+                <div
+                    className="bg-white rounded-xl shadow-sm border p-6 mb-12 flex flex-col md:flex-row items-center gap-6"
+                    style={{ borderColor: '#F9D949', borderWidth: '2px' }}
+                >
+                    <div className="flex-shrink-0">
+                        <div
+                            className="w-16 h-16 rounded-full flex items-center justify-center"
+                            style={{ backgroundColor: '#F9D949' }}
+                        >
+                            <Hand size={32} color="white" />
+                        </div>
+                    </div>
+                    <div className="flex-1 text-center md:text-left">
+                        <h3 className="text-xl font-bold mb-2" style={{ color: '#3C486B' }}>
+                            İşaret Dili Biliyor musunuz?
+                        </h3>
+                        <p style={{ color: '#3C486B', opacity: 0.8 }}>
+                            Türk İşaret Dili (TİD) sertifikanızı başvuru sırasında mutlaka paylaşın.
+                            Sağır/İşitme engelli danışanlarımıza hizmet verebilecek uzmanlar aramaktayız.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Why Choose Us Section */}
+                <div className="mb-12">
+                    <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#3C486B' }}>
+                        Neden Benimle Paylaş'ı Seçmelisiniz?
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {whyChooseUs.map((item, index) => (
+                            <div
+                                key={index}
+                                className="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-lg transition-all"
+                            >
+                                <div
+                                    className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                                    style={{ backgroundColor: '#3C486B' }}
+                                >
+                                    {React.cloneElement(item.icon, { color: 'white' })}
+                                </div>
+                                <h4 className="text-lg font-bold mb-2" style={{ color: '#3C486B' }}>
+                                    {item.title}
+                                </h4>
+                                <p className="text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
+                                    {item.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 {/* CTA Button */}
                 <div className="text-center">
                     <Link
-                        to="/expert-login"
+                        to="/register"
                         className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg"
-                        style={{ backgroundColor: '#f28f3b' }}
+                        style={{ backgroundColor: '#F45050' }}
                     >
                         Başvuru Yap
                     </Link>
-                    <p className="mt-4 text-sm" style={{ color: '#8aa6b1' }}>
+                    <p className="mt-4 text-sm" style={{ color: '#3C486B' }}>
                         Zaten hesabınız var mı?{' '}
-                        <Link to="/expert-login" className="underline hover:opacity-80" style={{ color: '#00435a' }}>
+                        <Link to="/login" className="underline hover:opacity-80" style={{ color: '#3C486B' }}>
                             Giriş yapın
                         </Link>
                     </p>

@@ -14,8 +14,6 @@ interface Expert {
   experience: string;
   education: string;
   languages: string[];
-  email: string;
-  phone: string;
 }
 
 export default function ExpertDetailPage() {
@@ -23,64 +21,56 @@ export default function ExpertDetailPage() {
 
   const experts: Expert[] = [
     {
-      id: 'ayse-demir',
-      name: "Dr. Ayşe Demir",
-      title: "Klinik Psikolog",
+      id: 'davut-ciftci',
+      name: "Davut Çiftçi",
+      title: "Uzman Klinik Psikolog, Psikoterapist",
       description: "Travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmıştır.",
-      fullDescription: "Dr. Ayşe Demir, 10 yılı aşkın deneyime sahip bir klinik psikologdur. Travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmıştır. Bilişsel Davranışçı Terapi (BDT) ve EMDR tekniklerini kullanarak danışanlarına destek sağlamaktadır. Empatik yaklaşımı ve kişiselleştirilmiş tedavi planları ile tanınmaktadır.",
+      fullDescription: "Davut Çiftçi, travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmış bir klinik psikologdur. Bilişsel Davranışçı Terapi (BDT) ve EMDR tekniklerini kullanarak danışanlarına destek sağlamaktadır. Sağır terapist olarak işitme engelli danışanlara da hizmet vermektedir.",
       image: "/src/assets/img/davut ciftci.jpg",
       bgColor: "bg-slate-50",
-      specialties: ["Travma Terapisi", "Anksiyete Bozuklukları", "Depresyon", "BDT", "EMDR"],
+      specialties: ["Sağır Terapist", "Travma Terapisi", "Anksiyete Bozuklukları", "Depresyon", "BDT", "EMDR"],
       experience: "10+ Yıl",
       education: "İstanbul Üniversitesi - Psikoloji Lisans, Klinik Psikoloji Yüksek Lisans",
-      languages: ["Türkçe", "İngilizce"],
-      email: "ayse.demir@mindfulcare.com",
-      phone: "+90 212 123 45 67"
+      languages: ["Türkçe", "İşaret Dili"]
     },
     {
-      id: 'mehmet-yilmaz',
-      name: "Uzm. Psk. Mehmet Yılmaz",
-      title: "Aile ve Çift Terapisti",
+      id: 'sigmund-freud',
+      name: "Sigmund Freud",
+      title: "Psikanaliz",
       description: "İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır.",
-      fullDescription: "Uzm. Psk. Mehmet Yılmaz, aile ve çift terapisi alanında 8 yıllık deneyime sahiptir. İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır. Duygu Odaklı Çift Terapisi (EFT) yöntemini benimsemektedir. Çiftlerin ve ailelerin daha sağlıklı ilişkiler kurmasına yardımcı olmaktadır.",
+      fullDescription: "Sigmund Freud, psikanalizin kurucusu olarak bilinmektedir. İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır. Duygu Odaklı Çift Terapisi yöntemini benimsemektedir.",
       image: "/src/assets/img/freud.png",
       bgColor: "bg-orange-50",
-      specialties: ["Çift Terapisi", "Aile Terapisi", "İletişim Problemleri", "EFT"],
+      specialties: ["Çift Terapisi", "Aile Terapisi", "İletişim Problemleri", "Psikanaliz"],
       experience: "8 Yıl",
-      education: "Ankara Üniversitesi - Psikoloji Lisans, Aile ve Çift Terapisi Yüksek Lisans",
-      languages: ["Türkçe"],
-      email: "mehmet.yilmaz@mindfulcare.com",
-      phone: "+90 212 123 45 68"
+      education: "Viyana Üniversitesi - Tıp Lisans, Psikanaliz Uzmanlık",
+      languages: ["Türkçe", "Almanca"]
     },
     {
-      id: 'elif-kaya',
-      name: "Psk. Dan. Elif Kaya",
-      title: "Bireysel Terapist",
+      id: 'alfred-binet',
+      name: "Alfred Binet",
+      title: "Bireysel Danışmanlık",
       description: "Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir.",
-      fullDescription: "Psk. Dan. Elif Kaya, bireysel terapi alanında 6 yıllık deneyime sahiptir. Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir. Varoluşçu terapi ekolünden yararlanır ve danışanlarının yaşam anlamını bulmalarına yardımcı olmaktadır.",
-      image: "/src/assets/img/Alfred Binet.png",
+      fullDescription: "Alfred Binet, bireysel terapi alanında uzmanlaşmıştır. Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir. Varoluşçu terapi ekolünden yararlanır ve danışanlarının yaşam anlamını bulmalarına yardımcı olmaktadır.",
+      image: "/src/assets/img/alfred binet.png",
       bgColor: "bg-orange-50",
       specialties: ["Bireysel Terapi", "Özgüven Sorunları", "Stres Yönetimi", "Varoluşçu Terapi"],
       experience: "6 Yıl",
-      education: "Boğaziçi Üniversitesi - Psikoloji Lisans, Psikolojik Danışmanlık Yüksek Lisans",
-      languages: ["Türkçe", "İngilizce"],
-      email: "elif.kaya@mindfulcare.com",
-      phone: "+90 212 123 45 69"
+      education: "Sorbonne Üniversitesi - Psikoloji Lisans",
+      languages: ["Türkçe", "Fransızca"]
     },
     {
-      id: 'can-arslan',
-      name: "Psk. Dan. Can Arslan",
-      title: "Grup Terapisti",
+      id: 'carl-jung',
+      name: "Carl Gustavt Jung",
+      title: "Grup Terapisi",
       description: "Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir.",
-      fullDescription: "Psk. Dan. Can Arslan, grup terapisi alanında 7 yıllık deneyime sahiptir. Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir. Psikodrama ve grup dinamikleri üzerine odaklanmaktadır. Grup ortamında bireylerin birbirlerinden öğrenmelerini ve destek almalarını sağlamaktadır.",
+      fullDescription: "Carl Gustav Jung, grup terapisi alanında uzmanlaşmıştır. Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir. Psikodrama ve grup dinamikleri üzerine odaklanmaktadır. Analitik psikolojinin kurucusudur.",
       image: "/src/assets/img/Carl Gustavt Jung.png",
       bgColor: "bg-slate-50",
-      specialties: ["Grup Terapisi", "Sosyal Anksiyete", "Bağımlılık", "Psikodrama"],
+      specialties: ["Grup Terapisi", "Sosyal Anksiyete", "Bağımlılık", "Psikodrama", "Analitik Psikoloji"],
       experience: "7 Yıl",
-      education: "Hacettepe Üniversitesi - Psikoloji Lisans, Klinik Psikoloji Yüksek Lisans",
-      languages: ["Türkçe"],
-      email: "can.arslan@mindfulcare.com",
-      phone: "+90 212 123 45 70"
+      education: "Basel Üniversitesi - Tıp Lisans, Psikiyatri Uzmanlık",
+      languages: ["Türkçe", "Almanca", "İngilizce"]
     }
   ];
 
@@ -100,49 +90,60 @@ export default function ExpertDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white -mt-10 pt-10">
+    <div className="min-h-screen pt-24" style={{ backgroundColor: '#F0F0F0' }}>
       <div className="max-w-3xl mx-auto px-4 py-6">
-        {/* Back Button */}
+        {/* Back Button - Smaller and Outline */}
         <Link
           to="/experts"
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-4 text-xs"
+          className="inline-flex items-center mb-4 px-3 py-1.5 text-sm rounded-lg font-medium transition-all border-2"
+          style={{ backgroundColor: 'transparent', color: '#3C486B', borderColor: '#3C486B' }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#3C486B';
+            e.currentTarget.style.color = 'white';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = '#3C486B';
+          }}
         >
           <ArrowLeft size={14} className="mr-1.5" />
-          Uzmanlar sayfasına dön
+          Uzmanlar Sayfasına Dön
         </Link>
 
         {/* Expert Header */}
         <div className="bg-white rounded-lg shadow-md p-5 mb-6">
-          <div className="flex flex-col md:flex-row gap-5">
-            <div className={`w-32 h-32 ${expert.bgColor} rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden mx-auto md:mx-0`}>
+          <div className="flex flex-col gap-5">
+            {/* Image Centered */}
+            <div className={`w-32 h-32 ${expert.bgColor} rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden mx-auto`}>
               <img
                 src={expert.image}
                 alt={expert.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex-1">
-              <h1 className="text-xl font-bold text-gray-900 mb-1">{expert.name}</h1>
-              <p className="text-base text-slate-600 mb-3">{expert.title}</p>
-              <p className="text-sm text-gray-700 mb-4 leading-relaxed">{expert.fullDescription}</p>
-
-              {/* Contact Info */}
-              <div className="flex flex-wrap gap-3 mb-4">
-                <a href={`mailto:${expert.email}`} className="flex items-center text-gray-600 hover:text-slate-600 text-xs">
-                  <Mail size={14} className="mr-1.5" />
-                  {expert.email}
-                </a>
-                <a href={`tel:${expert.phone}`} className="flex items-center text-gray-600 hover:text-slate-600 text-xs">
-                  <Phone size={14} className="mr-1.5" />
-                  {expert.phone}
-                </a>
-              </div>
+            <div className="text-center">
+              <h1 className="text-xl font-semibold mb-1" style={{ color: '#3C486B' }}>{expert.name}</h1>
+              <p className="text-base mb-3" style={{ color: '#3C486B', opacity: 0.8 }}>{expert.title}</p>
+              <p className="text-sm mb-4 leading-relaxed" style={{ color: '#3C486B' }}>{expert.fullDescription}</p>
 
               <Link
-                to="/find-therapist"
-                className="inline-flex items-center bg-gradient-to-r from-slate-500 to-slate-700 text-white rounded px-3 py-1.5 hover:from-slate-600 hover:to-slate-800 transition-all text-xs font-medium"
+                to="/login"
+                className="inline-flex items-center rounded px-4 py-2 transition-all font-medium border-2"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: '#F45050',
+                  borderColor: '#F45050'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F45050';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#F45050';
+                }}
               >
-                <Calendar size={12} className="mr-1.5" />
+                <Calendar size={14} className="mr-1.5" />
                 Randevu Al
               </Link>
             </div>

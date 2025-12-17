@@ -9,6 +9,7 @@ interface AuthState {
     error: string | null;
 
     login: (email: string, password: string) => Promise<boolean>;
+    register: (name: string, email: string, password: string) => Promise<boolean>;
     logout: () => Promise<void>;
     clearError: () => void;
 }
@@ -36,6 +37,32 @@ export const useAuthStore = create<AuthState>()(
                 } catch (error) {
                     set({
                         error: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                        isLoading: false
+                    });
+                    return false;
+                }
+            },
+
+            register: async (name, email, password) => {
+                set({ isLoading: true, error: null });
+
+                try {
+                    // Demo: Create a mock user for registration
+                    const mockUser: AuthUser = {
+                        id: Date.now().toString(),
+                        email,
+                        name,
+                        role: 'user'
+                    };
+
+                    // Simulate API delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    set({ user: mockUser, isLoading: false });
+                    return true;
+                } catch (error) {
+                    set({
+                        error: 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.',
                         isLoading: false
                     });
                     return false;

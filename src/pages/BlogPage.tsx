@@ -90,14 +90,14 @@ export default function BlogPage() {
     });
 
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f4f4f4' }}>
-            <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+            <div className="max-w-7xl mx-auto px-4 py-12 pt-28">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00435a' }}>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
                         Blog
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#00435a', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
                         Ruh sağlığı, kişisel gelişim ve psikoloji hakkında güncel yazılar
                     </p>
                 </div>
@@ -112,7 +112,7 @@ export default function BlogPage() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg border bg-white outline-none focus:ring-2"
-                            style={{ borderColor: '#8aa6b1', color: '#00435a' }}
+                            style={{ borderColor: '#3C486B', color: '#3C486B' }}
                         />
                     </div>
 
@@ -123,13 +123,13 @@ export default function BlogPage() {
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
                                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category
-                                        ? 'text-white'
-                                        : 'bg-white hover:opacity-80'
+                                    ? 'text-white'
+                                    : 'bg-white hover:opacity-80'
                                     }`}
                                 style={{
-                                    backgroundColor: selectedCategory === category ? '#00435a' : undefined,
-                                    color: selectedCategory === category ? 'white' : '#00435a',
-                                    border: selectedCategory === category ? 'none' : '1px solid #8aa6b1'
+                                    backgroundColor: selectedCategory === category ? '#3C486B' : undefined,
+                                    color: selectedCategory === category ? 'white' : '#3C486B',
+                                    border: selectedCategory === category ? 'none' : '1px solid #3C486B'
                                 }}
                             >
                                 {category}
@@ -149,16 +149,16 @@ export default function BlogPage() {
                                 {/* Image Placeholder */}
                                 <div
                                     className="h-48 flex items-center justify-center"
-                                    style={{ backgroundColor: '#8aa6b1', opacity: 0.2 }}
+                                    style={{ backgroundColor: '#3C486B', opacity: 0.2 }}
                                 >
-                                    <span style={{ color: '#00435a', opacity: 0.5 }}>📷 Görsel</span>
+                                    <span style={{ color: '#3C486B', opacity: 0.5 }}>📷 Görsel</span>
                                 </div>
 
                                 <div className="p-6">
                                     {/* Category Badge */}
                                     <span
                                         className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3"
-                                        style={{ backgroundColor: '#f28f3b', color: 'white' }}
+                                        style={{ backgroundColor: '#F45050', color: 'white' }}
                                     >
                                         {post.category}
                                     </span>
@@ -166,7 +166,7 @@ export default function BlogPage() {
                                     {/* Title */}
                                     <h3
                                         className="text-xl font-bold mb-2 group-hover:opacity-80 transition-opacity line-clamp-2"
-                                        style={{ color: '#00435a' }}
+                                        style={{ color: '#3C486B' }}
                                     >
                                         {post.title}
                                     </h3>
@@ -174,13 +174,13 @@ export default function BlogPage() {
                                     {/* Excerpt */}
                                     <p
                                         className="mb-4 line-clamp-3"
-                                        style={{ color: '#00435a', opacity: 0.7 }}
+                                        style={{ color: '#3C486B', opacity: 0.7 }}
                                     >
                                         {post.excerpt}
                                     </p>
 
                                     {/* Meta */}
-                                    <div className="flex items-center justify-between text-sm" style={{ color: '#8aa6b1' }}>
+                                    <div className="flex items-center justify-between text-sm" style={{ color: '#3C486B' }}>
                                         <div className="flex items-center gap-4">
                                             <span className="flex items-center gap-1">
                                                 <Calendar size={14} />
@@ -194,8 +194,8 @@ export default function BlogPage() {
                                     </div>
 
                                     {/* Author */}
-                                    <div className="mt-4 pt-4 border-t" style={{ borderColor: '#f4f4f4' }}>
-                                        <p className="text-sm" style={{ color: '#00435a' }}>
+                                    <div className="mt-4 pt-4 border-t" style={{ borderColor: '#F0F0F0' }}>
+                                        <p className="text-sm" style={{ color: '#3C486B' }}>
                                             <span style={{ opacity: 0.6 }}>Yazar:</span> {post.author}
                                         </p>
                                     </div>
@@ -204,7 +204,7 @@ export default function BlogPage() {
                                     <Link
                                         to={`/blog/${post.id}`}
                                         className="mt-4 inline-flex items-center gap-2 text-sm font-semibold hover:gap-3 transition-all"
-                                        style={{ color: '#f28f3b' }}
+                                        style={{ color: '#F45050' }}
                                     >
                                         Devamını Oku
                                         <ArrowRight size={16} />
@@ -215,7 +215,7 @@ export default function BlogPage() {
                     </div>
                 ) : (
                     <div className="text-center py-12">
-                        <p style={{ color: '#00435a', opacity: 0.6 }}>
+                        <p style={{ color: '#3C486B', opacity: 0.6 }}>
                             Aradığınız kriterlere uygun yazı bulunamadı.
                         </p>
                     </div>
@@ -223,16 +223,24 @@ export default function BlogPage() {
 
                 {/* CTA Section */}
                 <div className="mt-16 text-center bg-white rounded-2xl p-8 shadow-sm">
-                    <h2 className="text-2xl font-bold mb-4" style={{ color: '#00435a' }}>
+                    <h2 className="text-2xl font-semibold mb-4" style={{ color: '#3C486B' }}>
                         Profesyonel Destek mi Arıyorsunuz?
                     </h2>
-                    <p className="mb-6" style={{ color: '#00435a', opacity: 0.8 }}>
+                    <p className="mb-6" style={{ color: '#3C486B', opacity: 0.8 }}>
                         Uzman psikologlarımızla online görüşme yaparak profesyonel destek alabilirsiniz.
                     </p>
                     <Link
                         to="/find-therapist"
-                        className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90"
-                        style={{ backgroundColor: '#f28f3b' }}
+                        className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all border-2"
+                        style={{ backgroundColor: 'transparent', color: '#F45050', borderColor: '#F45050' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#F45050';
+                            e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                            e.currentTarget.style.color = '#F45050';
+                        }}
                     >
                         Psikolog Bul
                     </Link>

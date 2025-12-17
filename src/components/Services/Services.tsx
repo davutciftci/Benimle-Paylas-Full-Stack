@@ -55,13 +55,13 @@ export default function Services() {
 
   return (
     <>
-      <div className="text-primary font-nunito py-18 px-4" style={{ backgroundColor: '#f4f4f4' }}>
+      <div className="text-primary font-nunito py-18 px-4" style={{ backgroundColor: '#F0F0F0' }}>
         <div className="w-full max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00435a' }}>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
               Hizmetlerimiz
             </h1>
-            <p className="text-lg max-w-3xl mx-auto" style={{ color: '#00435a', opacity: 0.8 }}>
+            <p className="text-lg max-w-3xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
               Uzman psikologlarımız ile her yaştan ve her ihtiyaçtan bireylere özel,
               kanıta dayalı terapi hizmetleri sunuyoruz.
             </p>
@@ -76,20 +76,20 @@ export default function Services() {
                   className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300 border border-gray-100"
                 >
                   <div className="flex items-center mb-4">
-                    <div className="p-3 rounded-lg" style={{ backgroundColor: '#f4f4f4' }}>
-                      <Icon className="w-6 h-6" style={{ color: '#00435a' }} />
+                    <div className="p-3 rounded-lg" style={{ backgroundColor: '#F0F0F0' }}>
+                      <Icon className="w-6 h-6" style={{ color: '#3C486B' }} />
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3" style={{ color: '#00435a' }}>
+                  <h3 className="text-xl font-semibold mb-3" style={{ color: '#3C486B' }}>
                     {service.title}
                   </h3>
-                  <p className="text-sm mb-4" style={{ color: '#00435a', opacity: 0.8 }}>
+                  <p className="text-sm mb-4" style={{ color: '#3C486B', opacity: 0.8 }}>
                     {service.description}
                   </p>
                   <ul className="space-y-2">
                     {service.features.map((feature, idx) => (
-                      <li key={idx} className="text-xs flex items-center" style={{ color: '#00435a', opacity: 0.7 }}>
-                        <span className="w-1.5 h-1.5 rounded-full mr-2" style={{ backgroundColor: '#00435a' }}></span>
+                      <li key={idx} className="text-xs flex items-center" style={{ color: '#3C486B', opacity: 0.7 }}>
+                        <span className="w-1.5 h-1.5 rounded-full mr-2" style={{ backgroundColor: '#3C486B' }}></span>
                         {feature}
                       </li>
                     ))}
@@ -101,34 +101,34 @@ export default function Services() {
 
           {/* Why Choose Us Section */}
           <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: '#00435a' }}>
+            <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: '#3C486B' }}>
               Neden Bizi Seçmelisiniz?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f4f4f4' }}>
-                  <Shield className="w-8 h-8" style={{ color: '#00435a' }} />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#F0F0F0' }}>
+                  <Shield className="w-8 h-8" style={{ color: '#3C486B' }} />
                 </div>
-                <h3 className="font-semibold text-lg mb-2" style={{ color: '#00435a' }}>Gizlilik Garantisi</h3>
-                <p className="text-sm" style={{ color: '#00435a', opacity: 0.8 }}>
+                <h3 className="font-semibold text-lg mb-2" style={{ color: '#3C486B' }}>Gizlilik Garantisi</h3>
+                <p className="text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
                   Tüm görüşmeleriniz tamamen gizli ve güvenlidir. Kişisel bilgileriniz korunur.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f4f4f4' }}>
-                  <Users className="w-8 h-8" style={{ color: '#00435a' }} />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#F0F0F0' }}>
+                  <Users className="w-8 h-8" style={{ color: '#3C486B' }} />
                 </div>
-                <h3 className="font-semibold text-lg mb-2" style={{ color: '#00435a' }}>Uzman Kadro</h3>
-                <p className="text-sm" style={{ color: '#00435a', opacity: 0.8 }}>
+                <h3 className="font-semibold text-lg mb-2" style={{ color: '#3C486B' }}>Uzman Kadro</h3>
+                <p className="text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
                   Lisanslı ve deneyimli psikologlarımız sizin için en iyi desteği sağlar.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f4f4f4' }}>
-                  <Clock className="w-8 h-8" style={{ color: '#00435a' }} />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#F0F0F0' }}>
+                  <Clock className="w-8 h-8" style={{ color: '#3C486B' }} />
                 </div>
-                <h3 className="font-semibold text-lg mb-2" style={{ color: '#00435a' }}>Esnek Randevu</h3>
-                <p className="text-sm" style={{ color: '#00435a', opacity: 0.8 }}>
+                <h3 className="font-semibold text-lg mb-2" style={{ color: '#3C486B' }}>Esnek Randevu</h3>
+                <p className="text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
                   Size uygun gün ve saatte, online veya yüz yüze terapi seçeneği.
                 </p>
               </div>
@@ -137,16 +137,28 @@ export default function Services() {
 
           {/* CTA Section */}
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: '#00435a' }}>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: '#3C486B' }}>
               Hemen Başlayın
             </h2>
-            <p className="mb-6" style={{ color: '#00435a', opacity: 0.8 }}>
+            <p className="mb-6" style={{ color: '#3C486B', opacity: 0.8 }}>
               Zihinsel sağlığınız için ilk adımı atın. Uzman terapistlerimizle tanışın.
             </p>
             <a
               href="/find-therapist"
-              className="inline-block px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-90"
-              style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}
+              className="inline-block px-8 py-3 rounded-lg font-medium transition-all duration-300 border-2"
+              style={{
+                backgroundColor: 'transparent',
+                color: '#F45050',
+                borderColor: '#F45050'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F45050';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#F45050';
+              }}
             >
               Terapist Bul
             </a>

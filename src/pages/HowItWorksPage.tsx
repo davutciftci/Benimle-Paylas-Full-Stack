@@ -9,33 +9,33 @@ export default function HowItWorksPage() {
             number: 1,
             title: 'Psikolog Seç',
             description: 'Uzman psikologlarımız arasından ihtiyaçlarınıza en uygun olanı seçin. Uzmanlık alanları, deneyim ve hasta yorumlarını inceleyerek size en uygun terapisti bulun.',
-            color: '#00435a'
+            color: '#3C486B'
         },
         {
             icon: <CreditCard size={64} />,
             number: 2,
             title: 'Ödeme Yap',
             description: 'Güvenli ödeme sistemimiz ile seans ücretinizi ödeyin. Kredi kartı, banka kartı veya havale ile ödeme yapabilirsiniz.',
-            color: '#f28f3b'
+            color: '#F45050'
         },
         {
             icon: <Video size={64} />,
             number: 3,
             title: 'Terapiye Başla',
             description: 'Belirlenen tarihte online görüşmenize katılın. Evinizin konforunda, güvenli bir şekilde terapinize başlayın.',
-            color: '#8aa6b1'
+            color: '#3C486B'
         }
     ];
 
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f4f4f4' }}>
-            <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+            <div className="max-w-7xl mx-auto px-4 py-12 pt-28">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00435a' }}>
+                    <h1 className="text-4xl md:text-5xl font-semibold mb-4" style={{ color: '#3C486B' }}>
                         Nasıl Çalışır?
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#00435a', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
                         Sadece 3 adımda online terapi hizmetinden yararlanmaya başlayın
                     </p>
                 </div>
@@ -45,7 +45,7 @@ export default function HowItWorksPage() {
                     {/* Connection Line */}
                     <div
                         className="hidden md:block absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2"
-                        style={{ backgroundColor: '#8aa6b1', opacity: 0.3 }}
+                        style={{ backgroundColor: '#3C486B', opacity: 0.3 }}
                     ></div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -66,12 +66,12 @@ export default function HowItWorksPage() {
                                     </div>
 
                                     {/* Title */}
-                                    <h3 className="text-2xl font-bold mb-4" style={{ color: '#00435a' }}>
+                                    <h3 className="text-2xl font-bold mb-4" style={{ color: '#3C486B' }}>
                                         {step.title}
                                     </h3>
 
                                     {/* Description */}
-                                    <p className="leading-relaxed" style={{ color: '#00435a', opacity: 0.8 }}>
+                                    <p className="leading-relaxed" style={{ color: '#3C486B', opacity: 0.8 }}>
                                         {step.description}
                                     </p>
                                 </div>
@@ -82,13 +82,21 @@ export default function HowItWorksPage() {
 
                 {/* CTA Section */}
                 <div className="text-center mt-16">
-                    <h2 className="text-2xl font-bold mb-6" style={{ color: '#00435a' }}>
+                    <h2 className="text-2xl font-semibold mb-6" style={{ color: '#3C486B' }}>
                         Hemen Başlayın
                     </h2>
                     <Link
                         to="/find-therapist"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg"
-                        style={{ backgroundColor: '#f28f3b' }}
+                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 border-2"
+                        style={{ backgroundColor: 'transparent', color: '#F45050', borderColor: '#F45050' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#F45050';
+                            e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                            e.currentTarget.style.color = '#F45050';
+                        }}
                     >
                         Psikolog Bul
                     </Link>

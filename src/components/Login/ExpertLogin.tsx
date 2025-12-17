@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LiaSignLanguageSolid } from "react-icons/lia";
+import { Hand } from 'lucide-react';
 
 export default function ExpertLogin() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -12,16 +12,16 @@ export default function ExpertLogin() {
           {/* Logo */}
           <div className="mb-4 text-center">
             <Link to="/" className="inline-flex items-center space-x-1.5">
-              <span className="text-base font-medium" style={{ color: '#00435a' }}>Benimle Paylaş</span>
+              <span className="text-base font-medium" style={{ color: '#3C486B' }}>Benimle Paylaş</span>
             </Link>
           </div>
 
           {/* Başlık */}
           <div className="text-center mb-4">
-            <h1 className="text-lg font-bold mb-1.5" style={{ color: '#00435a' }}>
+            <h1 className="text-lg font-bold mb-1.5" style={{ color: '#3C486B' }}>
               Uzman Giriş Paneli
             </h1>
-            <p className="text-xs" style={{ color: '#00435a', opacity: 0.8 }}>
+            <p className="text-xs" style={{ color: '#3C486B', opacity: 0.8 }}>
               Hesabınıza erişim sağlayın veya yeni bir hesap oluşturun.
             </p>
           </div>
@@ -30,7 +30,7 @@ export default function ExpertLogin() {
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
             <form className="space-y-3">
               <div>
-                <label htmlFor="email" className="block text-[10px] font-medium mb-1" style={{ color: '#00435a' }}>
+                <label htmlFor="email" className="block text-[10px] font-medium mb-1" style={{ color: '#3C486B' }}>
                   E-posta
                 </label>
                 <input
@@ -42,7 +42,7 @@ export default function ExpertLogin() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-[10px] font-medium mb-1" style={{ color: '#00435a' }}>
+                <label htmlFor="password" className="block text-[10px] font-medium mb-1" style={{ color: '#3C486B' }}>
                   Parola
                 </label>
                 <input
@@ -61,9 +61,9 @@ export default function ExpertLogin() {
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="mr-1"
                   />
-                  <span className="text-[10px]" style={{ color: '#00435a' }}>Beni hatırla</span>
+                  <span className="text-[10px]" style={{ color: '#3C486B' }}>Beni hatırla</span>
                 </label>
-                <a href="#" className="text-[10px] hover:underline" style={{ color: '#00435a' }}>
+                <a href="#" className="text-[10px] hover:underline" style={{ color: '#3C486B' }}>
                   Parolanızı mı unuttunuz?
                 </a>
               </div>
@@ -71,16 +71,16 @@ export default function ExpertLogin() {
               <button
                 type="submit"
                 className="w-full rounded py-1.5 text-xs font-medium hover:opacity-90 transition-all"
-                style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}
+                style={{ backgroundColor: '#3C486B', color: '#F0F0F0' }}
               >
                 Giriş Yap
               </button>
             </form>
 
             <div className="mt-3 text-center">
-              <p className="text-xs" style={{ color: '#00435a', opacity: 0.8 }}>
+              <p className="text-xs" style={{ color: '#3C486B', opacity: 0.8 }}>
                 Hesabınız yok mu?{' '}
-                <Link to="/expert-login" className="font-medium hover:underline" style={{ color: '#00435a' }}>
+                <Link to="/expert-login" className="font-medium hover:underline" style={{ color: '#3C486B' }}>
                   Kaydolun
                 </Link>
               </p>
@@ -89,14 +89,14 @@ export default function ExpertLogin() {
 
           {/* İşaret Dili Desteği */}
           <div className="mt-3">
-            <button className="w-full bg-white border rounded py-1.5 text-xs flex items-center justify-center gap-1.5 hover:bg-gray-50 transition-colors" style={{ borderColor: '#00435a', color: '#00435a' }}>
-              <LiaSignLanguageSolid className="text-base" />
+            <button className="w-full bg-white border rounded py-1.5 text-xs flex items-center justify-center gap-1.5 hover:bg-gray-50 transition-colors" style={{ borderColor: '#3C486B', color: '#3C486B' }}>
+              <Hand size={16} />
               <span className="font-medium">İşaret Dili Desteği</span>
             </button>
           </div>
 
           {/* Footer */}
-          <div className="mt-6 text-center text-xs" style={{ color: '#00435a', opacity: 0.7 }}>
+          <div className="mt-6 text-center text-xs" style={{ color: '#3C486B', opacity: 0.7 }}>
             © 2024 Mindful Care. Tüm hakları saklıdır.
           </div>
         </div>

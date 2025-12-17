@@ -22,13 +22,13 @@ const SignLanguageSupport: React.FC = () => {
         <div className="fixed bottom-6 right-6 z-50" ref={dropdownRef}>
             {isOpen && (
                 <div className="absolute bottom-16 right-0 w-72 bg-white rounded-lg shadow-xl border border-gray-200 p-4 mb-2 animate-fade-in-up">
-                    <h3 className="text-lg font-bold mb-2" style={{ color: '#00435a' }}>İşaret Dili Desteği</h3>
-                    <p className="text-sm mb-4" style={{ color: '#00435a', opacity: 0.8 }}>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#3C486B' }}>İşaret Dili Desteği</h3>
+                    <p className="text-sm mb-4" style={{ color: '#3C486B', opacity: 0.8 }}>
                         İşitme engelli kullanıcılarımız için görüntülü görüşme ile işaret dili desteği sunuyoruz.
                     </p>
                     <button
                         className="w-full py-2 px-4 rounded-md transition-opacity duration-200 text-sm font-medium hover:opacity-90"
-                        style={{ backgroundColor: '#00435a', color: '#f4f4f4' }}
+                        style={{ backgroundColor: '#3C486B', color: '#F0F0F0' }}
                     >
                         Görüntülü Görüşme Başlat
                     </button>
@@ -38,8 +38,8 @@ const SignLanguageSupport: React.FC = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
                 style={{
-                    backgroundColor: '#00435a',
-                    color: '#f4f4f4'
+                    backgroundColor: '#3C486B',
+                    color: '#F0F0F0'
                 }}
                 aria-label="İşaret Dili Desteği"
             >

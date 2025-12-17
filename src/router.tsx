@@ -6,7 +6,7 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import UserLogin from './components/Login/UserLogin';
-import ExpertLogin from './components/Login/ExpertLogin';
+import UserRegister from './components/Login/UserRegister';
 import ExpertProfile from './components/ExpertProfile/ExpertProfile';
 import ExpertDetailPage from './pages/ExpertDetailPage';
 import FindTherapist from './components/FindTherapist/FindTherapist';
@@ -129,7 +129,7 @@ export const router = createBrowserRouter([
         element: <UserLogin />,
     },
     {
-        path: 'expert-login',
-        element: <ExpertLogin />,
+        path: 'register',
+        element: <UserRegister />,
     },
 ]);

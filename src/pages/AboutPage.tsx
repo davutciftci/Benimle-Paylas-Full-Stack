@@ -2,13 +2,13 @@ import React from 'react';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="pt-24 pb-16 bg-gray-50 min-h-screen">
+    <div className="pt-24 pb-16 min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-semibold sm:text-5xl md:text-6xl" style={{ color: '#3C486B' }}>
             Hakkımızda
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+          <p className="mt-4 max-w-2xl mx-auto text-xl" style={{ color: '#3C486B', opacity: 0.8 }}>
             Benimle Paylaş, herkesin ulaşılabilir ve kaliteli psikolojik destek almasını sağlayan bir platformdur.
           </p>
         </div>
@@ -22,11 +22,11 @@ const AboutPage: React.FC = () => {
             />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Misyonumuz</h2>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+            <h2 className="text-3xl font-semibold mb-6" style={{ color: '#3C486B' }}>Misyonumuz</h2>
+            <p className="text-lg mb-6 leading-relaxed" style={{ color: '#3C486B', opacity: 0.9 }}>
               Amacımız, teknolojinin gücünü kullanarak ruh sağlığı hizmetlerini demokratikleştirmek ve herkes için erişilebilir kılmaktır. Uzman psikologlarımızla, danışanlarımızı güvenli ve konforlu bir ortamda buluşturuyoruz.
             </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg leading-relaxed" style={{ color: '#3C486B', opacity: 0.9 }}>
               Her bireyin kendine özgü bir hikayesi olduğuna inanıyor ve bu hikayede onlara eşlik etmekten gurur duyuyoruz.
             </p>
           </div>
