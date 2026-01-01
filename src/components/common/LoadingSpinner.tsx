@@ -17,8 +17,8 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'md', className 
             <div
                 className={`${sizeClasses[size]} border-4 rounded-full animate-spin`}
                 style={{
-                    borderColor: '#F0F0F0',
-                    borderTopColor: '#3C486B'
+                    borderColor: '#f6f7f8',
+                    borderTopColor: '#1f2937'
                 }}
             ></div>
         </div>

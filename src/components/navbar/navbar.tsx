@@ -8,56 +8,56 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
-        <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
+      <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-100">
+        <div className="max-w-6xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-1 rtl:space-x-reverse">
-            <span className="self-center text-3xl font-nunito whitespace-nowrap font-medium" style={{ color: '#3C486B' }}>
+            <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
               Benimle Paylaş
             </span>
           </Link>
 
           {/* Right Buttons + Hamburger */}
-          <div className="flex md:order-2 space-x-3 rtl:space-x-reverse items-center">
+          <div className="flex md:order-2 space-x-2 rtl:space-x-reverse items-center">
 
-            {/* Kayıt Ol - Dark Blue Outline */}
+            {/* Kayıt Ol - Outline button, fills on hover */}
             <Link
               to="/register"
-              className="font-nunito rounded-md text-sm px-5 py-2.5 text-center flex items-center justify-center transition-all duration-300 border-2"
+              className="font-nunito rounded-md text-xs px-4 py-2 text-center flex items-center justify-center transition-all duration-300 border"
               style={{
-                color: '#3C486B',
+                color: '#13a4ec',
                 backgroundColor: 'transparent',
-                borderColor: '#3C486B'
+                borderColor: '#13a4ec'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#3C486B';
+                e.currentTarget.style.backgroundColor = '#13a4ec';
                 e.currentTarget.style.color = 'white';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#3C486B';
+                e.currentTarget.style.color = '#13a4ec';
               }}
             >
               Kayıt Ol
             </Link>
 
-            {/* Giriş Yap - Red Outline */}
+            {/* Giriş Yap - Filled button, becomes outline on hover */}
             <Link
               to="/login"
-              className="font-nunito rounded-md text-sm px-5 py-2.5 text-center transition-all duration-300 border-2"
+              className="font-nunito rounded-md text-xs px-4 py-2 text-center transition-all duration-300 border"
               style={{
-                color: '#F45050',
-                backgroundColor: 'transparent',
-                borderColor: '#F45050'
+                color: 'white',
+                backgroundColor: '#13a4ec',
+                borderColor: '#13a4ec'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F45050';
-                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#13a4ec';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#F45050';
+                e.currentTarget.style.backgroundColor = '#13a4ec';
+                e.currentTarget.style.color = 'white';
               }}
             >
               Giriş Yap
@@ -66,9 +66,9 @@ export default function Navbar() {
             {/* Hamburger Icon */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center text-black p-1.5 w-8 h-8 justify-center text-sm rounded-md md:hidden"
+              className="inline-flex items-center text-gray-700 p-1.5 w-8 h-8 justify-center text-sm rounded-md md:hidden"
             >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
 
           </div>
@@ -78,43 +78,43 @@ export default function Navbar() {
             className={`font-nunito w-full md:flex md:w-auto md:order-1 transition-all duration-300
               ${isOpen ? "block" : "hidden"}`}
           >
-            <ul className="flex flex-col p-2 md:p-0 mt-1 font-normal rounded text-lg
-              md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:items-center">
+            <ul className="flex flex-col p-2 md:p-0 mt-1 font-normal rounded text-sm
+              md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:items-center">
 
               <li>
-                <Link to="/how-it-works" className="hover:opacity-70 block py-2 px-2 rounded text-lg" style={{ color: '#3C486B' }}>
+                <Link to="/how-it-works" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
                   Nasıl Çalışır
                 </Link>
               </li>
 
               <li>
-                <Link to="/experts" className="hover:opacity-70 block py-2 px-2 rounded text-lg" style={{ color: '#3C486B' }}>
+                <Link to="/experts" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
                   Uzmanlar
                 </Link>
               </li>
 
               <li>
-                <Link to="/psychological-tests" className="hover:opacity-70 block py-2 px-2 rounded text-lg" style={{ color: '#3C486B' }}>
+                <Link to="/psychological-tests" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
                   Psikolojik Testler
                 </Link>
               </li>
 
               <li>
-                <Link to="/blog" className="hover:opacity-70 block py-2 px-2 rounded text-lg" style={{ color: '#3C486B' }}>
+                <Link to="/blog" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
                   Blog
                 </Link>
               </li>
 
               {/* Separator */}
               <li className="hidden md:block">
-                <div className="h-6 w-px mx-2" style={{ backgroundColor: '#3C486B' }}></div>
+                <div className="h-4 w-px mx-2 bg-gray-300"></div>
               </li>
               <li className="block md:hidden">
-                <hr className="my-2 border-t" style={{ borderColor: '#3C486B' }} />
+                <hr className="my-2 border-t border-gray-200" />
               </li>
 
               <li>
-                <Link to="/psychologist-application" className="hover:opacity-70 block py-2 px-2 rounded text-lg font-medium" style={{ color: '#F45050' }}>
+                <Link to="/psychologist-application" className="hover:opacity-80 block py-1.5 px-2 rounded text-sm font-medium text-blue-500">
                   Psikolog Başvurusu
                 </Link>
               </li>

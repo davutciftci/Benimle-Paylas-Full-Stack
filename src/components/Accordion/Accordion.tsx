@@ -37,8 +37,8 @@ function Accordion() {
       <div className="text-primary font-nunito w-full flex bg-white py-12" id="sss">
         <div className="w-full max-w-3xl mx-auto px-4">
           <div className="text-center mb-8 space-y-2">
-            <h1 className='text-2xl md:text-3xl font-bold' style={{ color: '#3C486B' }}>Sıkça Sorulan Sorular</h1>
-            <p className='text-sm' style={{ color: '#3C486B', opacity: 0.8 }}>Hizmetlerimiz hakkında merak ettiğiniz her şey burada.</p>
+            <h1 className='text-2xl md:text-3xl font-bold' style={{ color: '#1f2937' }}>Sıkça Sorulan Sorular</h1>
+            <p className='text-sm' style={{ color: '#1f2937', opacity: 0.8 }}>Hizmetlerimiz hakkında merak ettiğiniz her şey burada.</p>
           </div>
 
           <div className="space-y-2">
@@ -48,18 +48,18 @@ function Accordion() {
                   type="button"
                   onClick={() => toggleItem(index)}
                   className="flex items-center justify-between w-full p-3 font-normal bg-white hover:bg-gray-50 transition-colors text-left"
-                  style={{ color: '#3C486B' }}
+                  style={{ color: '#1f2937' }}
                 >
                   <span className="text-sm font-medium">{item.question}</span>
                   {openIndex === index ? (
-                    <Minus className="flex-shrink-0 ml-3" size={16} style={{ color: '#3C486B', opacity: 0.7 }} />
+                    <Minus className="flex-shrink-0 ml-3" size={16} style={{ color: '#1f2937', opacity: 0.7 }} />
                   ) : (
-                    <Plus className="flex-shrink-0 ml-3" size={16} style={{ color: '#3C486B', opacity: 0.7 }} />
+                    <Plus className="flex-shrink-0 ml-3" size={16} style={{ color: '#1f2937', opacity: 0.7 }} />
                   )}
                 </button>
                 {openIndex === index && (
-                  <div className="p-3 border-t border-gray-200" style={{ backgroundColor: '#F0F0F0' }}>
-                    <p className="leading-relaxed text-xs" style={{ color: '#3C486B', opacity: 0.9 }}>{item.answer}</p>
+                  <div className="p-3 border-t border-gray-200" style={{ backgroundColor: '#f6f7f8' }}>
+                    <p className="leading-relaxed text-xs" style={{ color: '#1f2937', opacity: 0.9 }}>{item.answer}</p>
                   </div>
                 )}
               </div>

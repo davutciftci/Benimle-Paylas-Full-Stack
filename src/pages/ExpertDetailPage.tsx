@@ -90,20 +90,20 @@ export default function ExpertDetailPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24" style={{ backgroundColor: '#F0F0F0' }}>
+    <div className="min-h-screen pt-24 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 py-6">
         {/* Back Button - Smaller and Outline */}
         <Link
           to="/experts"
-          className="inline-flex items-center mb-4 px-3 py-1.5 text-sm rounded-lg font-medium transition-all border-2"
-          style={{ backgroundColor: 'transparent', color: '#3C486B', borderColor: '#3C486B' }}
+          className="inline-flex items-center mb-4 px-3 py-1.5 text-sm rounded-lg font-medium transition-all border"
+          style={{ backgroundColor: 'transparent', color: '#13a4ec', borderColor: '#13a4ec' }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#3C486B';
+            e.currentTarget.style.backgroundColor = '#13a4ec';
             e.currentTarget.style.color = 'white';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#3C486B';
+            e.currentTarget.style.color = '#13a4ec';
           }}
         >
           <ArrowLeft size={14} className="mr-1.5" />
@@ -122,25 +122,25 @@ export default function ExpertDetailPage() {
               />
             </div>
             <div className="text-center">
-              <h1 className="text-xl font-semibold mb-1" style={{ color: '#3C486B' }}>{expert.name}</h1>
-              <p className="text-base mb-3" style={{ color: '#3C486B', opacity: 0.8 }}>{expert.title}</p>
-              <p className="text-sm mb-4 leading-relaxed" style={{ color: '#3C486B' }}>{expert.fullDescription}</p>
+              <h1 className="text-xl font-semibold mb-1 text-gray-900">{expert.name}</h1>
+              <p className="text-base mb-3 text-muted">{expert.title}</p>
+              <p className="text-sm mb-4 leading-relaxed text-gray-900">{expert.fullDescription}</p>
 
               <Link
                 to="/login"
                 className="inline-flex items-center rounded px-4 py-2 transition-all font-medium border-2"
                 style={{
                   backgroundColor: 'transparent',
-                  color: '#F45050',
-                  borderColor: '#F45050'
+                  color: '#13a4ec',
+                  borderColor: '#13a4ec'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#F45050';
+                  e.currentTarget.style.backgroundColor = '#13a4ec';
                   e.currentTarget.style.color = 'white';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#F45050';
+                  e.currentTarget.style.color = '#13a4ec';
                 }}
               >
                 <Calendar size={14} className="mr-1.5" />

@@ -59,14 +59,14 @@ export default function PsychologistApplicationPage() {
     ];
 
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f6f7f8' }}>
             <div className="max-w-7xl mx-auto px-4 py-12 pt-28">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
+                    <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
                         Psikolog Başvurusu
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto text-muted">
                         Benimle Paylaş platformunda psikolog olarak yer alın ve danışanlarınıza online terapi hizmeti sunun.
                     </p>
                 </div>
@@ -77,36 +77,36 @@ export default function PsychologistApplicationPage() {
                         <div
                             key={index}
                             className="bg-white rounded-xl shadow-sm border p-8 text-center hover:shadow-lg transition-all duration-300"
-                            style={{ borderColor: '#3C486B' }}
+                            style={{ borderColor: '#1f2937' }}
                         >
                             {/* Step Number */}
                             <div
                                 className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 mx-auto"
-                                style={{ backgroundColor: '#F45050' }}
+                                style={{ backgroundColor: '#13a4ec' }}
                             >
                                 {index + 1}
                             </div>
 
                             {/* Icon */}
-                            <div className="mb-4 flex justify-center" style={{ color: '#3C486B' }}>
+                            <div className="mb-4 flex justify-center" style={{ color: '#1f2937' }}>
                                 {step.icon}
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-2xl font-bold mb-3" style={{ color: '#3C486B' }}>
+                            <h3 className="text-2xl font-bold mb-3" style={{ color: '#1f2937' }}>
                                 {step.title}
                             </h3>
 
                             {/* Description */}
-                            <p className="mb-4" style={{ color: '#3C486B', opacity: 0.8 }}>
+                            <p className="mb-4" style={{ color: '#1f2937', opacity: 0.8 }}>
                                 {step.description}
                             </p>
 
                             {/* Features */}
                             <ul className="text-left space-y-2">
                                 {step.features.map((feature, idx) => (
-                                    <li key={idx} className="flex items-center gap-2" style={{ color: '#3C486B' }}>
-                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#F45050' }}></span>
+                                    <li key={idx} className="flex items-center gap-2" style={{ color: '#1f2937' }}>
+                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#13a4ec' }}></span>
                                         {feature}
                                     </li>
                                 ))}
@@ -129,10 +129,10 @@ export default function PsychologistApplicationPage() {
                         </div>
                     </div>
                     <div className="flex-1 text-center md:text-left">
-                        <h3 className="text-xl font-bold mb-2" style={{ color: '#3C486B' }}>
+                        <h3 className="text-xl font-bold mb-2" style={{ color: '#1f2937' }}>
                             İşaret Dili Biliyor musunuz?
                         </h3>
-                        <p style={{ color: '#3C486B', opacity: 0.8 }}>
+                        <p style={{ color: '#1f2937', opacity: 0.8 }}>
                             Türk İşaret Dili (TİD) sertifikanızı başvuru sırasında mutlaka paylaşın.
                             Sağır/İşitme engelli danışanlarımıza hizmet verebilecek uzmanlar aramaktayız.
                         </p>
@@ -141,7 +141,7 @@ export default function PsychologistApplicationPage() {
 
                 {/* Why Choose Us Section */}
                 <div className="mb-12">
-                    <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#3C486B' }}>
+                    <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#1f2937' }}>
                         Neden Benimle Paylaş'ı Seçmelisiniz?
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -152,14 +152,14 @@ export default function PsychologistApplicationPage() {
                             >
                                 <div
                                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-                                    style={{ backgroundColor: '#3C486B' }}
+                                    style={{ backgroundColor: '#1f2937' }}
                                 >
                                     {React.cloneElement(item.icon, { color: 'white' })}
                                 </div>
-                                <h4 className="text-lg font-bold mb-2" style={{ color: '#3C486B' }}>
+                                <h4 className="text-lg font-bold mb-2" style={{ color: '#1f2937' }}>
                                     {item.title}
                                 </h4>
-                                <p className="text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
+                                <p className="text-sm" style={{ color: '#1f2937', opacity: 0.8 }}>
                                     {item.description}
                                 </p>
                             </div>
@@ -172,13 +172,13 @@ export default function PsychologistApplicationPage() {
                     <Link
                         to="/register"
                         className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg"
-                        style={{ backgroundColor: '#F45050' }}
+                        style={{ backgroundColor: '#13a4ec' }}
                     >
                         Başvuru Yap
                     </Link>
-                    <p className="mt-4 text-sm" style={{ color: '#3C486B' }}>
+                    <p className="mt-4 text-sm" style={{ color: '#1f2937' }}>
                         Zaten hesabınız var mı?{' '}
-                        <Link to="/login" className="underline hover:opacity-80" style={{ color: '#3C486B' }}>
+                        <Link to="/login" className="underline hover:opacity-80" style={{ color: '#1f2937' }}>
                             Giriş yapın
                         </Link>
                     </p>

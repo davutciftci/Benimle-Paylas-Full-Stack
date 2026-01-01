@@ -10,23 +10,23 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="border-b last:border-0" style={{ borderColor: '#F0F0F0' }}>
+        <div className="border-b last:border-0" style={{ borderColor: '#f6f7f8' }}>
             <button
                 className="flex justify-between items-center w-full py-4 px-6 text-left focus:outline-none hover:bg-gray-50 transition-colors duration-200"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span className="text-lg font-medium" style={{ color: '#3C486B' }}>{question}</span>
+                <span className="text-lg font-medium" style={{ color: '#1f2937' }}>{question}</span>
                 {isOpen ? (
-                    <ChevronUp className="w-5 h-5" style={{ color: '#F45050' }} />
+                    <ChevronUp className="w-5 h-5" style={{ color: '#13a4ec' }} />
                 ) : (
-                    <ChevronDown className="w-5 h-5" style={{ color: '#3C486B' }} />
+                    <ChevronDown className="w-5 h-5" style={{ color: '#1f2937' }} />
                 )}
             </button>
             <div
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
-                <div className="p-6 pt-0 leading-relaxed" style={{ color: '#3C486B', opacity: 0.8 }}>
+                <div className="p-6 pt-0 leading-relaxed" style={{ color: '#1f2937', opacity: 0.8 }}>
                     {answer}
                 </div>
             </div>
@@ -63,26 +63,26 @@ export default function FAQPage() {
     ];
 
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#f6f7f8' }}>
             <div className="max-w-4xl mx-auto px-4 py-12 pt-24">
                 {/* Header */}
                 <div className="text-center mb-12">
                     <div
                         className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                        style={{ backgroundColor: '#3C486B' }}
+                        style={{ backgroundColor: '#1f2937' }}
                     >
                         <HelpCircle size={32} color="white" />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
+                    <h1 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#1f2937' }}>
                         Sıkça Sorulan Sorular
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#1f2937', opacity: 0.8 }}>
                         Merak ettiğiniz soruların cevaplarını burada bulabilirsiniz.
                     </p>
                 </div>
 
                 {/* FAQ Items */}
-                <div className="bg-white shadow-lg rounded-2xl overflow-hidden border" style={{ borderColor: '#F0F0F0' }}>
+                <div className="bg-white shadow-lg rounded-2xl overflow-hidden border" style={{ borderColor: '#f6f7f8' }}>
                     {faqs.map((faq, index) => (
                         <FAQItem key={index} question={faq.question} answer={faq.answer} />
                     ))}
@@ -90,13 +90,13 @@ export default function FAQPage() {
 
                 {/* Contact CTA */}
                 <div className="mt-12 text-center">
-                    <p className="mb-4" style={{ color: '#3C486B', opacity: 0.8 }}>
+                    <p className="mb-4" style={{ color: '#1f2937', opacity: 0.8 }}>
                         Sorunuzun cevabını bulamadınız mı?
                     </p>
                     <a
                         href="/contact"
                         className="inline-flex items-center px-6 py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90"
-                        style={{ backgroundColor: '#F45050' }}
+                        style={{ backgroundColor: '#13a4ec' }}
                     >
                         Bize Ulaşın
                     </a>

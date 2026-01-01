@@ -2,12 +2,13 @@
 @plugin "daisyui";
 
 @theme {
-    --color-primary: #3C486B;
-    --color-secondary: #F9D949;
-    --color-light: #F0F0F0;
-    --color-accent: #F45050;
-    --color-muted: #3C486B;
-    --color-button-hover: #2d3a54;
+    --color-primary: #13a4ec;
+    --color-secondary: #f6f7f8;
+    --color-light: #f6f7f8;
+    --color-accent: #13a4ec;
+    --color-muted: #6B7280;
+    --color-heading: #101c22;
+    --color-button-hover: #0d8bd1;
     --font-nunito: "Nunito Sans", sans-serif;
 }
 

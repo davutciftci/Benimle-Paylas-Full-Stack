@@ -24,7 +24,7 @@ const tests: Test[] = [
         title: 'Anksiyete Testi',
         description: 'Son 2 hafta içinde kendinizi ne sıklıkla aşağıdaki durumlarla karşılaştınız?',
         icon: <Brain size={48} />,
-        color: '#3C486B',
+        color: '#13a4ec',
         duration: '5 dakika',
         questions: [
             {
@@ -84,7 +84,7 @@ const tests: Test[] = [
         title: 'Depresyon Testi',
         description: 'Son 2 hafta içinde aşağıdaki sorunlardan ne sıklıkla rahatsız oldunuz?',
         icon: <Heart size={48} />,
-        color: '#F45050',
+        color: '#13a4ec',
         duration: '5 dakika',
         questions: [
             {
@@ -144,7 +144,7 @@ const tests: Test[] = [
         title: 'Sosyal Fobi Testi',
         description: 'Aşağıdaki durumlarla ne sıklıkla karşılaşıyorsunuz?',
         icon: <Users size={48} />,
-        color: '#3C486B',
+        color: '#13a4ec',
         duration: '5 dakika',
         questions: [
             {
@@ -257,29 +257,29 @@ export default function PsychologicalTestsPage() {
         const result = getResultMessage(score, maxScore);
 
         return (
-            <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+            <div className="font-nunito min-h-screen bg-gray-50">
                 <div className="max-w-2xl mx-auto px-4 py-12 pt-24">
                     <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
                         <div className="mb-6">
                             {result.severity === 'low' ? (
                                 <CheckCircle size={64} className="mx-auto" style={{ color: '#10b981' }} />
                             ) : (
-                                <AlertCircle size={64} className="mx-auto" style={{ color: result.severity === 'very-high' ? '#ef4444' : '#F45050' }} />
+                                <AlertCircle size={64} className="mx-auto" style={{ color: result.severity === 'very-high' ? '#ef4444' : '#13a4ec' }} />
                             )}
                         </div>
 
-                        <h2 className="text-3xl font-bold mb-4" style={{ color: '#3C486B' }}>
+                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
                             {activeTest.title} Sonucu
                         </h2>
 
                         <div className="mb-6">
-                            <p className="text-lg mb-2" style={{ color: '#3C486B' }}>
+                            <p className="text-lg mb-2 text-gray-900">
                                 Puanınız: <strong>{score} / {maxScore}</strong>
                             </p>
                             <p className="text-xl font-semibold mb-4" style={{ color: activeTest.color }}>
                                 Düzey: {result.level}
                             </p>
-                            <p style={{ color: '#3C486B', opacity: 0.8 }}>
+                            <p className="text-muted">
                                 {result.message}
                             </p>
                         </div>
@@ -294,15 +294,13 @@ export default function PsychologicalTestsPage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <button
                                 onClick={handleBackToTests}
-                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
-                                style={{ backgroundColor: '#3C486B', color: 'white' }}
+                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90 bg-gray-900 text-white"
                             >
                                 Testlere Dön
                             </button>
                             <Link
                                 to="/find-therapist"
-                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
-                                style={{ backgroundColor: '#F45050', color: 'white' }}
+                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90 bg-primary text-white"
                             >
                                 Psikolog Bul
                             </Link>
@@ -319,12 +317,12 @@ export default function PsychologicalTestsPage() {
         const allAnswered = activeTest.questions.every(q => answers[q.id] !== undefined);
 
         return (
-            <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+            <div className="font-nunito min-h-screen bg-gray-50">
                 <div className="max-w-2xl mx-auto px-4 py-12 pt-24">
                     <div className="bg-white rounded-2xl shadow-lg p-8">
                         {/* Progress */}
                         <div className="mb-8">
-                            <div className="flex justify-between text-sm mb-2" style={{ color: '#3C486B' }}>
+                            <div className="flex justify-between text-sm mb-2 text-gray-900">
                                 <span>{activeTest.title}</span>
                                 <span>{currentQuestion + 1} / {activeTest.questions.length}</span>
                             </div>
@@ -338,7 +336,7 @@ export default function PsychologicalTestsPage() {
 
                         {/* Question */}
                         <div className="mb-8">
-                            <h3 className="text-xl font-semibold mb-6" style={{ color: '#3C486B' }}>
+                            <h3 className="text-xl font-semibold mb-6 text-gray-900">
                                 {question.text}
                             </h3>
 
@@ -356,7 +354,7 @@ export default function PsychologicalTestsPage() {
                                             backgroundColor: answers[question.id] === option.value ? `${activeTest.color}10` : 'white'
                                         }}
                                     >
-                                        <span style={{ color: '#3C486B' }}>{option.label}</span>
+                                        <span className="text-gray-900">{option.label}</span>
                                     </button>
                                 ))}
                             </div>
@@ -367,8 +365,7 @@ export default function PsychologicalTestsPage() {
                             <button
                                 onClick={() => currentQuestion > 0 && setCurrentQuestion(prev => prev - 1)}
                                 disabled={currentQuestion === 0}
-                                className="px-6 py-2 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                style={{ backgroundColor: '#F0F0F0', color: '#3C486B' }}
+                                className="px-6 py-2 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-gray-50 text-gray-900"
                             >
                                 Önceki
                             </button>
@@ -377,8 +374,7 @@ export default function PsychologicalTestsPage() {
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!allAnswered}
-                                    className="px-6 py-2 rounded-lg font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    style={{ backgroundColor: '#F45050' }}
+                                    className="px-6 py-2 rounded-lg font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-primary"
                                 >
                                     Sonucu Gör
                                 </button>
@@ -395,11 +391,23 @@ export default function PsychologicalTestsPage() {
                         </div>
 
                         {/* Back to Tests Button - Inside card at top */}
-                        <div className="text-center pt-4 border-t mt-6" style={{ borderColor: '#F0F0F0' }}>
+                        <div className="text-center pt-4 border-t mt-6" style={{ borderColor: '#e5e7eb' }}>
                             <button
                                 onClick={handleBackToTests}
-                                className="px-6 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
-                                style={{ backgroundColor: '#F45050', color: 'white' }}
+                                className="px-6 py-2 rounded-lg font-semibold transition-all border"
+                                style={{
+                                    backgroundColor: 'transparent',
+                                    color: '#13a4ec',
+                                    borderColor: '#13a4ec'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = '#13a4ec';
+                                    e.currentTarget.style.color = 'white';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                    e.currentTarget.style.color = '#13a4ec';
+                                }}
                             >
                                 ← Testlere Dön
                             </button>
@@ -411,14 +419,14 @@ export default function PsychologicalTestsPage() {
     }
 
     return (
-        <div className="font-nunito min-h-screen" style={{ backgroundColor: '#F0F0F0' }}>
+        <div className="font-nunito min-h-screen bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#3C486B' }}>
+                    <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
                         Psikolojik Testler
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto" style={{ color: '#3C486B', opacity: 0.8 }}>
+                    <p className="text-lg max-w-2xl mx-auto text-muted">
                         Kendinizi daha iyi anlamak için aşağıdaki testleri çözebilirsiniz.
                         Bu testler sadece bilgilendirme amaçlıdır ve profesyonel bir tanının yerini almaz.
                     </p>
@@ -438,17 +446,17 @@ export default function PsychologicalTestsPage() {
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-2xl font-bold mb-3 text-center" style={{ color: '#3C486B' }}>
+                            <h3 className="text-2xl font-bold mb-3 text-center text-gray-900">
                                 {test.title}
                             </h3>
 
                             {/* Duration */}
-                            <p className="text-center mb-4" style={{ color: '#3C486B' }}>
+                            <p className="text-center mb-4 text-gray-900">
                                 ⏱ {test.duration} • {test.questions.length} soru
                             </p>
 
                             {/* Description */}
-                            <p className="text-center mb-6" style={{ color: '#3C486B', opacity: 0.8 }}>
+                            <p className="text-center mb-6 text-muted">
                                 {test.description}
                             </p>
 
@@ -466,8 +474,8 @@ export default function PsychologicalTestsPage() {
                 </div>
 
                 {/* Disclaimer */}
-                <div className="mt-12 bg-white rounded-xl p-6 border" style={{ borderColor: '#3C486B' }}>
-                    <p className="text-center text-sm" style={{ color: '#3C486B', opacity: 0.8 }}>
+                <div className="mt-12 bg-white rounded-xl p-6 border border-heading">
+                    <p className="text-center text-sm text-muted">
                         <strong>Önemli Bilgilendirme:</strong> Bu testler yalnızca bilgilendirme ve farkındalık oluşturma amacı taşımaktadır.
                         Kesin bir tanı koyma veya tedavi planı oluşturma amacıyla kullanılamaz.
                         Herhangi bir psikolojik sorun yaşadığınızı düşünüyorsanız, lütfen bir ruh sağlığı uzmanına başvurunuz.

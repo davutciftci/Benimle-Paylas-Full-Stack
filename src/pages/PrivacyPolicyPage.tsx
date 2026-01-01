@@ -8,7 +8,7 @@ const PrivacyPolicyPage: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-indigo-600 px-8 py-12 text-center">
             <Shield className="mx-auto h-16 w-16 text-white opacity-90 mb-4" />
-            <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <h1 className="text-3xl font-extrabold text-white sm:text-2xl">
               Gizlilik Politikası
             </h1>
             <p className="mt-4 text-indigo-100 text-lg">
