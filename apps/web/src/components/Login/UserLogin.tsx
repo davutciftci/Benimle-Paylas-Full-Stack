@@ -41,7 +41,8 @@ export default function UserLogin() {
       if (success) {
         // Role-based navigation
         const user = useAuthStore.getState().user;
-        const role = user?.role?.toLowerCase();
+        const roleString = typeof user?.role === 'string' ? user.role : (user?.role as any)?.name;
+        const role = roleString?.toLowerCase();
         
         if (role === 'admin') {
           navigate('/admin/dashboard');

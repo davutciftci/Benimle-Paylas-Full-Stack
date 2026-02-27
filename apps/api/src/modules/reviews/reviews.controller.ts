@@ -13,7 +13,7 @@ export class ReviewsController {
     @ApiOperation({ summary: 'Uzmana ait değerlendirmeler' })
     @ApiResponse({ status: 200, description: 'Değerlendirme listesi' })
     getForExpert(@Param('expertId') expertId: string) {
-        return this.reviewsService.getForExpert(expertId);
+        return this.reviewsService.getForExpert(+expertId);
     }
 
     @Post()
@@ -21,7 +21,7 @@ export class ReviewsController {
     @ApiBearerAuth('access-token')
     @ApiOperation({ summary: 'Değerlendirme ekle' })
     @ApiResponse({ status: 201, description: 'Değerlendirme eklendi' })
-    create(@Body() dto: CreateReviewDto, @Request() req: { user: { id: string } }) {
-        return this.reviewsService.create(dto, req.user.id);
+    create(@Body() dto: CreateReviewDto, @Request() req: { user: { sub: number } }) {
+        return this.reviewsService.create(dto, req.user.sub);
     }
 }

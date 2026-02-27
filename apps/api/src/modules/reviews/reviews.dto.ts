@@ -3,8 +3,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateReviewDto {
     @ApiProperty({ description: 'Uzman ID' })
-    @IsString()
-    expertId: string;
+    @IsNumber()
+    expertId: number;
 
     @ApiProperty({ example: 'Ali Y.', description: 'Gösterilecek kullanıcı adı' })
     @IsString()

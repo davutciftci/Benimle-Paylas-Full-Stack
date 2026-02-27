@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 @Injectable()
 export class ReviewsService {
-    async getForExpert(expertId: string) {
-        const expert = await prisma.expert.findUnique({ where: { id: expertId } });
+    async getForExpert(expertId: number) {
+        const expert = await prisma.expertProfile.findUnique({ where: { id: expertId } });
         if (!expert) throw new NotFoundException('Uzman bulunamadı');
 
         return prisma.review.findMany({
@@ -16,7 +16,7 @@ export class ReviewsService {
         });
     }
 
-    async create(dto: CreateReviewDto, userId: string) {
+    async create(dto: CreateReviewDto, userId: number) {
         const review = await prisma.review.create({
             data: {
                 expertId: dto.expertId,
@@ -34,13 +34,9 @@ export class ReviewsService {
             _count: true,
         });
 
-        await prisma.expert.update({
-            where: { id: dto.expertId },
-            data: {
-                rating: Math.round((stats._avg.rating || 0) * 10) / 10,
-                reviewCount: stats._count,
-            },
-        });
+        // Uzman istatistiklerinin güncellendiği farzı (tabloda reviewCount yok, DTO'da olabilir)
+        // Eğer tabloda rating yoksa bu kısmı atlıyoruz, ERD'de tabloda bulunmadığı için kaldırıldı.
+        // rating: Math.round((stats._avg.rating || 0) * 10) / 10,
 
         return review;
     }

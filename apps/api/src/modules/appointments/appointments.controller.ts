@@ -16,25 +16,25 @@ export class AppointmentsController {
     @Post()
     @ApiOperation({ summary: 'Yeni randevu oluştur' })
     @ApiResponse({ status: 201, description: 'Randevu oluşturuldu' })
-    create(@Body() dto: CreateAppointmentDto, @Request() req: { user: { id: string } }) {
-        return this.appointmentsService.create(dto, req.user.id);
+    create(@Body() dto: CreateAppointmentDto, @Request() req: { user: { sub: number } }) {
+        return this.appointmentsService.create(dto, req.user.sub);
     }
 
     @Get('user/:userId')
     @ApiOperation({ summary: 'Kullanıcının randevuları' })
     getForUser(@Param('userId') userId: string) {
-        return this.appointmentsService.getForUser(userId);
+        return this.appointmentsService.getForUser(+userId);
     }
 
     @Get('expert/:expertId')
     @ApiOperation({ summary: 'Uzmanın randevuları' })
     getForExpert(@Param('expertId') expertId: string) {
-        return this.appointmentsService.getForExpert(expertId);
+        return this.appointmentsService.getForExpert(+expertId);
     }
 
     @Patch(':id/status')
     @ApiOperation({ summary: 'Randevu durumu güncelle' })
     updateStatus(@Param('id') id: string, @Body() dto: UpdateAppointmentStatusDto) {
-        return this.appointmentsService.updateStatus(id, dto);
+        return this.appointmentsService.updateStatus(+id, dto);
     }
 }

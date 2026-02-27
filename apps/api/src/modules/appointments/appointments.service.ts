@@ -6,48 +6,51 @@ const prisma = new PrismaClient();
 
 @Injectable()
 export class AppointmentsService {
-    async create(dto: CreateAppointmentDto, userId: string) {
-        const expert = await prisma.expert.findUnique({ where: { id: dto.expertId } });
+    async create(dto: CreateAppointmentDto, userId: number) {
+        const expert = await prisma.expertProfile.findUnique({ where: { id: dto.expertId } });
         if (!expert) throw new NotFoundException('Uzman bulunamadı');
 
         return prisma.appointment.create({
             data: {
-                userId,
-                expertId: dto.expertId,
-                date: new Date(dto.date),
-                startTime: dto.startTime,
-                endTime: dto.endTime,
-                sessionType: dto.sessionType,
+                client: { connect: { id: userId } },
+                expert: { connect: { id: dto.expertId } },
+                scheduledAt: new Date(dto.date),
                 notes: dto.notes,
-                status: 'PENDING',
+                status: {
+                    connect: { name: 'pending' }
+                },
             },
             include: { expert: true },
         });
     }
 
-    async getForUser(userId: string) {
+    async getForUser(userId: number) {
         return prisma.appointment.findMany({
-            where: { userId },
+            where: { clientId: userId },
             include: { expert: true },
-            orderBy: { date: 'desc' },
+            orderBy: { scheduledAt: 'desc' },
         });
     }
 
-    async getForExpert(expertId: string) {
+    async getForExpert(expertId: number) {
         return prisma.appointment.findMany({
             where: { expertId },
-            include: { user: { select: { id: true, name: true, email: true } } },
-            orderBy: { date: 'desc' },
+            include: { client: { select: { id: true, firstName: true, lastName: true, email: true } } },
+            orderBy: { scheduledAt: 'desc' },
         });
     }
 
-    async updateStatus(id: string, dto: UpdateAppointmentStatusDto) {
+    async updateStatus(id: number, dto: UpdateAppointmentStatusDto) {
         const appointment = await prisma.appointment.findUnique({ where: { id } });
         if (!appointment) throw new NotFoundException('Randevu bulunamadı');
 
         return prisma.appointment.update({
             where: { id },
-            data: { status: dto.status.toUpperCase() as 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED' },
+            data: { 
+                status: {
+                    connect: { name: dto.status.toLowerCase() }
+                }
+            },
         });
     }
 }

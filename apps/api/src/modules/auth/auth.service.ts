@@ -28,9 +28,11 @@ export class AuthService {
                 firstName: dto.firstName,
                 lastName: dto.lastName,
                 email: dto.email,
-                password: hashedPassword,
+                passwordHash: hashedPassword,
                 phone: dto.phone,
-                role: 'USER',
+                role: {
+                    connect: { name: 'user' }
+                },
             },
             select: {
                 id: true,
@@ -45,26 +47,41 @@ export class AuthService {
 
         await this.emailService.sendWelcomeEmail(user.email, `${user.firstName} ${user.lastName}`);
 
-        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role });
+        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role.name });
 
-        return { user, access_token };
+        return { 
+            user: {
+                ...user,
+                role: user.role.name
+            }, 
+            access_token 
+        };
     }
 
     async login(dto: LoginDto) {
-        const user = await prisma.user.findUnique({ where: { email: dto.email } });
+        const user = await prisma.user.findUnique({ 
+            where: { email: dto.email },
+            include: { role: true } 
+        });
         if (!user) {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');
         }
 
-        const isMatch = await bcrypt.compare(dto.password, user.password);
+        const isMatch = await bcrypt.compare(dto.password, user.passwordHash);
         if (!isMatch) {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');
         }
 
-        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role });
+        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role.name });
 
-        const { password: _password, ...safeUser } = user;
-        return { user: safeUser, access_token };
+        const { passwordHash: _password, roleId: _, ...safeUser } = user;
+        return { 
+            user: {
+                ...safeUser,
+                role: user.role.name
+            }, 
+            access_token 
+        };
     }
 
     async forgotPassword(dto: ForgotPasswordDto) {
@@ -103,7 +120,7 @@ export class AuthService {
 
         await prisma.user.update({
             where: { id: record.userId },
-            data: { password: hashedPassword },
+            data: { passwordHash: hashedPassword },
         });
 
         await prisma.passwordResetToken.delete({ where: { token: dto.token } });

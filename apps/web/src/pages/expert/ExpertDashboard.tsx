@@ -11,6 +11,19 @@ const ExpertDashboard: React.FC = () => {
     const { appointments, fetchExpertAppointments, isLoading } = useAppointmentStore();
     const [activeTab, setActiveTab] = useState<DashboardTab>('appointments');
 
+    // Profil Güncelleme State
+    const [profileData, setProfileData] = useState({
+        title: user?.expertProfile?.title || '',
+        description: user?.expertProfile?.description || '',
+        sessionDuration: user?.expertProfile?.sessionDuration || '50 Dakika',
+        price: user?.expertProfile?.price || 0,
+        isOnline: user?.expertProfile?.isOnline || false,
+        image: user?.expertProfile?.image || ''
+    });
+
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveMessage, setSaveMessage] = useState({ type: '', text: '' });
+
     useEffect(() => {
         if (user?.expertProfile?.id) {
             fetchExpertAppointments(user.expertProfile.id);
@@ -28,6 +41,43 @@ const ExpertDashboard: React.FC = () => {
     const upcomingAppointments = appointments.filter(
         (apt) => apt.status === 'confirmed' && new Date(apt.date) > new Date()
     );
+
+    const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        setProfileData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
+                    name === 'price' ? Number(value) : value
+        }));
+    };
+
+    const handleSaveProfile = async () => {
+        if (!user?.expertProfile?.id) return;
+        setIsSaving(true);
+        setSaveMessage({ type: '', text: '' });
+        
+        try {
+            const { api } = await import('../../services/api');
+            const res = await api.experts.update(user.expertProfile.id, {
+                title: profileData.title,
+                description: profileData.description,
+                sessionDuration: profileData.sessionDuration,
+                price: profileData.price,
+                isOnline: profileData.isOnline,
+                image: profileData.image
+            });
+            
+            if (res.success) {
+                setSaveMessage({ type: 'success', text: 'Profiliniz başarıyla güncellendi. (Değişikliklerin oturuma yansıması için yeniden giriş yapmanız gerekebilir.)' });
+            } else {
+                setSaveMessage({ type: 'error', text: res.error || 'Güncelleme hatası' });
+            }
+        } catch (error) {
+            setSaveMessage({ type: 'error', text: 'Sistem hatası oluştu' });
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const stats = [
         {
@@ -194,11 +244,38 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">UNVAN</label>
-                                            <input type="text" defaultValue={user?.expertProfile?.title} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="title" value={profileData.title} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">KISA AÇIKLAMA</label>
+                                            <input type="text" name="description" value={profileData.description} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">SEANS SÜRESİ</label>
+                                            <input type="text" name="sessionDuration" value={profileData.sessionDuration} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">SEANS ÜCRETİ (TL)</label>
+                                            <input type="number" name="price" value={profileData.price} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">PROFİL FOTOĞRAFI (URL)</label>
+                                            <input type="text" name="image" value={profileData.image} onChange={handleProfileChange} placeholder="https://..." className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2 flex items-center mt-2 px-2">
+                                            <input type="checkbox" id="isOnlineToggle" name="isOnline" checked={profileData.isOnline} onChange={handleProfileChange} className="w-5 h-5 rounded text-blue-500 focus:ring-blue-500 bg-gray-100 border-gray-300" />
+                                            <label htmlFor="isOnlineToggle" className="ml-3 font-bold text-gray-700 select-none cursor-pointer">Şu Anda Online (Randevu Alınabilir)</label>
                                         </div>
                                     </div>
+                                    {saveMessage.text && (
+                                        <div className={`p-4 rounded-xl text-sm font-bold ${saveMessage.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                                            {saveMessage.text}
+                                        </div>
+                                    )}
                                     <div className="pt-4 border-t border-gray-50">
-                                        <button className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-all">Değişiklikleri Kaydet</button>
+                                        <button onClick={handleSaveProfile} disabled={isSaving} className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                                            {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                                        </button>
                                     </div>
                                 </div>
                             </div>

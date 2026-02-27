@@ -14,8 +14,10 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const getRoleString = () => typeof user?.role === 'string' ? user.role : (user?.role as any)?.name;
+
   const getDashboardLink = () => {
-    const role = user?.role?.toLowerCase();
+    const role = getRoleString()?.toLowerCase();
     if (role === 'admin') return '/admin/dashboard';
     if (role === 'expert') return '/expert/dashboard';
     return '/user/dashboard';
@@ -27,7 +29,7 @@ export default function Navbar() {
         <div className="max-w-6xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-1 rtl:space-x-reverse">
+          <Link to={getRoleString()?.toLowerCase() === 'admin' ? '/admin/dashboard' : '/'} className="flex items-center space-x-1 rtl:space-x-reverse">
             <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
               Benimle Paylaş
             </span>
@@ -132,8 +134,8 @@ export default function Navbar() {
             <ul className="flex flex-col p-2 md:p-0 mt-1 font-normal rounded text-sm
               md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:items-center">
 
-              {/* Sadece expert olmayanlara ana menü linklerini göster */}
-              {(!user || user.role.toLowerCase() !== 'expert') && (
+              {/* Sadece expert ve admin olmayanlara ana menü linklerini göster */}
+              {(!user || (getRoleString()?.toLowerCase() !== 'expert' && getRoleString()?.toLowerCase() !== 'admin')) && (
                 <>
                   <li>
                     <Link to="/how-it-works" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
@@ -155,14 +157,16 @@ export default function Navbar() {
                 </>
               )}
 
-              <li>
-                <Link to="/blog" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
-                  Blog
-                </Link>
-              </li>
+              {(!user || getRoleString()?.toLowerCase() !== 'admin') && (
+                <li>
+                  <Link to="/blog" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
+                    Blog
+                  </Link>
+                </li>
+              )}
 
               {/* Sadece admin ve expert olmayanlara Psikolog Başvurusu göster */}
-              {(!user || (user.role.toLowerCase() !== 'admin' && user.role.toLowerCase() !== 'expert')) && (
+              {(!user || (getRoleString()?.toLowerCase() !== 'admin' && getRoleString()?.toLowerCase() !== 'expert')) && (
                 <>
                   {/* Separator */}
                   <li className="hidden md:block">

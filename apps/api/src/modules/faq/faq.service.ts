@@ -14,7 +14,7 @@ export class FaqService {
         return prisma.fAQ.create({ data: { ...dto, order: dto.order ?? 0 } });
     }
 
-    async delete(id: string) {
+    async delete(id: number) {
         return prisma.fAQ.delete({ where: { id } });
     }
 }

@@ -1,9 +1,7 @@
 import {
     IsString,
     IsOptional,
-    IsArray,
     IsNumber,
-    IsEnum,
     Min,
     Max,
     MaxLength,
@@ -12,47 +10,10 @@ import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class ExpertFiltersDto {
-    @ApiPropertyOptional({ description: 'Ad veya uzmanlık alanı aramak için' })
+    @ApiPropertyOptional({ description: 'Açıklama, üniversite aramak için' })
     @IsString()
     @IsOptional()
     search?: string;
-
-    @ApiPropertyOptional({ description: 'Virgülle ayrılmış uzmanlık alanları' })
-    @IsString()
-    @IsOptional()
-    specialty?: string;
-
-    @ApiPropertyOptional({ description: 'Virgülle ayrılmış sigorta şirketleri' })
-    @IsString()
-    @IsOptional()
-    insurance?: string;
-
-    @ApiPropertyOptional({ description: 'Minimum ücret' })
-    @IsNumber()
-    @IsOptional()
-    @Min(0)
-    @Type(() => Number)
-    minPrice?: number;
-
-    @ApiPropertyOptional({ description: 'Maksimum ücret' })
-    @IsNumber()
-    @IsOptional()
-    @Min(0)
-    @Type(() => Number)
-    maxPrice?: number;
-
-    @ApiPropertyOptional({ enum: ['online', 'in-person'], description: 'Seans tipi' })
-    @IsEnum(['online', 'in-person'])
-    @IsOptional()
-    sessionType?: 'online' | 'in-person';
-
-    @ApiPropertyOptional({ description: 'Minimum puan filtresi (1-5)' })
-    @IsNumber()
-    @IsOptional()
-    @Min(1)
-    @Max(5)
-    @Type(() => Number)
-    rating?: number;
 
     @ApiPropertyOptional({ description: 'Sayfa numarası', default: 1 })
     @IsNumber()
@@ -71,92 +32,85 @@ export class ExpertFiltersDto {
 }
 
 export class UpdateExpertDto {
-    @ApiPropertyOptional({ description: 'Kısa açıklama' })
+    @ApiPropertyOptional({ description: 'Uzman bio / açıklama' })
     @IsString()
     @IsOptional()
-    @MaxLength(500)
-    description?: string;
+    bio?: string;
 
-    @ApiPropertyOptional({ description: 'Tam açıklama' })
+    @ApiPropertyOptional({ description: 'Mezun olunan üniversite' })
     @IsString()
     @IsOptional()
-    fullDescription?: string;
+    university?: string;
 
-    @ApiPropertyOptional({ description: 'Uzmanlık alanları', type: [String] })
-    @IsArray()
+    @ApiPropertyOptional({ description: 'Bölüm' })
+    @IsString()
     @IsOptional()
-    specialty?: string[];
+    fieldOfStudy?: string;
 
-    @ApiPropertyOptional({ enum: ['online', 'in-person'], isArray: true })
-    @IsArray()
-    @IsOptional()
-    sessionTypes?: ('online' | 'in-person')[];
-
-    @ApiPropertyOptional({ description: 'Desteklenen diller', type: [String] })
-    @IsArray()
-    @IsOptional()
-    languages?: string[];
-
-    @ApiPropertyOptional({ description: 'Desteklenen sigorta şirketleri', type: [String] })
-    @IsArray()
-    @IsOptional()
-    insurance?: string[];
-
-    @ApiPropertyOptional({ description: 'Minimum ücret' })
+    @ApiPropertyOptional({ description: 'Mezuniyet Yılı' })
     @IsNumber()
     @IsOptional()
-    priceMin?: number;
+    graduationYear?: number;
 
-    @ApiPropertyOptional({ description: 'Maksimum ücret' })
+    @ApiPropertyOptional({ description: 'Lisans Numarası' })
+    @IsString()
+    @IsOptional()
+    licenseNumber?: string;
+
+    @ApiPropertyOptional({ description: 'Kaç Yıllık Tecrübe' })
     @IsNumber()
     @IsOptional()
-    priceMax?: number;
+    yearsOfExperience?: number;
+
+    @ApiPropertyOptional({ description: 'Profil Fotoğraf URL' })
+    @IsString()
+    @IsOptional()
+    profilePhotoUrl?: string;
+
+    @ApiPropertyOptional({ description: 'Mezuniyet Derecesi (ID)' })
+    @IsNumber()
+    @IsOptional()
+    degreeId?: number;
 }
 
 export class CreateExpertDto {
-    @ApiProperty({ example: 'Dr. Ayşe Demir' })
-    @IsString()
-    name: string;
-
-    @ApiProperty({ example: 'Klinik Psikolog' })
-    @IsString()
-    title: string;
-
-    @ApiProperty({ example: 'Travma, anksiyete ...' })
-    @IsString()
-    description: string;
-
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ description: 'Uzman bio / açıklama' })
     @IsString()
     @IsOptional()
-    fullDescription?: string;
+    bio?: string;
 
-    @ApiProperty({ type: [String], example: ['Travma Terapisi', 'BDT'] })
-    @IsArray()
-    specialty: string[];
-
-    @ApiProperty({ example: '10+ Yıl' })
+    @ApiPropertyOptional({ description: 'Mezun olunan üniversite' })
     @IsString()
-    experience: string;
-
-    @ApiProperty({ type: [String], example: ['Türkçe', 'İngilizce'] })
-    @IsArray()
-    languages: string[];
-
-    @ApiProperty({ enum: ['online', 'in-person'], isArray: true })
-    @IsArray()
-    sessionTypes: ('online' | 'in-person')[];
-
-    @ApiProperty({ example: 800 })
-    @IsNumber()
-    priceMin: number;
-
-    @ApiProperty({ example: 1200 })
-    @IsNumber()
-    priceMax: number;
-
-    @ApiPropertyOptional({ type: [String] })
-    @IsArray()
     @IsOptional()
-    insurance?: string[];
+    university?: string;
+
+    @ApiPropertyOptional({ description: 'Bölüm' })
+    @IsString()
+    @IsOptional()
+    fieldOfStudy?: string;
+
+    @ApiPropertyOptional({ description: 'Mezuniyet Yılı' })
+    @IsNumber()
+    @IsOptional()
+    graduationYear?: number;
+
+    @ApiPropertyOptional({ description: 'Lisans Numarası' })
+    @IsString()
+    @IsOptional()
+    licenseNumber?: string;
+
+    @ApiPropertyOptional({ description: 'Kaç Yıllık Tecrübe' })
+    @IsNumber()
+    @IsOptional()
+    yearsOfExperience?: number;
+
+    @ApiPropertyOptional({ description: 'Profil Fotoğraf URL' })
+    @IsString()
+    @IsOptional()
+    profilePhotoUrl?: string;
+
+    @ApiPropertyOptional({ description: 'Mezuniyet Derecesi (ID)' })
+    @IsNumber()
+    @IsOptional()
+    degreeId?: number;
 }

@@ -28,6 +28,6 @@ export class FaqController {
     @ApiBearerAuth('access-token')
     @ApiOperation({ summary: 'SSS sil (admin)' })
     delete(@Param('id') id: string) {
-        return this.faqService.delete(id);
+        return this.faqService.delete(+id);
     }
 }

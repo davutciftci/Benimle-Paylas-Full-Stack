@@ -12,45 +12,35 @@ export class ExpertsService {
         const pageSize = filters.pageSize || 10;
         const skip = (page - 1) * pageSize;
 
-        const where: Record<string, unknown> = { isActive: true };
+        const where: Record<string, unknown> = { isVerified: true };
 
+        // For now, simplify search to basic relations since fields like specialty were dropped.
         if (filters.search) {
             where.OR = [
-                { name: { contains: filters.search, mode: 'insensitive' } },
-                { specialty: { hasSome: [filters.search] } },
+                { bio: { contains: filters.search, mode: 'insensitive' } },
+                { university: { contains: filters.search, mode: 'insensitive' } },
             ];
-        }
-        if (filters.specialty) {
-            where.specialty = { hasSome: filters.specialty.split(',') };
-        }
-        if (filters.insurance) {
-            where.insurance = { hasSome: filters.insurance.split(',') };
-        }
-        if (filters.minPrice !== undefined) {
-            where.priceMin = { gte: filters.minPrice };
-        }
-        if (filters.maxPrice !== undefined) {
-            where.priceMax = { lte: filters.maxPrice };
-        }
-        if (filters.sessionType) {
-            where.sessionTypes = { hasSome: [filters.sessionType] };
-        }
-        if (filters.rating !== undefined) {
-            where.rating = { gte: filters.rating };
         }
 
         const [experts, total] = await Promise.all([
-            prisma.expert.findMany({ where, skip, take: pageSize, orderBy: { rating: 'desc' } }),
-            prisma.expert.count({ where }),
+            prisma.expertProfile.findMany({ 
+                where, 
+                skip, 
+                take: pageSize, 
+                include: { user: { select: { firstName: true, lastName: true } } },
+                orderBy: { id: 'desc' }, 
+            }),
+            prisma.expertProfile.count({ where }),
         ]);
 
         return paginate({ data: experts, total, page, pageSize });
     }
 
-    async getById(id: string) {
-        const expert = await prisma.expert.findUnique({
+    async getById(id: number) {
+        const expert = await prisma.expertProfile.findUnique({
             where: { id },
             include: {
+                user: { select: { firstName: true, lastName: true, email: true } },
                 reviews: {
                     orderBy: { createdAt: 'desc' },
                     take: 10,
@@ -61,21 +51,19 @@ export class ExpertsService {
         return expert;
     }
 
-    async create(dto: CreateExpertDto, userId: string) {
-        return prisma.expert.create({
+    async create(dto: CreateExpertDto, userId: number) {
+        return prisma.expertProfile.create({
             data: {
                 ...dto,
                 userId,
-                rating: 0,
-                reviewCount: 0,
-                isActive: true,
+                isVerified: false,
             },
         });
     }
 
-    async update(id: string, dto: UpdateExpertDto) {
-        const expert = await prisma.expert.findUnique({ where: { id } });
+    async update(id: number, dto: UpdateExpertDto) {
+        const expert = await prisma.expertProfile.findUnique({ where: { id } });
         if (!expert) throw new NotFoundException('Uzman bulunamadı');
-        return prisma.expert.update({ where: { id }, data: dto });
+        return prisma.expertProfile.update({ where: { id }, data: dto });
     }
 }

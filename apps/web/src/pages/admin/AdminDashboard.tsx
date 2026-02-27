@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { Users, Calendar, Activity, ShieldAlert, Settings, FileText, Lock } from 'lucide-react';
 import DashboardSidebar, { DashboardTab } from '../../components/dashboard/DashboardSidebar';
+import UserManagement from '../../components/admin/UserManagement';
 
 const AdminDashboard: React.FC = () => {
     const { user } = useAuthStore();
@@ -58,11 +59,11 @@ const AdminDashboard: React.FC = () => {
                                 {/* Admin Tools */}
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                     {[
-                                        { title: 'Kullanıcı Yönetimi', icon: Users, desc: 'Tüm kullanıcıları listele ve düzenle' },
+                                        { id: 'users', title: 'Kullanıcı Yönetimi', icon: Users, desc: 'Tüm kullanıcıları listele ve düzenle' },
                                         { title: 'Uzman Başvuruları', icon: FileText, desc: 'Bekleyen başvuruları değerlendir' },
                                         { title: 'Sistem Ayarları', icon: Settings, desc: 'Platform parametrelerini güncelle' },
                                     ].map((tool, idx) => (
-                                        <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-gray-300 transition-all cursor-pointer">
+                                        <div key={idx} onClick={() => tool.id && setActiveTab(tool.id as DashboardTab)} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-gray-300 transition-all cursor-pointer">
                                             <div className="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-gray-600">
                                                 <tool.icon size={24} />
                                             </div>
@@ -72,6 +73,10 @@ const AdminDashboard: React.FC = () => {
                                     ))}
                                 </div>
                             </div>
+                        )}
+
+                        {activeTab === 'users' && (
+                            <UserManagement />
                         )}
 
                         {activeTab === 'account' && (

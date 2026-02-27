@@ -109,9 +109,7 @@ export const expertsApi = {
             ...(filters?.search && { search: filters.search }),
             ...(filters?.specialty && { specialty: filters.specialty.join(',') }),
             ...(filters?.insurance && { insurance: filters.insurance.join(',') }),
-            ...(filters?.minPrice !== undefined && { minPrice: filters.minPrice }),
-            ...(filters?.maxPrice !== undefined && { maxPrice: filters.maxPrice }),
-            ...(filters?.sessionType && { sessionType: filters.sessionType }),
+            ...(filters?.price !== undefined && { price: filters.price }),
             ...(filters?.rating !== undefined && { rating: filters.rating }),
         };
         return wrap(() => http.get('/experts', { params }));

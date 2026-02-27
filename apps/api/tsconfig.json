@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "incremental": true,
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
     "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,

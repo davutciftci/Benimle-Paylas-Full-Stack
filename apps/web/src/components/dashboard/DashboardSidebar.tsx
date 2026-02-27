@@ -3,7 +3,7 @@ import { User, Lock, Calendar, ChevronRight, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
-export type DashboardTab = 'account' | 'security' | 'appointments';
+export type DashboardTab = 'account' | 'security' | 'appointments' | 'users';
 
 interface DashboardSidebarProps {
   activeTab: DashboardTab;
@@ -13,6 +13,7 @@ interface DashboardSidebarProps {
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabChange }) => {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
+  const roleStr = typeof user?.role === 'string' ? user.role : (user?.role as any)?.name;
 
   const handleLogout = () => {
     logout();
@@ -36,12 +37,23 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
     },
     {
       id: 'appointments' as DashboardTab,
-      label: 'Randevularım',
+      label: 'Randevular',
       icon: Calendar,
       color: 'text-green-500',
       bgColor: 'bg-green-50'
     }
   ];
+
+  // Admine özel Kullanıcı Yönetimi sekmesi
+  if (roleStr?.toLowerCase() === 'admin') {
+    menuItems.push({
+      id: 'users' as DashboardTab,
+      label: 'Kullanıcı Yönetimi',
+      icon: User,
+      color: 'text-orange-500',
+      bgColor: 'bg-orange-50'
+    });
+  }
 
   return (
     <div className="w-full md:w-80 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full font-nunito">
@@ -53,7 +65,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-gray-900 truncate">{`${user?.firstName} ${user?.lastName}`}</h3>
-            <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">{user?.role === 'user' ? 'Danışan' : user?.role}</p>
+            <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">{roleStr === 'user' ? 'Danışan' : roleStr}</p>
           </div>
         </div>
       </div>

@@ -21,11 +21,9 @@ export interface Expert {
     experience: string;
     education: string;
     languages: string[];
-    sessionTypes: ('online' | 'in-person')[];
-    priceRange: {
-        min: number;
-        max: number;
-    };
+    sessionDuration: string;
+    isOnline: boolean;
+    price: number;
     rating: number;
     reviewCount: number;
     availability: ExpertAvailability;
@@ -99,9 +97,7 @@ export interface ExpertFilters {
     search?: string;
     specialty?: string[];
     insurance?: string[];
-    minPrice?: number;
-    maxPrice?: number;
-    sessionType?: 'online' | 'in-person';
+    price?: number;
     availability?: string; // day of week
     rating?: number;
 }
