@@ -18,6 +18,38 @@ export class ExpertsController {
         return this.expertsService.getAll(filters);
     }
 
+    @Get('specialties')
+    @ApiOperation({ summary: 'Tüm uzmanlık alanlarını getir' })
+    async getSpecialties() {
+        const { PrismaClient } = await import('@prisma/client');
+        const prisma = new PrismaClient();
+        return prisma.specialty.findMany();
+    }
+
+    @Get('degrees')
+    @ApiOperation({ summary: 'Tüm uzmanlık derecelerini getir' })
+    async getDegrees() {
+        const { PrismaClient } = await import('@prisma/client');
+        const prisma = new PrismaClient();
+        return prisma.degreeType.findMany();
+    }
+
+    @Get('titles')
+    @ApiOperation({ summary: 'Tüm uzman ünvanlarını getir' })
+    async getTitles() {
+        const { PrismaClient } = await import('@prisma/client');
+        const prisma = new PrismaClient();
+        return prisma.title.findMany();
+    }
+
+    @Get('therapeutic-approaches')
+    @ApiOperation({ summary: 'Tüm çalışma ekollerini (terapi türlerini) getir' })
+    async getTherapeuticApproaches() {
+        const { PrismaClient } = await import('@prisma/client');
+        const prisma = new PrismaClient();
+        return prisma.therapeuticApproach.findMany();
+    }
+
     @Get(':id')
     @ApiOperation({ summary: 'Uzman detayı' })
     @ApiResponse({ status: 200, description: 'Uzman bilgileri' })
@@ -31,8 +63,8 @@ export class ExpertsController {
     @ApiBearerAuth('access-token')
     @ApiOperation({ summary: 'Yeni uzman profili oluştur' })
     @ApiResponse({ status: 201, description: 'Uzman profili oluşturuldu' })
-    create(@Body() dto: CreateExpertDto, @Request() req: { user: { sub: number } }) {
-        return this.expertsService.create(dto, req.user.sub);
+    create(@Body() dto: CreateExpertDto, @Request() req: { user: { id: number } }) {
+        return this.expertsService.create(dto, req.user.id);
     }
 
     @Patch(':id')

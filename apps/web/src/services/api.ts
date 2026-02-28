@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import axios from 'axios';
 import type {
     Expert,
@@ -63,7 +64,7 @@ const wrap = async <T>(fn: () => Promise<{ data: T }>): Promise<ApiResponse<T>> 
 // ==================== AUTH API ====================
 export const authApi = {
     async login(credentials: LoginCredentials): Promise<ApiResponse<{ user: AuthUser; access_token: string }>> {
-        const result = await wrap(() => http.post('/auth/login', credentials));
+        const result = await wrap<{ user: AuthUser; access_token: string }>(() => http.post('/auth/login', credentials));
         if (result.success && result.data) {
             localStorage.setItem('access_token', result.data.access_token);
         }
@@ -71,7 +72,7 @@ export const authApi = {
     },
 
     async register(data: RegisterData): Promise<ApiResponse<{ user: AuthUser; access_token: string }>> {
-        const result = await wrap(() => http.post('/auth/register', data));
+        const result = await wrap<{ user: AuthUser; access_token: string }>(() => http.post('/auth/register', data));
         if (result.success && result.data) {
             localStorage.setItem('access_token', result.data.access_token);
         }
@@ -115,11 +116,11 @@ export const expertsApi = {
         return wrap(() => http.get('/experts', { params }));
     },
 
-    async getById(id: string): Promise<ApiResponse<Expert>> {
+    async getById(id: string | number): Promise<ApiResponse<Expert>> {
         return wrap(() => http.get(`/experts/${id}`));
     },
 
-    async update(id: string, data: Partial<Expert>): Promise<ApiResponse<Expert>> {
+    async update(id: string | number, data: Partial<Expert>): Promise<ApiResponse<Expert>> {
         return wrap(() => http.patch(`/experts/${id}`, data));
     },
 };
@@ -130,22 +131,22 @@ export const appointmentsApi = {
         return wrap(() => http.post('/appointments', appointment));
     },
 
-    async getForUser(userId: string): Promise<ApiResponse<Appointment[]>> {
+    async getForUser(userId: string | number): Promise<ApiResponse<Appointment[]>> {
         return wrap(() => http.get(`/appointments/user/${userId}`));
     },
 
-    async getForExpert(expertId: string): Promise<ApiResponse<Appointment[]>> {
+    async getForExpert(expertId: string | number): Promise<ApiResponse<Appointment[]>> {
         return wrap(() => http.get(`/appointments/expert/${expertId}`));
     },
 
-    async updateStatus(id: string, status: Appointment['status']): Promise<ApiResponse<Appointment>> {
+    async updateStatus(id: string | number, status: Appointment['status']): Promise<ApiResponse<Appointment>> {
         return wrap(() => http.patch(`/appointments/${id}/status`, { status }));
     },
 };
 
 // ==================== REVIEWS API ====================
 export const reviewsApi = {
-    async getForExpert(expertId: string): Promise<ApiResponse<Review[]>> {
+    async getForExpert(expertId: string | number): Promise<ApiResponse<Review[]>> {
         return wrap(() => http.get(`/reviews/expert/${expertId}`));
     },
 

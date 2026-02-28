@@ -12,7 +12,7 @@ export class ExpertsService {
         const pageSize = filters.pageSize || 10;
         const skip = (page - 1) * pageSize;
 
-        const where: Record<string, unknown> = { isVerified: true };
+        const where: Record<string, unknown> = {};
 
         // For now, simplify search to basic relations since fields like specialty were dropped.
         if (filters.search) {
@@ -27,7 +27,14 @@ export class ExpertsService {
                 where, 
                 skip, 
                 take: pageSize, 
-                include: { user: { select: { firstName: true, lastName: true } } },
+                include: { 
+                    user: { select: { firstName: true, lastName: true } },
+                    specialties: true,
+                    degree: true,
+                    title: true,
+                    therapeuticApproaches: true,
+                    seminars: true
+                },
                 orderBy: { id: 'desc' }, 
             }),
             prisma.expertProfile.count({ where }),
@@ -41,6 +48,11 @@ export class ExpertsService {
             where: { id },
             include: {
                 user: { select: { firstName: true, lastName: true, email: true } },
+                specialties: true,
+                degree: true,
+                title: true,
+                therapeuticApproaches: true,
+                seminars: true,
                 reviews: {
                     orderBy: { createdAt: 'desc' },
                     take: 10,
@@ -64,6 +76,34 @@ export class ExpertsService {
     async update(id: number, dto: UpdateExpertDto) {
         const expert = await prisma.expertProfile.findUnique({ where: { id } });
         if (!expert) throw new NotFoundException('Uzman bulunamadı');
-        return prisma.expertProfile.update({ where: { id }, data: dto });
+
+        const { specialtyIds, therapeuticApproachIds, seminars, ...restDto } = dto;
+        
+        return prisma.expertProfile.update({ 
+            where: { id }, 
+            data: {
+                ...restDto,
+                ...(specialtyIds !== undefined && {
+                    specialties: {
+                        set: specialtyIds.map(sid => ({ id: sid }))
+                    }
+                }),
+                ...(therapeuticApproachIds !== undefined && {
+                    therapeuticApproaches: {
+                        set: therapeuticApproachIds.map(tid => ({ id: tid }))
+                    }
+                }),
+                ...(seminars !== undefined && {
+                    seminars: {
+                        deleteMany: {},
+                        create: seminars.map(sem => ({
+                            title: sem.title,
+                            description: sem.description,
+                            date: sem.date ? new Date(sem.date) : null
+                        }))
+                    }
+                })
+            }
+        });
     }
 }

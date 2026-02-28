@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
     allowedRoles = [],
 }) => {
-    const { user, isLoading } = useAuthStore();
+    const { user, isLoading, isAuthenticated } = useAuthStore();
 
     if (isLoading) {
         return (
@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         );
     }
 
-    if (!user) {
+    if (!user || !isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
 

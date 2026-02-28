@@ -21,6 +21,21 @@ export class UsersService {
             },
         });
         if (!user) return null;
+        
+        // Safety mechanism: if user is expert but profile is somehow missing
+        if (user.role?.name === 'expert' && !user.expertProfile) {
+            const newProfile = await prisma.expertProfile.upsert({
+                where: { userId: user.id },
+                create: { userId: user.id },
+                update: {},
+            });
+            return {
+                ...user,
+                expertProfile: newProfile,
+                role: 'expert'
+            };
+        }
+
         return {
             ...user,
             role: user.role?.name || 'user'
@@ -44,6 +59,7 @@ export class UsersService {
                 phone: true,
                 role: true,
                 createdAt: true,
+                expertProfile: true,
             },
         });
         return {

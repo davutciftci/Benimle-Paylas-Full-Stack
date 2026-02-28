@@ -24,9 +24,9 @@ async function main() {
 
   // Degree Types
   const degrees = [
-    { name: 'bachelor', description: 'Lisans / Üniversite Mezunu' },
-    { name: 'master', description: 'Yüksek Lisans / Uzman' },
-    { name: 'phd', description: 'Doktora' },
+    { name: 'Lisans', description: 'Üniversite Mezunu' },
+    { name: 'Yüksek Lisans', description: 'Uzmanlık' },
+    { name: 'Doktora', description: 'Akademik Doktora' },
   ];
 
   for (const degree of degrees) {
@@ -37,6 +37,45 @@ async function main() {
     });
   }
   console.log('Degree Types seeded.');
+
+  // Specialties
+  const specialties = [
+    'Depresyon',
+    'Anksiyete',
+    'Aile Terapisi',
+    'Çocuk Psikolojisi',
+    'Öfke Kontrolü',
+    'EMDR',
+    'Çift Terapisi',
+    'Cinsel Terapi',
+  ];
+
+  for (const specialty of specialties) {
+    await prisma.specialty.upsert({
+      where: { name: specialty },
+      update: {},
+      create: { name: specialty },
+    });
+  }
+  console.log('Specialties seeded');
+
+  // Seed Therapeutic Approaches
+  const therapeuticApproaches = [
+    'Bilişsel Terapi',
+    'Şema Terapisi',
+    'Psikanaliz',
+  ];
+
+  for (const approach of therapeuticApproaches) {
+    await prisma.therapeuticApproach.upsert({
+      where: { name: approach },
+      update: {},
+      create: { name: approach },
+    });
+  }
+  console.log('Therapeutic Approaches seeded');
+
+  // Orijinal demo kullanıcı ve uzman kodları aşağıda kalacak.
 
   // Appointment Statuses
   const statuses = [

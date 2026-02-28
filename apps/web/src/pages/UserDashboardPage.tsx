@@ -8,11 +8,40 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import DashboardSidebar, { DashboardTab } from '../components/dashboard/DashboardSidebar';
 
 const UserDashboardPage: React.FC = () => {
-    const { user } = useAuthStore();
+    const { user, fetchMe } = useAuthStore();
     const { appointments, fetchUserAppointments, isLoading } = useAppointmentStore();
     const { experts, fetchExperts } = useExpertStore();
-    const [favorites, setFavorites] = useState<string[]>([]);
+    const [favorites, setFavorites] = useState<number[]>([]);
     const [activeTab, setActiveTab] = useState<DashboardTab>('appointments');
+
+    const [accountData, setAccountData] = useState({
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
+        phone: user?.phone || '',
+    });
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveMessage, setSaveMessage] = useState({ type: '', text: '' });
+
+    const handleAccountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setAccountData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSaveAccount = async () => {
+        if (!user) return;
+        setIsSaving(true);
+        setSaveMessage({ type: '', text: '' });
+        try {
+            const { http } = await import('../services/api');
+            await http.patch('/users/me', accountData);
+            await fetchMe();
+            setSaveMessage({ type: 'success', text: 'Hesap bilgileriniz güncellendi.' });
+        } catch (error) {
+            setSaveMessage({ type: 'error', text: 'Hesap bilgileri güncellenemedi.' });
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     // Favori uzmanları localStorage'dan yükle
     useEffect(() => {
@@ -29,7 +58,7 @@ const UserDashboardPage: React.FC = () => {
     // Kullanıcı randevularını yükle
     useEffect(() => {
         if (user?.id) {
-            fetchUserAppointments(user.id);
+            fetchUserAppointments(String(user.id));
         }
     }, [user, fetchUserAppointments]);
 
@@ -134,17 +163,17 @@ const UserDashboardPage: React.FC = () => {
                                         ) : (
                                             <div className="space-y-4">
                                                 {upcomingAppointments.map((apt) => {
-                                                    const expert = experts.find(e => e.id === apt.expertId);
+                                                    const expert = experts.find(e => e.id === Number(apt.expertId));
                                                     return (
                                                         <div key={apt.id} className="group flex items-center justify-between p-5 bg-white border border-gray-100 rounded-2xl hover:border-blue-200 hover:shadow-md transition-all duration-300">
                                                             <div className="flex items-center space-x-5">
                                                                 <div className="relative">
-                                                                    <img src={expert?.image} alt={expert?.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm" />
+                                                                    <img src={expert?.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"} alt={expert?.user?.firstName} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm" />
                                                                     <div className="absolute -bottom-1 -right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
                                                                 </div>
                                                                 <div>
-                                                                    <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{expert?.name}</h4>
-                                                                    <p className="text-xs text-gray-500 font-medium">{expert?.title}</p>
+                                                                    <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{expert?.user?.firstName} {expert?.user?.lastName}</h4>
+                                                                    <p className="text-xs text-gray-500 font-medium">{expert?.degree?.name || 'Uzman'}</p>
                                                                     <div className="flex items-center mt-2 space-x-3">
                                                                         <div className="flex items-center text-xs text-gray-600 font-bold bg-gray-100 px-2 py-1 rounded-md">
                                                                             <Calendar size={12} className="mr-1.5 text-blue-500" />
@@ -185,9 +214,9 @@ const UserDashboardPage: React.FC = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {pastAppointments.slice(0, 4).map((apt) => (
                                                     <div key={apt.id} className="p-4 bg-gray-50 rounded-2xl flex items-center space-x-4 opacity-70 grayscale hover:grayscale-0 transition-all cursor-default">
-                                                        <img src={experts.find(e => e.id === apt.expertId)?.image} className="w-12 h-12 rounded-xl object-cover" />
+                                                        <img src={experts.find(e => e.id === Number(apt.expertId))?.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"} className="w-12 h-12 rounded-xl object-cover" />
                                                         <div>
-                                                            <p className="text-sm font-bold text-gray-900">{experts.find(e => e.id === apt.expertId)?.name}</p>
+                                                            <p className="text-sm font-bold text-gray-900">{experts.find(e => e.id === Number(apt.expertId))?.user?.firstName}</p>
                                                             <p className="text-[10px] font-bold text-gray-500 uppercase">{new Date(apt.date).toLocaleDateString('tr-TR')}</p>
                                                         </div>
                                                     </div>
@@ -215,33 +244,40 @@ const UserDashboardPage: React.FC = () => {
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">AD</label>
                                                     <div className="relative">
                                                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="text" defaultValue={user?.firstName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="text" name="firstName" value={accountData.firstName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">SOYAD</label>
                                                     <div className="relative">
                                                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="text" defaultValue={user?.lastName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="text" name="lastName" value={accountData.lastName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-POSTA</label>
                                                     <div className="relative">
                                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="email" defaultValue={user?.email} disabled className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-400 cursor-not-allowed" />
+                                                        <input type="email" value={user?.email || ''} disabled className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-400 cursor-not-allowed" />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">TELEFON</label>
                                                     <div className="relative">
                                                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="text" defaultValue={user?.phone || 'Henüz eklenmemiş'} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="tel" name="phone" value={accountData.phone} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
                                                     </div>
                                                 </div>
                                             </div>
+                                            {saveMessage.text && activeTab === 'account' && (
+                                                <div className={`p-4 rounded-xl text-sm font-bold ${saveMessage.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                                                    {saveMessage.text}
+                                                </div>
+                                            )}
                                             <div className="pt-4 border-t border-gray-50">
-                                                <button className="bg-gray-900 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-black transition-all">Değişiklikleri Kaydet</button>
+                                                <button onClick={handleSaveAccount} disabled={isSaving} className="bg-gray-900 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-black transition-all disabled:opacity-70">
+                                                    {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

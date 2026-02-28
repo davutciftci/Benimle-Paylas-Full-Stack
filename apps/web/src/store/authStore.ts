@@ -18,7 +18,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
     persist(
-        (set) => ({
+        (set, get) => ({
             user: null,
             isAuthenticated: false,
             isLoading: false,
@@ -81,7 +81,10 @@ export const useAuthStore = create<AuthState>()(
             },
 
             fetchMe: async () => {
-                set({ isLoading: true });
+                const hasUser = !!get().user;
+                if (!hasUser) {
+                    set({ isLoading: true });
+                }
                 try {
                     const response = await authApi.getMe();
                     if (response.success && response.data) {
@@ -98,7 +101,7 @@ export const useAuthStore = create<AuthState>()(
         }),
         {
             name: 'auth-storage',
-            partialize: (state) => ({ user: state.user }),
+            partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
         }
     )
 );

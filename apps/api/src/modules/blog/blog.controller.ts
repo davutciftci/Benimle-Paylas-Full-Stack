@@ -17,6 +17,12 @@ export class BlogController {
         return this.blogService.getAll(Number(page) || 1, Number(pageSize) || 10);
     }
 
+    @Get('id/:id')
+    @ApiOperation({ summary: 'Blog yazısı detayı (ID ile)' })
+    getById(@Param('id') id: string) {
+        return this.blogService.getById(Number(id));
+    }
+
     @Get(':slug')
     @ApiOperation({ summary: 'Blog yazısı detayı (slug ile)' })
     getBySlug(@Param('slug') slug: string) {

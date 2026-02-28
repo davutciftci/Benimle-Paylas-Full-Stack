@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { api } from '../../services/api';
+import { Expert } from '../../types';
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [experts, setExperts] = useState<Expert[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const experts = [
-    {
-      name: "Dr. Elif Demir",
-      title: "Klinik Psikolog",
-      image: "/src/assets/img/davut ciftci.jpg"
-    },
-    {
-      name: "Dr. Can Yılmaz",
-      title: "Aile Terapisti",
-      image: "/src/assets/img/freud.png"
-    },
-    {
-      name: "Dr. Ayşe Kaya",
-      title: "Danışman",
-      image: "/src/assets/img/Alfred Binet.png"
-    },
-    {
-      name: "Dr. Mehmet Öztürk",
-      title: "Psikiyatrist",
-      image: "/src/assets/img/Carl Gustavt Jung.png"
-    }
-  ];
+  useEffect(() => {
+    const fetchExperts = async () => {
+      try {
+        const response = await api.experts.getAll();
+        if (response.success && response.data) {
+          // Yalnızca profili doldurulmuş uzmanları listele (Örn: resmi olanlar öncelikli)
+          const validExperts = response.data.data.filter((e: Expert) => e.user?.firstName);
+          setExperts(validExperts);
+        }
+      } catch (error) {
+        console.error("Uzmanlar Carousel'a yüklenemedi", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchExperts();
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % experts.length);
@@ -48,27 +47,51 @@ export default function Carousel() {
 
         <div className="relative w-full max-w-3xl overflow-hidden">
           {/* Carousel Container */}
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-          >
-            {experts.map((expert, index) => (
-              <div
-                key={index}
-                className="min-w-full flex flex-col items-center justify-center text-center px-4"
-              >
-                <div className="w-24 h-24 rounded-full mb-2 shadow-sm overflow-hidden flex items-center justify-center mx-auto" style={{ backgroundColor: '#f6f7f8' }}>
-                  <img
-                    src={expert.image}
-                    alt={expert.name}
-                    className="w-full h-full object-cover"
-                  />
+          {isLoading ? (
+            <div className="py-12 flex justify-center"><div className="w-8 h-8 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div></div>
+          ) : experts.length === 0 ? (
+            <div className="py-12 flex justify-center text-gray-400 font-medium">Uzman bulunamadı.</div>
+          ) : (
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {experts.map((expert, index) => (
+                <div
+                  key={index}
+                  className="min-w-full flex flex-col items-center justify-center text-center px-4"
+                >
+                  <div className="w-48 h-48 rounded-full mb-4 shadow-md overflow-hidden flex items-center justify-center mx-auto bg-gray-100">
+                    {expert.profilePhotoUrl ? (
+                      <img
+                        src={expert.profilePhotoUrl}
+                        alt={`${expert.user?.firstName || ''} ${expert.user?.lastName || ''}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                        alt="Placeholder"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <h2 className="text-2xl font-bold mb-1 text-gray-900">
+                    {expert.user?.firstName} {expert.user?.lastName}
+                  </h2>
+                  {expert.title?.name && (
+                    <p className="text-lg text-blue-600 font-semibold bg-blue-50 px-4 py-1.5 rounded-full inline-block">
+                      {expert.title.name}
+                    </p>
+                  )}
                 </div>
-                <h2 className="text-2xl font-semibold mb-0.5" style={{ color: '#1f2937' }}>{expert.name}</h2>
-                <p className="text-2xl" style={{ color: '#1f2937', opacity: 0.8 }}>{expert.title}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Navigation Buttons */}
           <button

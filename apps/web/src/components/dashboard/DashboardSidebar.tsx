@@ -1,9 +1,9 @@
 import React from 'react';
-import { User, Lock, Calendar, ChevronRight, LogOut } from 'lucide-react';
+import { User, Lock, Calendar, ChevronRight, LogOut, LayoutDashboard, Briefcase, Clock } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
-export type DashboardTab = 'account' | 'security' | 'appointments' | 'users';
+export type DashboardTab = 'dashboard' | 'profile' | 'account' | 'security' | 'appointments' | 'users' | 'workingHours';
 
 interface DashboardSidebarProps {
   activeTab: DashboardTab;
@@ -20,7 +20,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
     navigate('/');
   };
 
-  const menuItems = [
+  const baseMenuItems = [
     {
       id: 'account' as DashboardTab,
       label: 'Hesap Bilgileri',
@@ -44,8 +44,26 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
     }
   ];
 
+  let menuItems: any[] = [];
+
+  const isExpert = roleStr?.toLowerCase() === 'expert';
+  const isAdmin = roleStr?.toLowerCase() === 'admin';
+
+  if (isExpert) {
+    menuItems = [
+      { id: 'dashboard' as DashboardTab, label: 'Genel Bakış', icon: LayoutDashboard, color: 'text-indigo-500', bgColor: 'bg-indigo-50' },
+      { id: 'appointments' as DashboardTab, label: 'Randevularım', icon: Calendar, color: 'text-green-500', bgColor: 'bg-green-50' },
+      { id: 'profile' as DashboardTab, label: 'Uzmanlık & Profil', icon: Briefcase, color: 'text-purple-500', bgColor: 'bg-purple-50' },
+      { id: 'workingHours' as DashboardTab, label: 'Çalışma Saatleri', icon: Clock, color: 'text-amber-500', bgColor: 'bg-amber-50' },
+      { id: 'account' as DashboardTab, label: 'Hesap Bilgileri', icon: User, color: 'text-blue-500', bgColor: 'bg-blue-50' },
+      { id: 'security' as DashboardTab, label: 'Şifre Değiştirme', icon: Lock, color: 'text-gray-500', bgColor: 'bg-gray-50' },
+    ];
+  } else {
+    menuItems = [...baseMenuItems];
+  }
+
   // Admine özel Kullanıcı Yönetimi sekmesi
-  if (roleStr?.toLowerCase() === 'admin') {
+  if (isAdmin) {
     menuItems.push({
       id: 'users' as DashboardTab,
       label: 'Kullanıcı Yönetimi',

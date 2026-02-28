@@ -28,12 +28,14 @@ export default function Navbar() {
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-100">
         <div className="max-w-6xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
 
-          {/* Logo */}
-          <Link to={getRoleString()?.toLowerCase() === 'admin' ? '/admin/dashboard' : '/'} className="flex items-center space-x-1 rtl:space-x-reverse">
-            <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
-              Benimle Paylaş
-            </span>
-          </Link>
+          {/* Logo - Uzmanlardan gizlendi */}
+          {getRoleString()?.toLowerCase() !== 'expert' && (
+            <Link to={getRoleString()?.toLowerCase() === 'admin' ? '/admin/dashboard' : '/'} className="flex items-center space-x-1 rtl:space-x-reverse">
+              <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
+                Benimle Paylaş
+              </span>
+            </Link>
+          )}
 
           {/* Right Buttons + Hamburger */}
           <div className="flex md:order-2 space-x-2 rtl:space-x-reverse items-center">
@@ -157,7 +159,7 @@ export default function Navbar() {
                 </>
               )}
 
-              {(!user || getRoleString()?.toLowerCase() !== 'admin') && (
+              {(!user || (getRoleString()?.toLowerCase() !== 'admin' && getRoleString()?.toLowerCase() !== 'expert')) && (
                 <li>
                   <Link to="/blog" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
                     Blog

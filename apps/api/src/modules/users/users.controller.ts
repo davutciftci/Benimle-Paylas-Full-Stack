@@ -14,15 +14,15 @@ export class UsersController {
     @Get('me')
     @ApiOperation({ summary: 'Giriş yapan kullanıcının profil bilgileri' })
     @ApiResponse({ status: 200, description: 'Kullanıcı bilgileri' })
-    getMe(@Request() req: { user: { sub: number } }) {
-        return this.usersService.getMe(req.user.sub);
+    getMe(@Request() req: { user: { id: number } }) {
+        return this.usersService.getMe(req.user.id);
     }
 
     @Patch('me')
     @ApiOperation({ summary: 'Profil bilgilerini güncelle' })
     @ApiResponse({ status: 200, description: 'Güncellenen kullanıcı bilgileri' })
-    updateMe(@Request() req: { user: { sub: number } }, @Body() dto: UpdateUserDto) {
-        return this.usersService.updateMe(req.user.sub, dto);
+    updateMe(@Request() req: { user: { id: number } }, @Body() dto: UpdateUserDto) {
+        return this.usersService.updateMe(req.user.id, dto);
     }
 
     @Get()

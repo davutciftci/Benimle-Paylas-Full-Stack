@@ -27,6 +27,10 @@ export class BlogService {
         return prisma.blogPost.findUnique({ where: { slug } });
     }
 
+    async getById(id: number) {
+        return prisma.blogPost.findUnique({ where: { id } });
+    }
+
     async create(dto: CreateBlogPostDto, author: string) {
         return prisma.blogPost.create({
             data: { ...dto, author, publishedAt: new Date() },

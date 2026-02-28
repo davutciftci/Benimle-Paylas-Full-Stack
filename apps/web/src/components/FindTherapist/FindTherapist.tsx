@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { useExpertStore } from '../../store/expertStore';
 import LoadingSpinner from '../common/LoadingSpinner';
 
@@ -17,8 +17,7 @@ export default function FindTherapist() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [specialty, setSpecialty] = useState('');
-  const [minPrice, setMinPrice] = useState<string>('');
-  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
 
   useEffect(() => {
     fetchExperts();
@@ -36,27 +35,20 @@ export default function FindTherapist() {
     setFilters({ specialty: value ? [value] : [] });
   };
 
-  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setMinPrice(value);
+    setPrice(value);
     if (value) {
-      setFilters({ minPrice: parseInt(value) });
-    }
-  };
-
-  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setMaxPrice(value);
-    if (value) {
-      setFilters({ maxPrice: parseInt(value) });
+      setFilters({ price: parseInt(value) });
+    } else {
+      setFilters({ price: undefined });
     }
   };
 
   const handleClearFilters = () => {
     setSearchTerm('');
     setSpecialty('');
-    setMinPrice('');
-    setMaxPrice('');
+    setPrice('');
     clearFilters();
   };
 
@@ -131,34 +123,18 @@ export default function FindTherapist() {
                   </select>
                 </div>
 
-                {/* Fiyat Aralığı */}
+                {/* Maksimum Fiyat */}
                 <div className="mb-6">
                   <h4 className="text-base font-semibold mb-3" style={{ color: '#1f2937' }}>
-                    Fiyat Aralığı (₺)
+                    Maksimum Fiyat (₺)
                   </h4>
                   <div className="flex gap-2">
                     <div className="flex-1">
-                      <label className="text-sm mb-1 block" style={{ color: '#1f2937' }}>Min</label>
                       <input
                         type="number"
-                        value={minPrice}
-                        onChange={handleMinPriceChange}
-                        placeholder="500"
-                        min="0"
-                        className="w-full px-3 py-2 text-base border rounded outline-none focus:ring-2"
-                        style={{
-                          color: '#1f2937',
-                          borderColor: '#1f2937'
-                        }}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <label className="text-sm mb-1 block" style={{ color: '#1f2937' }}>Max</label>
-                      <input
-                        type="number"
-                        value={maxPrice}
-                        onChange={handleMaxPriceChange}
-                        placeholder="2000"
+                        value={price}
+                        onChange={handlePriceChange}
+                        placeholder="Örn: 1500"
                         min="0"
                         className="w-full px-3 py-2 text-base border rounded outline-none focus:ring-2"
                         style={{
@@ -226,21 +202,53 @@ export default function FindTherapist() {
                       >
                         <div className="w-16 h-16 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0" style={{ backgroundColor: '#f6f7f8' }}>
                           <img
-                            src={therapist.image}
-                            alt={therapist.name}
+                            src={therapist.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
+                            alt={therapist.user?.firstName}
                             className="w-full h-full object-cover"
                           />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-xl font-semibold mb-1" style={{ color: '#1f2937' }}>
-                            {therapist.name}
+                          {/* Name */}
+                          <h3 className="text-xl font-bold mb-1" style={{ color: '#1f2937' }}>
+                            {therapist.user?.firstName} {therapist.user?.lastName}
                           </h3>
-                          <p className="text-base mb-2" style={{ color: '#1f2937', opacity: 0.8 }}>
-                            {therapist.title} | {therapist.experience}
-                          </p>
-                          <p className="text-sm mb-2" style={{ color: '#1f2937', opacity: 0.7 }}>
-                            ₺{therapist.priceRange.min} - ₺{therapist.priceRange.max}
-                          </p>
+                          
+                          {/* Title */}
+                          {therapist.title?.name && (
+                            <p className="text-sm font-medium mb-3" style={{ color: '#13a4ec' }}>
+                              {therapist.title.name}
+                            </p>
+                          )}
+
+                          {/* Session Details */}
+                          <div className="flex flex-wrap items-center gap-4 mb-3 text-sm font-medium" style={{ color: '#1f2937' }}>
+                            <span className="flex items-center gap-1.5">
+                              <Clock size={16} style={{ color: '#1f2937' }} />
+                              50 Dakika
+                            </span>
+                            <span className="flex items-center gap-1.5 text-blue-600">
+                              Seans Ücreti: {therapist.price ? `₺${therapist.price}` : 'Belirtilmedi'}
+                            </span>
+                          </div>
+
+                          {/* Specialties Tags */}
+                          {therapist.specialties && therapist.specialties.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                               {therapist.specialties.map(spec => (
+                                  <span
+                                    key={spec.id}
+                                    className="px-2.5 py-1 text-xs rounded-full"
+                                    style={{
+                                      backgroundColor: '#f8fafc',
+                                      color: '#1f2937',
+                                      border: '1px solid #e5e7eb'
+                                    }}
+                                  >
+                                    {spec.name}
+                                  </span>
+                               ))}
+                            </div>
+                          )}
                           <Link
                             to={`/expert/${therapist.id}`}
                             className="rounded px-4 py-1.5 text-sm font-medium transition-all border-2 inline-block"

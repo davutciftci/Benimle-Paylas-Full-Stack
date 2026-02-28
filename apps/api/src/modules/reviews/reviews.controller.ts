@@ -19,9 +19,9 @@ export class ReviewsController {
     @Post()
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')
-    @ApiOperation({ summary: 'Değerlendirme ekle' })
-    @ApiResponse({ status: 201, description: 'Değerlendirme eklendi' })
-    create(@Body() dto: CreateReviewDto, @Request() req: { user: { sub: number } }) {
-        return this.reviewsService.create(dto, req.user.sub);
+    @ApiOperation({ summary: 'Yeni değerlendirme oluştur (Sadece Danışan)' })
+    @ApiResponse({ status: 201, description: 'Değerlendirme oluşturuldu' })
+    create(@Request() req: { user: { id: number } }, @Body() dto: CreateReviewDto) {
+        return this.reviewsService.create(dto, req.user.id);
     }
 }

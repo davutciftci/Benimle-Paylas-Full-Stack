@@ -61,7 +61,7 @@ export class AuthService {
     async login(dto: LoginDto) {
         const user = await prisma.user.findUnique({ 
             where: { email: dto.email },
-            include: { role: true } 
+            include: { role: true, expertProfile: true } 
         });
         if (!user) {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');

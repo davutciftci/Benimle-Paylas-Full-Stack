@@ -61,25 +61,18 @@ export default function ExpertProfile() {
                   <div className="md:w-48 lg:w-56 flex-shrink-0 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r" style={{ borderColor: '#e5e7eb' }}>
                     <div className="relative">
                       <div className="w-32 h-32 rounded-full overflow-hidden border-4 shadow-md bg-gray-100 flex items-center justify-center" style={{ borderColor: '#1f2937' }}>
-                        {expert.image ? (
+                        {expert.profilePhotoUrl ? (
                           <img
-                            src={expert.image}
-                            alt={`${expert.name}`}
+                            src={expert.profilePhotoUrl}
+                            alt={`${expert.user?.firstName}`}
                             className="w-full h-full object-cover"
                           />
                         ) : (
                           <span className="text-4xl font-bold text-gray-400">
-                            {expert.title?.charAt(0) || 'U'}
+                            {expert.user?.firstName?.charAt(0) || 'U'}
                           </span>
                         )}
                       </div>
-                      {/* Online Status Indicator */}
-                      {expert.isOnline && (
-                        <div
-                          className="absolute bottom-2 left-2 w-4 h-4 rounded-full border-2 border-white"
-                          style={{ backgroundColor: '#22c55e' }}
-                        ></div>
-                      )}
                     </div>
                     <Link
                       to={`/expert/${expert.id}`}
@@ -96,50 +89,44 @@ export default function ExpertProfile() {
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                       {/* Info Section */}
                       <div className="flex-1">
-                        {/* Name & Title */}
+                        {/* Name */}
                         <h3 className="text-2xl font-bold mb-1" style={{ color: '#1f2937' }}>
-                          {expert.name} {/* Backend firstname + lastname birleşimini getById döndürüyor ama liste için name üzerinden map'leyebilirsiniz. */}
+                          {expert.user?.firstName} {expert.user?.lastName}
                         </h3>
-                        <p className="text-base mb-3" style={{ color: '#13a4ec' }}>
-                          {expert.title}
-                        </p>
-
-                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                          {expert.description}
-                        </p>
+                        {/* Title */}
+                        {expert.title?.name && (
+                          <p className="text-base mb-4" style={{ color: '#13a4ec' }}>
+                            {expert.title.name}
+                          </p>
+                        )}
 
                         {/* Session Details */}
-                        <div className="flex flex-wrap items-center gap-4 mb-4 text-sm" style={{ color: '#1f2937' }}>
-                          <span className="flex items-center gap-1">
+                        <div className="flex flex-wrap items-center gap-4 mb-4 text-sm font-medium" style={{ color: '#1f2937' }}>
+                          <span className="flex items-center gap-1.5">
                             <Clock size={16} style={{ color: '#1f2937' }} />
-                            {expert.sessionDuration}
+                            50 Dakika
                           </span>
-                          <span className="font-bold flex items-center gap-1" style={{ color: '#13a4ec' }}>
-                            {expert.price > 0 ? `${expert.price} TL` : 'Ücretsiz'}
+                          <span className="flex items-center gap-1.5 text-blue-600">
+                            Seans Ücreti: {expert.price ? `₺${expert.price}` : 'Belirtilmedi'}
                           </span>
                         </div>
 
                         {/* Specialties Tags */}
-                        {expert.specialty && expert.specialty.length > 0 && (
+                        {expert.specialties && expert.specialties.length > 0 && (
                           <div className="flex flex-wrap gap-2">
-                            {expert.specialty.slice(0, 5).map((spec, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-xs rounded-full"
-                                style={{
-                                  backgroundColor: '#f6f7f8',
-                                  color: '#1f2937',
-                                  border: '1px solid #1f2937'
-                                }}
-                              >
-                                {spec}
-                              </span>
-                            ))}
-                            {expert.specialty.length > 5 && (
-                              <span className="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-500">
-                                +{expert.specialty.length - 5}
-                              </span>
-                            )}
+                             {expert.specialties.map(spec => (
+                                <span
+                                  key={spec.id}
+                                  className="px-3 py-1 text-xs rounded-full"
+                                  style={{
+                                    backgroundColor: '#f6f7f8',
+                                    color: '#1f2937',
+                                    border: '1px solid #1f2937'
+                                  }}
+                                >
+                                  {spec.name}
+                                </span>
+                             ))}
                           </div>
                         )}
                       </div>

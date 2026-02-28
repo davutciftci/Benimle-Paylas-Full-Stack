@@ -6,7 +6,11 @@ import { setupSwagger } from './config/swagger.config';
 import { GlobalExceptionFilter } from './config/error-handler';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { bodyParser: true });
+
+    // JSON body size limit - profil fotoğrafı base64 için
+    app.use(require('express').json({ limit: '20mb' }));
+    app.use(require('express').urlencoded({ limit: '20mb', extended: true }));
 
     // CORS
     app.enableCors({

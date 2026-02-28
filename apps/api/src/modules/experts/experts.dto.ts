@@ -5,6 +5,9 @@ import {
     Min,
     Max,
     MaxLength,
+    IsArray,
+    IsInt,
+    IsObject,
 } from 'class-validator';
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -67,10 +70,42 @@ export class UpdateExpertDto {
     @IsOptional()
     profilePhotoUrl?: string;
 
+    @ApiPropertyOptional({ description: 'Seans Ücreti' })
+    @IsNumber()
+    @IsOptional()
+    price?: number;
+
     @ApiPropertyOptional({ description: 'Mezuniyet Derecesi (ID)' })
     @IsNumber()
     @IsOptional()
     degreeId?: number;
+
+    @ApiPropertyOptional({ description: 'Uzman Unvanı (ID)' })
+    @IsNumber()
+    @IsOptional()
+    titleId?: number;
+
+    @ApiPropertyOptional({ description: 'Uzmanlık Alanlarının ID listesi' })
+    @IsArray()
+    @IsInt({ each: true })
+    @IsOptional()
+    specialtyIds?: number[];
+
+    @ApiPropertyOptional({ description: 'Çalışma/Müsaitlik saatleri JSON' })
+    @IsObject()
+    @IsOptional()
+    workingHours?: any;
+
+    @ApiPropertyOptional({ description: 'Çalışma Ekolleri (Therapeutic Approaches) ID listesi' })
+    @IsArray()
+    @IsInt({ each: true })
+    @IsOptional()
+    therapeuticApproachIds?: number[];
+
+    @ApiPropertyOptional({ description: 'Uzmanın katıldığı seminer ve konferanslar listesi' })
+    @IsArray()
+    @IsOptional()
+    seminars?: { title: string; description?: string; date?: string }[];
 }
 
 export class CreateExpertDto {
@@ -108,6 +143,11 @@ export class CreateExpertDto {
     @IsString()
     @IsOptional()
     profilePhotoUrl?: string;
+
+    @ApiPropertyOptional({ description: 'Seans Ücreti' })
+    @IsNumber()
+    @IsOptional()
+    price?: number;
 
     @ApiPropertyOptional({ description: 'Mezuniyet Derecesi (ID)' })
     @IsNumber()

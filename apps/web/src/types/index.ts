@@ -1,6 +1,6 @@
 // User types
 export interface User {
-    id: string;
+    id: number | string;
     email: string;
     firstName: string;
     lastName: string;
@@ -8,26 +8,39 @@ export interface User {
     createdAt: string;
 }
 
-// Expert types
+// Expert types - Matches ExpertProfile Prisma Model
 export interface Expert {
-    id: string;
-    userId: string;
-    name: string;
-    title: string;
-    specialty: string[];
-    description: string;
-    fullDescription: string;
-    image: string;
-    experience: string;
-    education: string;
-    languages: string[];
-    sessionDuration: string;
-    isOnline: boolean;
-    price: number;
-    rating: number;
-    reviewCount: number;
-    availability: ExpertAvailability;
-    insurance: string[];
+    id: number;
+    userId: number;
+    bio: string | null;
+    university: string | null;
+    fieldOfStudy: string | null;
+    degreeId: number | null;
+    titleId?: number | null;
+    graduationYear: number | null;
+    licenseNumber: string | null;
+    yearsOfExperience: number | null;
+    profilePhotoUrl: string | null;
+    isVerified: boolean;
+    createdAt: string;
+    updatedAt: string;
+    rating?: number; // optionally attached to responses
+    reviewCount?: number;
+    workingHours?: any; // parsed JSON
+    specialties?: { id: number; name: string }[];
+    specialtyIds?: number[];
+    therapeuticApproaches?: { id: number; name: string }[];
+    therapeuticApproachIds?: number[];
+    seminars?: { id?: number; title: string; description?: string; date?: string }[];
+    degree?: { id: number; name: string };
+    title?: { id: number; name: string };
+    price?: number | null;
+    insurance?: string[]; // optionally attached
+    user?: {
+        firstName: string;
+        lastName: string;
+        email?: string;
+    };
 }
 
 export interface ExpertAvailability {
@@ -47,9 +60,9 @@ export interface TimeSlot {
 
 // Appointment types
 export interface Appointment {
-    id: string;
-    userId: string;
-    expertId: string;
+    id: number | string;
+    userId: number | string;
+    expertId: number | string;
     date: string; // ISO 8601
     timeSlot: TimeSlot;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
@@ -61,18 +74,18 @@ export interface Appointment {
 
 // Review types
 export interface Review {
-    id: string;
-    expertId: string;
-    userId: string;
-    userName: string;
+    id: number | string;
+    expertId: number | string;
+    userId: number | string;
+    userName?: string;
     rating: number;
-    comment: string;
+    comment?: string;
     createdAt: string;
 }
 
 // Authentication types
 export interface AuthUser {
-    id: string;
+    id: number | string;
     email: string;
     firstName: string;
     lastName: string;

@@ -1,87 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Phone, Calendar } from 'lucide-react';
-
-interface Expert {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  fullDescription: string;
-  image: string;
-  bgColor: string;
-  specialties: string[];
-  experience: string;
-  education: string;
-  languages: string[];
-}
+import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic } from 'lucide-react';
+import { api } from '../services/api';
+import type { Expert } from '../types';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function ExpertDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const [expert, setExpert] = useState<Expert | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const experts: Expert[] = [
-    {
-      id: 'davut-ciftci',
-      name: "Davut Çiftçi",
-      title: "Uzman Klinik Psikolog, Psikoterapist",
-      description: "Travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmıştır.",
-      fullDescription: "Davut Çiftçi, travma, anksiyete bozuklukları ve depresyon konularında uzmanlaşmış bir klinik psikologdur. Bilişsel Davranışçı Terapi (BDT) ve EMDR tekniklerini kullanarak danışanlarına destek sağlamaktadır. Sağır terapist olarak işitme engelli danışanlara da hizmet vermektedir.",
-      image: "/src/assets/img/davut ciftci.jpg",
-      bgColor: "bg-slate-50",
-      specialties: ["Sağır Terapist", "Travma Terapisi", "Anksiyete Bozuklukları", "Depresyon", "BDT", "EMDR"],
-      experience: "10+ Yıl",
-      education: "İstanbul Üniversitesi - Psikoloji Lisans, Klinik Psikoloji Yüksek Lisans",
-      languages: ["Türkçe", "İşaret Dili"]
-    },
-    {
-      id: 'sigmund-freud',
-      name: "Sigmund Freud",
-      title: "Psikanaliz",
-      description: "İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır.",
-      fullDescription: "Sigmund Freud, psikanalizin kurucusu olarak bilinmektedir. İlişki sorunları, iletişim problemleri ve aile içi çatışmalar üzerine çalışmaktadır. Duygu Odaklı Çift Terapisi yöntemini benimsemektedir.",
-      image: "/src/assets/img/freud.png",
-      bgColor: "bg-orange-50",
-      specialties: ["Çift Terapisi", "Aile Terapisi", "İletişim Problemleri", "Psikanaliz"],
-      experience: "8 Yıl",
-      education: "Viyana Üniversitesi - Tıp Lisans, Psikanaliz Uzmanlık",
-      languages: ["Türkçe", "Almanca"]
-    },
-    {
-      id: 'alfred-binet',
-      name: "Alfred Binet",
-      title: "Bireysel Danışmanlık",
-      description: "Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir.",
-      fullDescription: "Alfred Binet, bireysel terapi alanında uzmanlaşmıştır. Özgüven sorunları, stres yönetimi ve kişisel gelişim konularında bireysel danışmanlık hizmeti vermektedir. Varoluşçu terapi ekolünden yararlanır ve danışanlarının yaşam anlamını bulmalarına yardımcı olmaktadır.",
-      image: "/src/assets/img/alfred binet.png",
-      bgColor: "bg-orange-50",
-      specialties: ["Bireysel Terapi", "Özgüven Sorunları", "Stres Yönetimi", "Varoluşçu Terapi"],
-      experience: "6 Yıl",
-      education: "Sorbonne Üniversitesi - Psikoloji Lisans",
-      languages: ["Türkçe", "Fransızca"]
-    },
-    {
-      id: 'carl-jung',
-      name: "Carl Gustavt Jung",
-      title: "Grup Terapisi",
-      description: "Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir.",
-      fullDescription: "Carl Gustav Jung, grup terapisi alanında uzmanlaşmıştır. Sosyal anksiyete ve bağımlılık konularında grup terapileri düzenlemektedir. Psikodrama ve grup dinamikleri üzerine odaklanmaktadır. Analitik psikolojinin kurucusudur.",
-      image: "/src/assets/img/Carl Gustavt Jung.png",
-      bgColor: "bg-slate-50",
-      specialties: ["Grup Terapisi", "Sosyal Anksiyete", "Bağımlılık", "Psikodrama", "Analitik Psikoloji"],
-      experience: "7 Yıl",
-      education: "Basel Üniversitesi - Tıp Lisans, Psikiyatri Uzmanlık",
-      languages: ["Türkçe", "Almanca", "İngilizce"]
-    }
-  ];
+  useEffect(() => {
+    const fetchExpert = async () => {
+      try {
+        if (!id) return;
+        const res = await api.experts.getById(id);
+        if (res.success && res.data) {
+          setExpert(res.data);
+        }
+      } catch (error) {
+        console.error('Uzman detayı alınamadı:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchExpert();
+  }, [id]);
 
-  const expert = experts.find(e => e.id === id);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-24">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
 
   if (!expert) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center pt-24">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Uzman bulunamadı</h1>
-          <Link to="/experts" className="text-slate-600 hover:underline">
+          <Link to="/experts" className="text-blue-600 hover:underline">
             Uzmanlar sayfasına dön
           </Link>
         </div>
@@ -89,105 +48,237 @@ export default function ExpertDetailPage() {
     );
   }
 
+  const dayNames: Record<string, string> = {
+    monday: 'Pazartesi', tuesday: 'Salı', wednesday: 'Çarşamba',
+    thursday: 'Perşembe', friday: 'Cuma', saturday: 'Cumartesi', sunday: 'Pazar'
+  };
+
   return (
-    <div className="min-h-screen pt-24 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 py-6">
-        {/* Back Button - Smaller and Outline */}
+    <div className="min-h-screen pt-24 pb-12 bg-[#f8fafc] font-nunito">
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        {/* Geri Dön Butonu */}
         <Link
           to="/experts"
-          className="inline-flex items-center mb-4 px-3 py-1.5 text-sm rounded-lg font-medium transition-all border"
-          style={{ backgroundColor: 'transparent', color: '#13a4ec', borderColor: '#13a4ec' }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#13a4ec';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#13a4ec';
-          }}
+          className="inline-flex items-center mb-6 px-4 py-2 text-sm rounded-xl bg-white border border-gray-200 font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-all"
         >
-          <ArrowLeft size={14} className="mr-1.5" />
-          Uzmanlar Sayfasına Dön
+          <ArrowLeft size={16} className="mr-2" />
+          Geri Dön
         </Link>
 
-        {/* Expert Header */}
-        <div className="bg-white rounded-lg shadow-md p-5 mb-6">
-          <div className="flex flex-col gap-5">
-            {/* Image Centered */}
-            <div className={`w-32 h-32 ${expert.bgColor} rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden mx-auto`}>
-              <img
-                src={expert.image}
-                alt={expert.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-center">
-              <h1 className="text-xl font-semibold mb-1 text-gray-900">{expert.name}</h1>
-              <p className="text-base mb-3 text-muted">{expert.title}</p>
-              <p className="text-sm mb-4 leading-relaxed text-gray-900">{expert.fullDescription}</p>
+        {/* ─── ÜSTTE: 2 KOLON ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
 
-              <Link
-                to="/login"
-                className="inline-flex items-center rounded px-4 py-2 transition-all font-medium border-2"
-                style={{
-                  backgroundColor: 'transparent',
-                  color: '#13a4ec',
-                  borderColor: '#13a4ec'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#13a4ec';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#13a4ec';
-                }}
-              >
-                <Calendar size={14} className="mr-1.5" />
-                Randevu Al
-              </Link>
+          {/* KART 1 – Sol Üst: Profil Bilgisi */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col items-center text-center">
+            {/* Profil Fotoğrafı */}
+            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-100 shadow-md mb-5 bg-gray-100 flex items-center justify-center">
+              {expert.profilePhotoUrl ? (
+                <img
+                  src={expert.profilePhotoUrl}
+                  alt={`${expert.user?.firstName || ''} ${expert.user?.lastName || ''}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
+                  }}
+                />
+              ) : (
+                <span className="text-5xl font-bold text-gray-300">
+                  {expert.user?.firstName?.charAt(0) || 'U'}
+                </span>
+              )}
+            </div>
+
+            <h1 className="text-2xl font-extrabold text-gray-900 mb-1">
+              {expert.user?.firstName} {expert.user?.lastName}
+            </h1>
+
+            {expert.title?.name && (
+              <p className="text-base text-blue-600 font-semibold mb-4">{expert.title.name}</p>
+            )}
+
+            <div className="flex items-center gap-2 text-blue-600 font-bold mb-6 text-sm">
+              <Clock size={16} />
+              <span>50 Dakika</span>
+              <span className="mx-1 text-gray-300">|</span>
+              <span>{expert.price ? `₺${expert.price} / Seans` : 'Ücret Belirtilmemi'}</span>
+            </div>
+
+            <Link
+              to="/user/dashboard"
+              className="inline-flex items-center justify-center w-full max-w-[220px] rounded-xl py-3.5 font-bold text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              style={{ backgroundColor: '#13a4ec' }}
+            >
+              <Calendar size={18} className="mr-2" />
+              Randevu Al
+            </Link>
+          </div>
+
+          {/* KART 2 – Sağ Üst: Müsaitlik */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 border-b border-gray-100 pb-3">
+              <MapPin size={18} className="text-blue-500" />
+              Müsaitlik ve Çalışma Saatleri
+            </h2>
+            {expert.workingHours && Object.values(expert.workingHours).some(
+              (s: any) => Array.isArray(s) && s.length > 0
+            ) ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {Object.entries(expert.workingHours).map(([day, slots]) => {
+                  if (!Array.isArray(slots) || slots.length === 0) return null;
+                  return (
+                    <div key={day} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                      <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                        {dayNames[day] || day}
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(slots as any[]).map((slot: any, idx: number) => (
+                          <span key={idx} className="bg-white text-gray-700 text-xs font-bold px-2 py-1 rounded-lg shadow-sm border border-gray-200">
+                            {slot.start} – {slot.end}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="bg-gray-50 rounded-xl p-6 text-center border border-dashed border-gray-200">
+                <p className="text-gray-400 font-medium text-sm">Henüz belirlenmiş çalışma saati yok.</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ─── ORTA: 2 KOLON ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+
+          {/* KART 3 – Sol Orta: Hakkında */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
+              <BookOpen size={18} className="text-indigo-500" />
+              Hakkında
+            </h2>
+            {expert.bio ? (
+              <p className="text-gray-600 leading-relaxed text-sm">{expert.bio}</p>
+            ) : (
+              <p className="text-gray-400 italic text-sm">Uzman henüz biyografi eklememiş.</p>
+            )}
+          </div>
+
+          {/* KART 4 – Sağ Orta: Çalışma Ekolleri */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
+              <Award size={18} className="text-purple-500" />
+              Çalışma Ekolleri
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {expert.therapeuticApproaches && expert.therapeuticApproaches.length > 0 ? (
+                expert.therapeuticApproaches.map((tApp, index) => (
+                  <span
+                    key={index}
+                    className="bg-indigo-50 text-indigo-700 rounded-lg px-3 py-1.5 text-sm font-bold border border-indigo-100"
+                  >
+                    {tApp.name}
+                  </span>
+                ))
+              ) : (
+                <span className="text-sm font-medium text-gray-400 italic">Ekol belirtilmemiş.</span>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Expert Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Specialties */}
-          <div className="bg-white rounded-lg shadow-md p-4">
-            <h2 className="text-base font-bold text-gray-900 mb-3">Uzmanlık Alanları</h2>
-            <div className="flex flex-wrap gap-1.5">
-              {expert.specialties.map((specialty, index) => (
-                <span
-                  key={index}
-                  className="bg-slate-100 text-slate-700 rounded-full px-2 py-0.5 text-xs"
-                >
-                  {specialty}
+        {/* ─── ALT: 2 KOLON ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+
+          {/* KART 5 – Alt Sol: Uzmanlık Alanları */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
+              <Award size={18} className="text-blue-500" />
+              Uzmanlık Alanları
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {expert.specialties && expert.specialties.length > 0 ? (
+                expert.specialties.map((spec, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-50 text-blue-700 rounded-lg px-3 py-1.5 text-sm font-bold border border-blue-100"
+                  >
+                    {spec.name}
+                  </span>
+                ))
+              ) : (
+                <span className="text-sm font-medium text-gray-400 italic">Uzmanlık alanı belirtilmemiş.</span>
+              )}
+            </div>
+          </div>
+
+          {/* KART 6 – Alt Sağ: Kariyer & Detaylar */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
+              <BookOpen size={18} className="text-green-500" />
+              Kariyer & Detaylar
+            </h2>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between py-2 border-b border-gray-50">
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Deneyim</span>
+                <span className="text-sm font-bold text-gray-900">
+                  {expert.yearsOfExperience ? `${expert.yearsOfExperience} Yıl` : '-'}
                 </span>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b border-gray-50">
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Eğitim</span>
+                <span className="text-sm font-bold text-gray-900 text-right max-w-[60%]">
+                  {expert.university || '-'}
+                </span>
+              </div>
+              {expert.fieldOfStudy && (
+                <div className="flex items-center justify-between py-2 border-b border-gray-50">
+                  <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Bölüm</span>
+                  <span className="text-sm font-bold text-gray-900">{expert.fieldOfStudy}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between py-2">
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Seans Süresi</span>
+                <span className="text-sm font-bold text-gray-900">50 Dakika</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* KART 7 – En Alt: Seminerler */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 border-b border-gray-100 pb-3">
+            <Mic size={18} className="text-orange-500" />
+            Seminer ve Konferanslar
+          </h2>
+          {expert.seminars && expert.seminars.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {expert.seminars.map((seminar, index) => (
+                <div key={index} className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+                  <h3 className="font-bold text-gray-900 text-sm mb-1">{seminar.title}</h3>
+                  {seminar.description && (
+                    <p className="text-gray-500 text-xs mb-2 leading-relaxed">{seminar.description}</p>
+                  )}
+                  {seminar.date && (
+                    <p className="text-blue-500 font-bold text-xs">
+                      {new Date(seminar.date).toLocaleDateString('tr-TR', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                      })}
+                    </p>
+                  )}
+                </div>
               ))}
             </div>
-          </div>
-
-          {/* Experience & Education */}
-          <div className="bg-white rounded-lg shadow-md p-4">
-            <h2 className="text-base font-bold text-gray-900 mb-3">Deneyim & Eğitim</h2>
-            <div className="space-y-2">
-              <div>
-                <p className="text-xs text-gray-600 mb-0.5">Deneyim</p>
-                <p className="text-sm text-gray-900 font-medium">{expert.experience}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-600 mb-0.5">Eğitim</p>
-                <p className="text-xs text-gray-900">{expert.education}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-600 mb-0.5">Diller</p>
-                <p className="text-sm text-gray-900">{expert.languages.join(', ')}</p>
-              </div>
-            </div>
-          </div>
+          ) : (
+            <p className="text-gray-400 text-sm italic text-center py-4">
+              Seminer veya konferans kaydı bulunmamaktadır.
+            </p>
+          )}
         </div>
+
       </div>
     </div>
   );
 }
-

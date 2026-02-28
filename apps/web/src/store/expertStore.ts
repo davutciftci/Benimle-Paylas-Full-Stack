@@ -107,11 +107,11 @@ export const useExpertStore = create<ExpertState>((set, get) => ({
             if (response.success && response.data) {
                 set((state) => ({
                     selectedExpert:
-                        state.selectedExpert?.id === expertId
+                        state.selectedExpert?.id === Number(expertId)
                             ? response.data
                             : state.selectedExpert,
                     experts: state.experts.map((expert) =>
-                        expert.id === expertId ? response.data! : expert
+                        expert.id === Number(expertId) ? response.data! : expert
                     ),
                     isLoading: false,
                 }));

@@ -16,8 +16,8 @@ export class AppointmentsController {
     @Post()
     @ApiOperation({ summary: 'Yeni randevu oluştur' })
     @ApiResponse({ status: 201, description: 'Randevu oluşturuldu' })
-    create(@Body() dto: CreateAppointmentDto, @Request() req: { user: { sub: number } }) {
-        return this.appointmentsService.create(dto, req.user.sub);
+    create(@Body() dto: CreateAppointmentDto, @Request() req: { user: { id: number } }) {
+        return this.appointmentsService.create(dto, req.user.id);
     }
 
     @Get('user/:userId')
