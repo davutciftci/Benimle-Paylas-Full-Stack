@@ -1,5 +1,6 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Session, Res } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto } from './auth.dto';
 
@@ -12,8 +13,10 @@ export class AuthController {
     @ApiOperation({ summary: 'Yeni kullanıcı kaydı' })
     @ApiResponse({ status: 201, description: 'Başarıyla kayıt olundu' })
     @ApiResponse({ status: 409, description: 'E-posta zaten kullanımda' })
-    register(@Body() dto: RegisterDto) {
-        return this.authService.register(dto);
+    async register(@Body() dto: RegisterDto, @Session() session: Record<string, any>) {
+        const result = await this.authService.register(dto);
+        session.user = result.user;
+        return result;
     }
 
     @Post('login')
@@ -21,8 +24,32 @@ export class AuthController {
     @ApiOperation({ summary: 'Kullanıcı girişi' })
     @ApiResponse({ status: 200, description: 'Başarıyla giriş yapıldı' })
     @ApiResponse({ status: 401, description: 'Geçersiz kimlik bilgileri' })
-    login(@Body() dto: LoginDto) {
-        return this.authService.login(dto);
+    async login(@Body() dto: LoginDto, @Session() session: Record<string, any>) {
+        const result = await this.authService.login(dto);
+        session.user = result.user;
+        return result;
+    }
+
+    @Post('logout')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: 'Kullanıcı çıkışı (Oturumu sonlandırır)' })
+    @ApiResponse({ status: 200, description: 'Başarıyla çıkış yapıldı' })
+    logout(@Session() session: Record<string, any>, @Res({ passthrough: true }) res: Response) {
+        return new Promise((resolve, reject) => {
+            session.destroy((err) => {
+                if (err) {
+                    return reject(err);
+                }
+                res.clearCookie('connect.sid', { 
+                    path: '/', 
+                    domain: 'localhost',
+                    httpOnly: true, 
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax'
+                });
+                resolve({ success: true, message: 'Başarıyla çıkış yapıldı' });
+            });
+        });
     }
 
     @Post('forgot-password')

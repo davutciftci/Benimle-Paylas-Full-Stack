@@ -1,12 +1,12 @@
 import { Controller, Get, Patch, Body, UseGuards, Request, Param, ForbiddenException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiSecurity, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './users.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { SessionGuard } from '../auth/session.guard';
 
 @ApiTags('users')
-@ApiBearerAuth('access-token')
-@UseGuards(JwtAuthGuard)
+@ApiSecurity('cookieAuth')
+@UseGuards(SessionGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}

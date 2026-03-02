@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto } from './auth.dto';
@@ -11,7 +10,6 @@ const prisma = new PrismaClient();
 @Injectable()
 export class AuthService {
     constructor(
-        private jwtService: JwtService,
         private emailService: EmailService,
     ) {}
 
@@ -47,14 +45,11 @@ export class AuthService {
 
         await this.emailService.sendWelcomeEmail(user.email, `${user.firstName} ${user.lastName}`);
 
-        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role.name });
-
         return { 
             user: {
                 ...user,
                 role: user.role.name
-            }, 
-            access_token 
+            }
         };
     }
 
@@ -72,15 +67,12 @@ export class AuthService {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');
         }
 
-        const access_token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role.name });
-
         const { passwordHash: _password, roleId: _, ...safeUser } = user;
         return { 
             user: {
                 ...safeUser,
                 role: user.role.name
-            }, 
-            access_token 
+            }
         };
     }
 

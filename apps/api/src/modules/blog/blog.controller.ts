@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Param, Body, Query, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiSecurity, ApiQuery } from '@nestjs/swagger';
 import { BlogService } from './blog.service';
 import { CreateBlogPostDto } from './blog.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { SessionGuard } from '../auth/session.guard';
 
 @ApiTags('blog')
 @Controller('blog')
@@ -30,8 +30,8 @@ export class BlogController {
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
+    @UseGuards(SessionGuard)
+    @ApiSecurity('cookieAuth')
     @ApiOperation({ summary: 'Yeni blog yazısı oluştur (admin)' })
     create(@Body() dto: CreateBlogPostDto, @Request() req: { user: { id: string; email: string } }) {
         return this.blogService.create(dto, req.user.email);

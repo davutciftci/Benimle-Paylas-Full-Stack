@@ -1,8 +1,8 @@
 import { Controller, Post, Get, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiSecurity } from '@nestjs/swagger';
 import { ContactService } from './contact.service';
 import { CreateContactDto } from './contact.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { SessionGuard } from '../auth/session.guard';
 
 @ApiTags('contact')
 @Controller('contact')
@@ -17,8 +17,8 @@ export class ContactController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
+    @UseGuards(SessionGuard)
+    @ApiSecurity('cookieAuth')
     @ApiOperation({ summary: 'Tüm mesajları listele (admin)' })
     getAll() {
         return this.contactService.getAll();

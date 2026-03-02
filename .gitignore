@@ -10,6 +10,9 @@ build/
 .next/
 out/
 
+# Docker
+docker-compose.yml
+
 # Environment files - GİZLİ TUTUN
 config/api/.env
 config/web/.env

@@ -6,22 +6,21 @@ export function setupSwagger(app: INestApplication): void {
         .setTitle('Benimle Paylaş API')
         .setDescription(
             'Benimle Paylaş psikoloji danışmanlık platformu REST API dokümantasyonu.\n\n' +
-            '**Kimlik doğrulama:** Bearer JWT token kullanılmaktadır.\n' +
-            'Giriş yaptıktan sonra `/auth/login` endpoint\'inden aldığınız token\'ı Authorize butonuyla ekleyin.'
+            '**Kimlik doğrulama:** Session Cookie kullanılmaktadır.\n' +
+            'Giriş yaptıktan sonra (`/auth/login`) tarayıcınız çerezi otomatik alacaktır.'
         )
         .setVersion('1.0.0')
         .setContact('Benimle Paylaş', 'https://benimlepaylas.com', 'info@benimlepaylas.com')
         .setLicense('Proprietary', '')
-        .addBearerAuth(
+        .addCookieAuth(
+            'connect.sid',
             {
-                type: 'http',
-                scheme: 'bearer',
-                bearerFormat: 'JWT',
-                name: 'Authorization',
-                description: 'JWT token girin',
-                in: 'header',
+                type: 'apiKey',
+                in: 'cookie',
+                name: 'connect.sid',
+                description: 'Kullanıcı girişi sonrası otomatik ayarlanan oturum cookie\'si',
             },
-            'access-token'
+            'cookieAuth'
         )
         .addTag('auth', 'Kimlik doğrulama işlemleri')
         .addTag('users', 'Kullanıcı işlemleri')

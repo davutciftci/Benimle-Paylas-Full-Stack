@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 import { AuthModule } from './modules/auth';
 import { UsersModule } from './modules/users';
 import { ExpertsModule } from './modules/experts';
@@ -18,6 +20,17 @@ import { EmailModule } from './email/email.module';
                 '../../config/api/.env',
                 '.env',
             ],
+        }),
+        CacheModule.registerAsync({
+            isGlobal: true,
+            useFactory: async () => ({
+                store: await redisStore({
+                    socket: {
+                        host: process.env.REDIS_HOST || 'localhost',
+                        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+                    },
+                }),
+            }),
         }),
         EmailModule,
         AuthModule,

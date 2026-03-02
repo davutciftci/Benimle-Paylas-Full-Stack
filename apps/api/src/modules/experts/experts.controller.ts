@@ -1,10 +1,11 @@
 import {
-    Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Request
+    Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Request, UseInterceptors
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { ApiTags, ApiOperation, ApiSecurity, ApiResponse } from '@nestjs/swagger';
 import { ExpertsService } from './experts.service';
 import { ExpertFiltersDto, UpdateExpertDto, CreateExpertDto } from './experts.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { SessionGuard } from '../auth/session.guard';
 
 @ApiTags('experts')
 @Controller('experts')
@@ -19,6 +20,9 @@ export class ExpertsController {
     }
 
     @Get('specialties')
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('specialties_all')
+    @CacheTTL(3600000) // 1 Hour
     @ApiOperation({ summary: 'Tüm uzmanlık alanlarını getir' })
     async getSpecialties() {
         const { PrismaClient } = await import('@prisma/client');
@@ -27,6 +31,9 @@ export class ExpertsController {
     }
 
     @Get('degrees')
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('degrees_all')
+    @CacheTTL(3600000)
     @ApiOperation({ summary: 'Tüm uzmanlık derecelerini getir' })
     async getDegrees() {
         const { PrismaClient } = await import('@prisma/client');
@@ -35,6 +42,9 @@ export class ExpertsController {
     }
 
     @Get('titles')
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('titles_all')
+    @CacheTTL(3600000)
     @ApiOperation({ summary: 'Tüm uzman ünvanlarını getir' })
     async getTitles() {
         const { PrismaClient } = await import('@prisma/client');
@@ -43,6 +53,9 @@ export class ExpertsController {
     }
 
     @Get('therapeutic-approaches')
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('approaches_all')
+    @CacheTTL(3600000)
     @ApiOperation({ summary: 'Tüm çalışma ekollerini (terapi türlerini) getir' })
     async getTherapeuticApproaches() {
         const { PrismaClient } = await import('@prisma/client');
@@ -59,8 +72,8 @@ export class ExpertsController {
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
+    @UseGuards(SessionGuard)
+    @ApiSecurity('cookieAuth')
     @ApiOperation({ summary: 'Yeni uzman profili oluştur' })
     @ApiResponse({ status: 201, description: 'Uzman profili oluşturuldu' })
     create(@Body() dto: CreateExpertDto, @Request() req: { user: { id: number } }) {
@@ -68,8 +81,8 @@ export class ExpertsController {
     }
 
     @Patch(':id')
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
+    @UseGuards(SessionGuard)
+    @ApiSecurity('cookieAuth')
     @ApiOperation({ summary: 'Uzman profilini güncelle' })
     @ApiResponse({ status: 200, description: 'Güncellenmiş uzman bilgileri' })
     update(@Param('id') id: string, @Body() dto: UpdateExpertDto) {

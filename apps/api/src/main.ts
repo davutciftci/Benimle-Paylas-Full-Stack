@@ -4,26 +4,46 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { setupSwagger } from './config/swagger.config';
 import { GlobalExceptionFilter } from './config/error-handler';
+import { Redis } from 'ioredis';
+const session = require('express-session');
+const { RedisStore } = require('connect-redis');
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, { bodyParser: true });
 
-    // JSON body size limit - profil fotoğrafı base64 için
+
     app.use(require('express').json({ limit: '20mb' }));
     app.use(require('express').urlencoded({ limit: '20mb', extended: true }));
 
-    // CORS
+
     app.enableCors({
         origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         credentials: true,
-        allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cookie'],
     });
 
-    // Global prefix
+    const redisClient = new Redis({
+        host: process.env.REDIS_HOST || 'localhost',
+        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+    });
+    app.use(
+        session({
+            store: new RedisStore({ client: redisClient, prefix: 'sess:' }),
+            name: 'connect.sid',
+            secret: process.env.SESSION_SECRET || 'super-secret-key-benimle-paylas',
+            resave: false,
+            saveUninitialized: false,
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+            },
+        }),
+    );
+
     app.setGlobalPrefix('api');
 
-    // Global validation pipe
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
@@ -35,10 +55,8 @@ async function bootstrap() {
         })
     );
 
-    // Global exception filter
     app.useGlobalFilters(new GlobalExceptionFilter());
 
-    // Swagger
     setupSwagger(app);
 
     const port = process.env.PORT || 3000;

@@ -14,7 +14,6 @@ import type {
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000') + '/api';
 
-// Axios instance
 export const http = axios.create({
     baseURL: API_BASE_URL,
     headers: {
@@ -23,21 +22,10 @@ export const http = axios.create({
     withCredentials: true,
 });
 
-// JWT token interceptor
-http.interceptors.request.use((config) => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
-// Response error interceptor
 http.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('access_token');
             localStorage.removeItem('auth-storage');
             window.location.href = '/login';
         }
@@ -45,7 +33,6 @@ http.interceptors.response.use(
     }
 );
 
-// Helper: wrap axios response into ApiResponse
 const wrap = async <T>(fn: () => Promise<{ data: T }>): Promise<ApiResponse<T>> => {
     try {
         const res = await fn();
@@ -61,27 +48,17 @@ const wrap = async <T>(fn: () => Promise<{ data: T }>): Promise<ApiResponse<T>> 
     }
 };
 
-// ==================== AUTH API ====================
 export const authApi = {
-    async login(credentials: LoginCredentials): Promise<ApiResponse<{ user: AuthUser; access_token: string }>> {
-        const result = await wrap<{ user: AuthUser; access_token: string }>(() => http.post('/auth/login', credentials));
-        if (result.success && result.data) {
-            localStorage.setItem('access_token', result.data.access_token);
-        }
-        return result;
+    async login(credentials: LoginCredentials): Promise<ApiResponse<{ user: AuthUser }>> {
+        return wrap<{ user: AuthUser }>(() => http.post('/auth/login', credentials));
     },
 
-    async register(data: RegisterData): Promise<ApiResponse<{ user: AuthUser; access_token: string }>> {
-        const result = await wrap<{ user: AuthUser; access_token: string }>(() => http.post('/auth/register', data));
-        if (result.success && result.data) {
-            localStorage.setItem('access_token', result.data.access_token);
-        }
-        return result;
+    async register(data: RegisterData): Promise<ApiResponse<{ user: AuthUser }>> {
+        return wrap<{ user: AuthUser }>(() => http.post('/auth/register', data));
     },
 
     async logout(): Promise<ApiResponse<void>> {
-        localStorage.removeItem('access_token');
-        return { success: true };
+        return wrap(() => http.post('/auth/logout'));
     },
 
     async forgotPassword(email: string): Promise<ApiResponse<void>> {
@@ -97,7 +74,6 @@ export const authApi = {
     },
 };
 
-// ==================== EXPERTS API ====================
 export const expertsApi = {
     async getAll(
         filters?: ExpertFilters,
@@ -125,7 +101,6 @@ export const expertsApi = {
     },
 };
 
-// ==================== APPOINTMENTS API ====================
 export const appointmentsApi = {
     async create(appointment: Omit<Appointment, 'id' | 'createdAt'>): Promise<ApiResponse<Appointment>> {
         return wrap(() => http.post('/appointments', appointment));
@@ -144,7 +119,6 @@ export const appointmentsApi = {
     },
 };
 
-// ==================== REVIEWS API ====================
 export const reviewsApi = {
     async getForExpert(expertId: string | number): Promise<ApiResponse<Review[]>> {
         return wrap(() => http.get(`/reviews/expert/${expertId}`));
@@ -155,7 +129,6 @@ export const reviewsApi = {
     },
 };
 
-// Export all APIs
 export const api = {
     auth: authApi,
     experts: expertsApi,
