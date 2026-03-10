@@ -131,3 +131,15 @@ export interface ApiResponse<T> {
     error?: string;
     message?: string;
 }
+
+export interface SignLanguageWord {
+    id: number;
+    word: string;
+    videoUrl: string | null;
+    category: string | null;
+    hasVideo: boolean;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    fingerspell?: boolean; // DB'de yoksa backend true döndürür
+}

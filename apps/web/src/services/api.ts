@@ -10,6 +10,7 @@ import type {
     LoginCredentials,
     AuthUser,
     RegisterData,
+    SignLanguageWord,
 } from '../types';
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000') + '/api';
@@ -129,11 +130,23 @@ export const reviewsApi = {
     },
 };
 
+export const signLanguageApi = {
+    async getByWord(word: string): Promise<ApiResponse<SignLanguageWord>> {
+        return wrap(() => http.get(`/sign-language/${encodeURIComponent(word.toLowerCase())}`));
+    },
+
+    async getAll(): Promise<ApiResponse<SignLanguageWord[]>> {
+        return wrap(() => http.get('/sign-language'));
+    },
+};
+
 export const api = {
     auth: authApi,
     experts: expertsApi,
     appointments: appointmentsApi,
     reviews: reviewsApi,
+    signLanguage: signLanguageApi,
 };
+
 
 export default api;
