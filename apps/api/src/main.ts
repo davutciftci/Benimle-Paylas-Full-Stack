@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { setupSwagger } from './config/swagger.config';
 import { GlobalExceptionFilter } from './config/error-handler';
-import { Redis } from 'ioredis';
+import { createClient } from 'redis';
 const session = require('express-session');
 const { RedisStore } = require('connect-redis');
 
@@ -23,13 +23,17 @@ async function bootstrap() {
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cookie'],
     });
 
-    const redisClient = new Redis({
-        host: process.env.REDIS_HOST || 'localhost',
-        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+    const redisClient = createClient({
+        socket: {
+            host: process.env.REDIS_HOST || 'localhost',
+            port: parseInt(process.env.REDIS_PORT || '6379', 10),
+        }
     });
+    redisClient.on('error', (err) => console.log('Redis Client Error', err));
+    await redisClient.connect();
     app.use(
         session({
-            store: new RedisStore({ client: redisClient, prefix: 'sess:' }),
+            store: new RedisStore({ client: redisClient, prefix: 'sess:', disableTouch: true }),
             name: 'connect.sid',
             secret: process.env.SESSION_SECRET || 'super-secret-key-benimle-paylas',
             resave: false,

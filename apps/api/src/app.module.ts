@@ -11,6 +11,7 @@ import { BlogModule } from './modules/blog';
 import { FaqModule } from './modules/faq';
 import { ContactModule } from './modules/contact';
 import { EmailModule } from './email/email.module';
+import { SignLanguageModule } from './modules/sign-language';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { EmailModule } from './email/email.module';
                 '.env',
             ],
         }),
+        SignLanguageModule,
         CacheModule.registerAsync({
             isGlobal: true,
             useFactory: async () => ({

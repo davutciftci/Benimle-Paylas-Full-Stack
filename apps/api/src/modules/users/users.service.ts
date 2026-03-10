@@ -23,7 +23,7 @@ export class UsersService {
         if (!user) return null;
         
         // Safety mechanism: if user is expert but profile is somehow missing
-        if (user.role?.name === 'expert' && !user.expertProfile) {
+        if (user.role === 'expert' && !user.expertProfile) {
             const newProfile = await prisma.expertProfile.upsert({
                 where: { userId: user.id },
                 create: { userId: user.id },
@@ -38,7 +38,7 @@ export class UsersService {
 
         return {
             ...user,
-            role: user.role?.name || 'user'
+            role: user.role || 'user'
         };
     }
 
@@ -64,7 +64,7 @@ export class UsersService {
         });
         return {
             ...user,
-            role: user.role?.name || 'user'
+            role: user.role || 'user'
         };
     }
 
@@ -84,7 +84,7 @@ export class UsersService {
 
         return users.map(user => ({
             ...user,
-            role: user.role?.name || 'user',
+            role: user.role || 'user',
         }));
     }
 
@@ -95,9 +95,8 @@ export class UsersService {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
             data: {
-                role: { connect: { name: roleName } },
+                role: roleName as any, // Will be UserRole enum type
             },
-            include: { role: true },
         });
 
         if (roleName === 'expert') {
@@ -110,7 +109,7 @@ export class UsersService {
 
         return {
             ...updatedUser,
-            role: updatedUser.role?.name || 'user',
+            role: updatedUser.role || 'user',
         };
     }
 }

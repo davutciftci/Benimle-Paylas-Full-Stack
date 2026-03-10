@@ -37,6 +37,7 @@ export function setupSwagger(app: INestApplication): void {
     SwaggerModule.setup('api/docs', app, document, {
         swaggerOptions: {
             persistAuthorization: true,
+            withCredentials: true,
             tagsSorter: 'alpha',
             operationsSorter: 'alpha',
         },

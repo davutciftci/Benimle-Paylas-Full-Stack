@@ -28,9 +28,7 @@ export class AuthService {
                 email: dto.email,
                 passwordHash: hashedPassword,
                 phone: dto.phone,
-                role: {
-                    connect: { name: 'user' }
-                },
+                role: 'user',
             },
             select: {
                 id: true,
@@ -48,7 +46,7 @@ export class AuthService {
         return { 
             user: {
                 ...user,
-                role: user.role.name
+                role: user.role
             }
         };
     }
@@ -56,7 +54,7 @@ export class AuthService {
     async login(dto: LoginDto) {
         const user = await prisma.user.findUnique({ 
             where: { email: dto.email },
-            include: { role: true, expertProfile: true } 
+            include: { expertProfile: true } 
         });
         if (!user) {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');
@@ -67,12 +65,9 @@ export class AuthService {
             throw new UnauthorizedException('Geçersiz e-posta veya şifre');
         }
 
-        const { passwordHash: _password, roleId: _, ...safeUser } = user;
+        const { passwordHash: _password, ...safeUser } = user;
         return { 
-            user: {
-                ...safeUser,
-                role: user.role.name
-            }
+            user: safeUser
         };
     }
 
