@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto } from './auth.dto';
@@ -9,17 +9,21 @@ const prisma = new PrismaClient();
 
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name);
+
     constructor(
         private emailService: EmailService,
     ) {}
 
     async register(dto: RegisterDto) {
+        this.logger.log(`Register attempt: ${dto.email}`);
         const existing = await prisma.user.findUnique({ where: { email: dto.email } });
         if (existing) {
             throw new ConflictException('Bu e-posta adresi zaten kullanımda');
         }
 
         const hashedPassword = await bcrypt.hash(dto.password, 12);
+        const phoneValue = dto.phone && dto.phone.trim() !== '' ? dto.phone : undefined;
 
         const user = await prisma.user.create({
             data: {
@@ -27,7 +31,7 @@ export class AuthService {
                 lastName: dto.lastName,
                 email: dto.email,
                 passwordHash: hashedPassword,
-                phone: dto.phone,
+                phone: phoneValue,
                 role: 'user',
             },
             select: {
@@ -40,6 +44,8 @@ export class AuthService {
                 createdAt: true,
             },
         });
+
+        this.logger.log(`User created successfully: id=${user.id}, email=${user.email}`);
 
         await this.emailService.sendWelcomeEmail(user.email, `${user.firstName} ${user.lastName}`);
 

@@ -12,15 +12,26 @@ export class EmailService {
     private transporter: nodemailer.Transporter;
 
     constructor() {
-        this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST || 'smtp.gmail.com',
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: false,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+        const user = process.env.SMTP_USER?.trim();
+        const pass = process.env.SMTP_PASS?.trim();
+        const hasValidConfig = !!user && !!pass;
+
+        this.transporter = nodemailer.createTransport(
+            hasValidConfig
+                ? {
+                      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+                      port: Number(process.env.SMTP_PORT) || 587,
+                      secure: false,
+                      auth: { user, pass },
+                  }
+                : { jsonTransport: true }
+        );
+
+        if (!hasValidConfig) {
+            this.logger.warn(
+                'SMTP_USER veya SMTP_PASS tanımlı değil; e-postalar konsola yazılacak (dev modu)'
+            );
+        }
     }
 
     private async send(to: string, subject: string, html: string): Promise<void> {

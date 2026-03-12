@@ -40,7 +40,9 @@ async function bootstrap() {
             saveUninitialized: false,
             cookie: {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                // secure=true sadece HTTPS'te çalışır - localhost HTTP kullandığında cookie gönderilmez
+                secure: process.env.COOKIE_SECURE === 'true',
+                sameSite: 'lax',
                 maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
             },
         }),
