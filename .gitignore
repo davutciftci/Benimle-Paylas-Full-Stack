@@ -10,6 +10,8 @@ build/
 .next/
 out/
 
+PROJECT_STR.md
+
 # Docker
 docker-compose.yml
 
