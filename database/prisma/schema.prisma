@@ -85,7 +85,7 @@ model User {
   expertProfile      ExpertProfile?
   passwordResetToken PasswordResetToken?
   reviews            Review[]
-
+  admin              Admin?
   @@index([email])
   @@map("users")
 }
@@ -101,7 +101,7 @@ model ExpertProfile {
   graduationYear        Int?                  @map("graduation_year") @db.SmallInt
   licenseNumber         String?               @unique @map("license_number") @db.VarChar(100)
   yearsOfExperience     Int?                  @map("years_of_experience") @db.SmallInt
-  profilePhotoUrl       String?               @map("profile_photo_url") @db.VarChar(255)
+  profilePhotoUrl       String?               @map("profile_photo_url")
   price                 Int?                  @map("price")
   isVerified            Boolean               @default(false) @map("is_verified")
   createdAt             DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
@@ -234,4 +234,12 @@ model SignLanguageWord {
 
   @@index([word])
   @@map("sign_language_words")
+}
+
+model Admin {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admins")
 }

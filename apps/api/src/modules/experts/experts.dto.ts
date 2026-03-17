@@ -34,20 +34,27 @@ export class ExpertFiltersDto {
     pageSize?: number;
 }
 
+/** DB sütun limitleri: university 255, fieldOfStudy 255, licenseNumber 100; profilePhotoUrl TEXT (sınırsız) */
+const MAX_UNIVERSITY = 255;
+const MAX_FIELD_OF_STUDY = 255;
+const MAX_LICENSE_NUMBER = 100;
+
 export class UpdateExpertDto {
     @ApiPropertyOptional({ description: 'Uzman bio / açıklama' })
     @IsString()
     @IsOptional()
     bio?: string;
 
-    @ApiPropertyOptional({ description: 'Mezun olunan üniversite' })
+    @ApiPropertyOptional({ description: 'Mezun olunan üniversite', maxLength: MAX_UNIVERSITY })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_UNIVERSITY)
     university?: string;
 
-    @ApiPropertyOptional({ description: 'Bölüm' })
+    @ApiPropertyOptional({ description: 'Bölüm', maxLength: MAX_FIELD_OF_STUDY })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_FIELD_OF_STUDY)
     fieldOfStudy?: string;
 
     @ApiPropertyOptional({ description: 'Mezuniyet Yılı' })
@@ -55,9 +62,10 @@ export class UpdateExpertDto {
     @IsOptional()
     graduationYear?: number;
 
-    @ApiPropertyOptional({ description: 'Lisans Numarası' })
+    @ApiPropertyOptional({ description: 'Lisans Numarası', maxLength: MAX_LICENSE_NUMBER })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_LICENSE_NUMBER)
     licenseNumber?: string;
 
     @ApiPropertyOptional({ description: 'Kaç Yıllık Tecrübe' })
@@ -65,7 +73,7 @@ export class UpdateExpertDto {
     @IsOptional()
     yearsOfExperience?: number;
 
-    @ApiPropertyOptional({ description: 'Profil Fotoğraf URL' })
+    @ApiPropertyOptional({ description: 'Profil fotoğraf URL veya base64 data URL' })
     @IsString()
     @IsOptional()
     profilePhotoUrl?: string;
@@ -114,14 +122,16 @@ export class CreateExpertDto {
     @IsOptional()
     bio?: string;
 
-    @ApiPropertyOptional({ description: 'Mezun olunan üniversite' })
+    @ApiPropertyOptional({ description: 'Mezun olunan üniversite', maxLength: MAX_UNIVERSITY })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_UNIVERSITY)
     university?: string;
 
-    @ApiPropertyOptional({ description: 'Bölüm' })
+    @ApiPropertyOptional({ description: 'Bölüm', maxLength: MAX_FIELD_OF_STUDY })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_FIELD_OF_STUDY)
     fieldOfStudy?: string;
 
     @ApiPropertyOptional({ description: 'Mezuniyet Yılı' })
@@ -129,9 +139,10 @@ export class CreateExpertDto {
     @IsOptional()
     graduationYear?: number;
 
-    @ApiPropertyOptional({ description: 'Lisans Numarası' })
+    @ApiPropertyOptional({ description: 'Lisans Numarası', maxLength: MAX_LICENSE_NUMBER })
     @IsString()
     @IsOptional()
+    @MaxLength(MAX_LICENSE_NUMBER)
     licenseNumber?: string;
 
     @ApiPropertyOptional({ description: 'Kaç Yıllık Tecrübe' })
@@ -139,7 +150,7 @@ export class CreateExpertDto {
     @IsOptional()
     yearsOfExperience?: number;
 
-    @ApiPropertyOptional({ description: 'Profil Fotoğraf URL' })
+    @ApiPropertyOptional({ description: 'Profil fotoğraf URL veya base64 data URL' })
     @IsString()
     @IsOptional()
     profilePhotoUrl?: string;

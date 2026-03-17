@@ -146,7 +146,6 @@ const ExpertDashboard: React.FC = () => {
         reader.onloadend = () => {
             const img = new Image();
             img.onload = () => {
-                // Canvas ile sıkıştır - maksimum 800px genişlik
                 const maxWidth = 800;
                 const ratio = Math.min(1, maxWidth / img.width);
                 const canvas = document.createElement('canvas');
@@ -154,7 +153,6 @@ const ExpertDashboard: React.FC = () => {
                 canvas.height = img.height * ratio;
                 const ctx = canvas.getContext('2d');
                 ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-                // JPEG %75 kalitesiyle çok daha küçük boyut
                 const compressed = canvas.toDataURL('image/jpeg', 0.75);
                 setPhotoPreview(compressed);
                 setProfileData(prev => ({ ...prev, profilePhotoUrl: compressed }));
@@ -162,6 +160,13 @@ const ExpertDashboard: React.FC = () => {
             img.src = reader.result as string;
         };
         reader.readAsDataURL(file);
+        e.target.value = '';
+    };
+
+    const handleRemovePhoto = () => {
+        setPhotoPreview('');
+        setProfileData(prev => ({ ...prev, profilePhotoUrl: '' }));
+        if (photoInputRef.current) photoInputRef.current.value = '';
     };
 
     const handleSaveAccount = async () => {
@@ -180,6 +185,7 @@ const ExpertDashboard: React.FC = () => {
         }
     };
 
+    /** Sadece uzmanlık & profil alanlarını kaydeder (çalışma saatleri hariç) */
     const handleSaveProfile = async () => {
         if (!user?.expertProfile?.id) {
             setSaveMessage({ type: 'error', text: 'Uzman profil bilginiz bulunamadı. Lütfen oturumu kapatıp tekrar açın.' });
@@ -187,7 +193,6 @@ const ExpertDashboard: React.FC = () => {
         }
         setIsSaving(true);
         setSaveMessage({ type: '', text: '' });
-        
         try {
             const { api } = await import('../../services/api');
             const res = await api.experts.update(user.expertProfile.id.toString(), {
@@ -204,16 +209,40 @@ const ExpertDashboard: React.FC = () => {
                 specialtyIds: profileData.specialtyIds,
                 therapeuticApproachIds: profileData.therapeuticApproachIds,
                 seminars: profileData.seminars,
-                workingHours: profileData.workingHours
             });
-            
             if (res.success) {
-                await fetchMe(); // Store'u hemen güncelle
-                setSaveMessage({ type: 'success', text: 'Profiliniz başarıyla güncellendi.' });
+                await fetchMe();
+                setSaveMessage({ type: 'success', text: 'Profil bilgileriniz kaydedildi.' });
             } else {
                 setSaveMessage({ type: 'error', text: res.error || 'Güncelleme hatası' });
             }
-        } catch (error) {
+        } catch {
+            setSaveMessage({ type: 'error', text: 'Sistem hatası oluştu' });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    /** Sadece çalışma saatlerini kaydeder */
+    const handleSaveWorkingHours = async () => {
+        if (!user?.expertProfile?.id) {
+            setSaveMessage({ type: 'error', text: 'Uzman profil bilginiz bulunamadı.' });
+            return;
+        }
+        setIsSaving(true);
+        setSaveMessage({ type: '', text: '' });
+        try {
+            const { api } = await import('../../services/api');
+            const res = await api.experts.update(user.expertProfile.id.toString(), {
+                workingHours: profileData.workingHours,
+            });
+            if (res.success) {
+                await fetchMe();
+                setSaveMessage({ type: 'success', text: 'Çalışma saatleri kaydedildi.' });
+            } else {
+                setSaveMessage({ type: 'error', text: res.error || 'Güncelleme hatası' });
+            }
+        } catch {
             setSaveMessage({ type: 'error', text: 'Sistem hatası oluştu' });
         } finally {
             setIsSaving(false);
@@ -552,13 +581,24 @@ const ExpertDashboard: React.FC = () => {
                                                 <div>
                                                     <p className="text-sm font-semibold text-gray-700">Profil fotoğrafınızı yükleyin</p>
                                                     <p className="text-xs text-gray-400 mt-1">JPG, PNG desteklenir. Maksimum 2MB önerilir.</p>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => photoInputRef.current?.click()}
-                                                        className="mt-3 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
-                                                    >
-                                                        Fotoğraf Seç veya Değiştir
-                                                    </button>
+                                                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => photoInputRef.current?.click()}
+                                                            className="text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                                                        >
+                                                            Fotoğraf Seç veya Değiştir
+                                                        </button>
+                                                        {photoPreview && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleRemovePhoto}
+                                                                className="text-sm font-bold text-red-600 hover:text-red-800 transition-colors"
+                                                            >
+                                                                Profil Fotoğrafını Sil
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -665,7 +705,7 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                     )}
                                     <div className="pt-4 border-t border-gray-50 flex justify-end">
-                                        <button onClick={handleSaveProfile} disabled={isSaving} className="bg-amber-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg shadow-amber-500/30 hover:bg-amber-600 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
+                                        <button onClick={handleSaveWorkingHours} disabled={isSaving} className="bg-amber-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg shadow-amber-500/30 hover:bg-amber-600 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
                                             {isSaving ? 'Kaydediliyor...' : 'Çalışma Saatlerini Kaydet'}
                                         </button>
                                     </div>

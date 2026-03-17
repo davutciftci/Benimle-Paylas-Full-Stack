@@ -73,16 +73,30 @@ export class ExpertsService {
         });
     }
 
+    /** DB VarChar limitleri (schema ile uyumlu); profilePhotoUrl TEXT olduğu için burada yok */
+    private static readonly STRING_LIMITS = {
+        university: 255,
+        fieldOfStudy: 255,
+        licenseNumber: 100,
+    } as const;
+
     async update(id: number, dto: UpdateExpertDto) {
         const expert = await prisma.expertProfile.findUnique({ where: { id } });
         if (!expert) throw new NotFoundException('Uzman bulunamadı');
 
         const { specialtyIds, therapeuticApproachIds, seminars, ...restDto } = dto;
+
+        const data: Record<string, unknown> = { ...restDto };
+        for (const [key, maxLen] of Object.entries(ExpertsService.STRING_LIMITS)) {
+            if (typeof data[key] === 'string' && (data[key] as string).length > maxLen) {
+                data[key] = (data[key] as string).slice(0, maxLen);
+            }
+        }
         
         return prisma.expertProfile.update({ 
             where: { id }, 
             data: {
-                ...restDto,
+                ...data,
                 ...(specialtyIds !== undefined && {
                     specialties: {
                         set: specialtyIds.map(sid => ({ id: sid }))

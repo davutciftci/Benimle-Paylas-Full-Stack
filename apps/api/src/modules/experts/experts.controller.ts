@@ -1,7 +1,6 @@
 import {
-    Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Request, UseInterceptors
+    Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Request,
 } from '@nestjs/common';
-import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { ApiTags, ApiOperation, ApiSecurity, ApiResponse } from '@nestjs/swagger';
 import { ExpertsService } from './experts.service';
 import { ExpertFiltersDto, UpdateExpertDto, CreateExpertDto } from './experts.dto';
@@ -19,48 +18,37 @@ export class ExpertsController {
         return this.expertsService.getAll(filters);
     }
 
+    /** Referans listeleri (admin dashboard’da eklenen veriler). Cache yok; expert her zaman güncel listeyi görür. */
     @Get('specialties')
-    @UseInterceptors(CacheInterceptor)
-    @CacheKey('specialties_all')
-    @CacheTTL(3600000) // 1 Hour
-    @ApiOperation({ summary: 'Tüm uzmanlık alanlarını getir' })
+    @ApiOperation({ summary: 'Tüm uzmanlık alanlarını getir (expert dashboard)' })
     async getSpecialties() {
         const { PrismaClient } = await import('@prisma/client');
         const prisma = new PrismaClient();
-        return prisma.specialty.findMany();
+        return prisma.specialty.findMany({ orderBy: { name: 'asc' } });
     }
 
     @Get('degrees')
-    @UseInterceptors(CacheInterceptor)
-    @CacheKey('degrees_all')
-    @CacheTTL(3600000)
-    @ApiOperation({ summary: 'Tüm uzmanlık derecelerini getir' })
+    @ApiOperation({ summary: 'Tüm mezuniyet dereceleri / bölüm listesini getir (expert dashboard)' })
     async getDegrees() {
         const { PrismaClient } = await import('@prisma/client');
         const prisma = new PrismaClient();
-        return prisma.degreeType.findMany();
+        return prisma.degreeType.findMany({ orderBy: { name: 'asc' } });
     }
 
     @Get('titles')
-    @UseInterceptors(CacheInterceptor)
-    @CacheKey('titles_all')
-    @CacheTTL(3600000)
-    @ApiOperation({ summary: 'Tüm uzman ünvanlarını getir' })
+    @ApiOperation({ summary: 'Tüm uzman ünvanlarını getir (expert dashboard)' })
     async getTitles() {
         const { PrismaClient } = await import('@prisma/client');
         const prisma = new PrismaClient();
-        return prisma.title.findMany();
+        return prisma.title.findMany({ orderBy: { name: 'asc' } });
     }
 
     @Get('therapeutic-approaches')
-    @UseInterceptors(CacheInterceptor)
-    @CacheKey('approaches_all')
-    @CacheTTL(3600000)
-    @ApiOperation({ summary: 'Tüm çalışma ekollerini (terapi türlerini) getir' })
+    @ApiOperation({ summary: 'Tüm çalışma ekollerini getir (expert dashboard)' })
     async getTherapeuticApproaches() {
         const { PrismaClient } = await import('@prisma/client');
         const prisma = new PrismaClient();
-        return prisma.therapeuticApproach.findMany();
+        return prisma.therapeuticApproach.findMany({ orderBy: { name: 'asc' } });
     }
 
     @Get(':id')

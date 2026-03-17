@@ -140,12 +140,58 @@ export const signLanguageApi = {
     },
 };
 
+export interface ReferenceItem {
+    id: number;
+    name: string;
+    description?: string | null;
+}
+
+export const referenceApi = {
+    async getSpecialties(): Promise<ApiResponse<ReferenceItem[]>> {
+        return wrap(() => http.get('/admin/reference/specialties'));
+    },
+    async createSpecialty(name: string): Promise<ApiResponse<ReferenceItem>> {
+        return wrap(() => http.post('/admin/reference/specialties', { name }));
+    },
+    async deleteSpecialty(id: number): Promise<ApiResponse<void>> {
+        return wrap(() => http.delete(`/admin/reference/specialties/${id}`));
+    },
+    async getDegrees(): Promise<ApiResponse<(ReferenceItem & { description?: string | null })[]>> {
+        return wrap(() => http.get('/admin/reference/degrees'));
+    },
+    async createDegree(name: string, description?: string): Promise<ApiResponse<ReferenceItem>> {
+        return wrap(() => http.post('/admin/reference/degrees', { name, description }));
+    },
+    async deleteDegree(id: number): Promise<ApiResponse<void>> {
+        return wrap(() => http.delete(`/admin/reference/degrees/${id}`));
+    },
+    async getTitles(): Promise<ApiResponse<ReferenceItem[]>> {
+        return wrap(() => http.get('/admin/reference/titles'));
+    },
+    async createTitle(name: string): Promise<ApiResponse<ReferenceItem>> {
+        return wrap(() => http.post('/admin/reference/titles', { name }));
+    },
+    async deleteTitle(id: number): Promise<ApiResponse<void>> {
+        return wrap(() => http.delete(`/admin/reference/titles/${id}`));
+    },
+    async getTherapeuticApproaches(): Promise<ApiResponse<ReferenceItem[]>> {
+        return wrap(() => http.get('/admin/reference/therapeutic-approaches'));
+    },
+    async createTherapeuticApproach(name: string): Promise<ApiResponse<ReferenceItem>> {
+        return wrap(() => http.post('/admin/reference/therapeutic-approaches', { name }));
+    },
+    async deleteTherapeuticApproach(id: number): Promise<ApiResponse<void>> {
+        return wrap(() => http.delete(`/admin/reference/therapeutic-approaches/${id}`));
+    },
+};
+
 export const api = {
     auth: authApi,
     experts: expertsApi,
     appointments: appointmentsApi,
     reviews: reviewsApi,
     signLanguage: signLanguageApi,
+    reference: referenceApi,
 };
 
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import { User, Lock, Calendar, ChevronRight, LogOut, LayoutDashboard, Briefcase, Clock } from 'lucide-react';
+import { User, Lock, Calendar, ChevronRight, LogOut, LayoutDashboard, Briefcase, Clock, BookOpen } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
-export type DashboardTab = 'dashboard' | 'profile' | 'account' | 'security' | 'appointments' | 'users' | 'workingHours';
+export type DashboardTab = 'dashboard' | 'profile' | 'account' | 'security' | 'appointments' | 'users' | 'workingHours' | 'reference';
 
 interface DashboardSidebarProps {
   activeTab: DashboardTab;
@@ -62,15 +62,24 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
     menuItems = [...baseMenuItems];
   }
 
-  // Admine özel Kullanıcı Yönetimi sekmesi
+  // Admine özel sekmeler
   if (isAdmin) {
-    menuItems.push({
-      id: 'users' as DashboardTab,
-      label: 'Kullanıcı Yönetimi',
-      icon: User,
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-50'
-    });
+    menuItems.push(
+      {
+        id: 'users' as DashboardTab,
+        label: 'Kullanıcı Yönetimi',
+        icon: User,
+        color: 'text-orange-500',
+        bgColor: 'bg-orange-50'
+      },
+      {
+        id: 'reference' as DashboardTab,
+        label: 'Referans Veriler',
+        icon: BookOpen,
+        color: 'text-teal-500',
+        bgColor: 'bg-teal-50'
+      }
+    );
   }
 
   return (

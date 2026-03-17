@@ -41,11 +41,11 @@ export class UsersController {
     updateRole(
         @Request() req: { user: { role: string } },
         @Param('id') id: string,
-        @Body('role') roleName: string
+        @Body('role') role: string,
     ) {
         if (req.user.role !== 'admin') {
             throw new ForbiddenException('Bu işlem için yönetici yetkisi gereklidir');
         }
-        return this.usersService.updateRole(+id, roleName);
+        return this.usersService.updateRole(+id, role);
     }
 }

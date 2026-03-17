@@ -7,14 +7,17 @@
     "database"
   ],
   "scripts": {
-    "dev": "bun run --filter '*' dev",
+    "dev": "concurrently \"bun run --filter web dev\" \"bun run --filter api dev\"",
     "dev:web": "bun run --filter web dev",
     "dev:api": "bun run --filter api dev",
-    "build": "bun run --filter '*' build",
+    "build": "bun run --filter web build && bun run --filter api build",
     "db:generate": "bun run --filter database generate",
     "db:migrate": "bun run --filter database migrate",
     "db:push": "bun run --filter database push",
     "db:studio": "bun run --filter database studio",
     "install:all": "bun install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
