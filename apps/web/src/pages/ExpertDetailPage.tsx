@@ -120,7 +120,7 @@ export default function ExpertDetailPage() {
               <MapPin size={18} className="text-blue-500" />
               Müsaitlik ve Çalışma Saatleri
             </h2>
-            {expert.workingHours && Object.values(expert.workingHours).some(
+            {expert.workingHours && typeof expert.workingHours === 'object' && Object.values(expert.workingHours).some(
               (s: any) => Array.isArray(s) && s.length > 0
             ) ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -132,11 +132,17 @@ export default function ExpertDetailPage() {
                         {dayNames[day] || day}
                       </span>
                       <div className="flex flex-wrap gap-1.5">
-                        {(slots as any[]).map((slot: any, idx: number) => (
-                          <span key={idx} className="bg-white text-gray-700 text-xs font-bold px-2 py-1 rounded-lg shadow-sm border border-gray-200">
-                            {slot.start} – {slot.end}
-                          </span>
-                        ))}
+                        {(slots as any[]).map((slot: any, idx: number) => {
+                          const start = slot.start ?? slot.time;
+                          const end = slot.end;
+                          const label = start ? (end ? `${start} – ${end}` : start) : null;
+                          if (!label) return null;
+                          return (
+                            <span key={idx} className="bg-white text-gray-700 text-xs font-bold px-2 py-1 rounded-lg shadow-sm border border-gray-200">
+                              {label}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   );

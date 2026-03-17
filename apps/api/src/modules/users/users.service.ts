@@ -51,6 +51,25 @@ export class UsersService {
                 ...(dto.email && { email: dto.email }),
                 ...(dto.phone && { phone: dto.phone }),
             },
+<<<<<<< HEAD
+=======
+        });
+        return this.getMe(userId);
+    }
+
+    async getAdminStats() {
+        const [totalUsers, activeUsers, totalAppointments, pendingApprovals] = await Promise.all([
+            prisma.user.count(),
+            prisma.user.count({ where: { isActive: true } }),
+            prisma.appointment.count(),
+            prisma.appointment.count({ where: { status: { name: 'pending' } } }),
+        ]);
+        return { totalUsers, activeUsers, totalAppointments, pendingApprovals };
+    }
+
+    async getAll() {
+        return prisma.user.findMany({
+>>>>>>> 524a7f3 (feat: Add admin statistics endpoint and integrate it into the admin dashboard, enhancing data visibility for user management.)
             select: {
                 id: true,
                 firstName: true,

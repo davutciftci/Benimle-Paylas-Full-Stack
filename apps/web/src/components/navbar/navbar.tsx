@@ -28,9 +28,9 @@ export default function Navbar() {
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-100">
         <div className="max-w-6xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
 
-          {/* Logo - Uzmanlardan gizlendi */}
-          {getRoleString()?.toLowerCase() !== 'expert' && (
-            <Link to={getRoleString()?.toLowerCase() === 'admin' ? '/admin/dashboard' : '/'} className="flex items-center space-x-1 rtl:space-x-reverse">
+          {/* Logo - Sadece normal kullanıcılar için; admin ve uzman için gizli */}
+          {getRoleString()?.toLowerCase() !== 'expert' && getRoleString()?.toLowerCase() !== 'admin' && (
+            <Link to="/" className="flex items-center space-x-1 rtl:space-x-reverse">
               <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
                 Benimle Paylaş
               </span>
