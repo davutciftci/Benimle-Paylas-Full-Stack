@@ -25,6 +25,16 @@ export class UsersController {
         return this.usersService.updateMe(req.user.id, dto);
     }
 
+    @Get('admin/stats')
+    @ApiOperation({ summary: 'Admin dashboard istatistikleri (Admin)' })
+    @ApiResponse({ status: 200, description: 'Toplam kullanıcı, aktif uzman, randevu ve bekleyen onay sayıları' })
+    getAdminStats(@Request() req: { user: { role: string } }) {
+        if (req.user.role !== 'admin') {
+            throw new ForbiddenException('Bu işlem için yönetici yetkisi gereklidir');
+        }
+        return this.usersService.getAdminStats();
+    }
+
     @Get()
     @ApiOperation({ summary: 'Sistemdeki tüm kullanıcıları listele (Admin)' })
     @ApiResponse({ status: 200, description: 'Tüm kullanıcı listesi' })

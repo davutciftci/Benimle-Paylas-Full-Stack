@@ -335,21 +335,16 @@ const ExpertDashboard: React.FC = () => {
                     {/* Main Content Area */}
                     <div className="flex-1 space-y-8">
                         
-                        {/* Tab Content: Appointments & Stats */}
-                        {activeTab === 'appointments' && (
+                        {/* Genel Bakış: Uzman Paneli + Stats kartları */}
+                        {activeTab === 'dashboard' && (
                             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                                {/* Header */}
                                 <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
                                     <div>
                                         <h1 className="text-2xl font-bold text-gray-900">Uzman Paneli</h1>
-                                        <p className="text-gray-500 mt-1 font-medium">Randevularınızı ve danışan bilgilerinizi yönetin</p>
+                                        <p className="text-gray-500 mt-1 font-medium">Randevularınız ve danışan bilgilerinize genel bakış</p>
                                     </div>
-                                    <div className="flex items-center space-x-3">
-                                        <span className="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Uzman</span>
-                                    </div>
+                                    <span className="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Uzman</span>
                                 </div>
-
-                                {/* Stats Grid */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                     {stats.map((stat, index) => (
                                         <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -362,6 +357,33 @@ const ExpertDashboard: React.FC = () => {
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                                <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+                                    <Link
+                                        to="/expert/appointments"
+                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-blue-200 transition-all flex items-center space-x-4"
+                                    >
+                                        <div className="bg-blue-50 p-4 rounded-xl text-blue-600">
+                                            <Calendar className="w-8 h-8" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-gray-900">Randevularım</h3>
+                                            <p className="text-gray-500 text-sm font-medium">Tüm seans detaylarına ulaşın</p>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Tab Content: Randevularım (liste ve yaklaşan) */}
+                        {activeTab === 'appointments' && (
+                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                                    <div>
+                                        <h1 className="text-2xl font-bold text-gray-900">Randevularım</h1>
+                                        <p className="text-gray-500 mt-1 font-medium">Tüm randevu detayları ve yaklaşan seanslar</p>
+                                    </div>
+                                    <span className="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Uzman</span>
                                 </div>
 
                                 <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">

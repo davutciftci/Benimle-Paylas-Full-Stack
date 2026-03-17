@@ -57,6 +57,16 @@ export class UsersService {
         return this.getMe(userId);
     }
 
+    async getAdminStats() {
+        const [totalUsers, activeUsers, totalAppointments, pendingApprovals] = await Promise.all([
+            prisma.user.count(),
+            prisma.user.count({ where: { isActive: true } }),
+            prisma.appointment.count(),
+            prisma.appointment.count({ where: { status: { name: 'pending' } } }),
+        ]);
+        return { totalUsers, activeUsers, totalAppointments, pendingApprovals };
+    }
+
     async getAll() {
         return prisma.user.findMany({
             select: {

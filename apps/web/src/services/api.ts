@@ -185,6 +185,19 @@ export const referenceApi = {
     },
 };
 
+export type AdminStats = {
+    totalUsers: number;
+    activeUsers: number;
+    totalAppointments: number;
+    pendingApprovals: number;
+};
+
+export const adminApi = {
+    async getStats(): Promise<ApiResponse<AdminStats>> {
+        return wrap(() => http.get('/users/admin/stats'));
+    },
+};
+
 export const api = {
     auth: authApi,
     experts: expertsApi,
@@ -192,6 +205,7 @@ export const api = {
     reviews: reviewsApi,
     signLanguage: signLanguageApi,
     reference: referenceApi,
+    admin: adminApi,
 };
 
 

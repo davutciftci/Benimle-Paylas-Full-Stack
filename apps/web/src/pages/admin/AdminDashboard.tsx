@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { Users, Calendar, Activity, ShieldAlert, Settings, FileText, Lock } from 'lucide-react';
 import DashboardSidebar, { DashboardTab } from '../../components/dashboard/DashboardSidebar';
 import UserManagement from '../../components/admin/UserManagement';
 import ReferenceDataManagement from '../../components/admin/ReferenceDataManagement';
+import { api } from '../../services/api';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const AdminDashboard: React.FC = () => {
     const { user } = useAuthStore();
-    const [activeTab, setActiveTab] = useState<DashboardTab>('appointments'); // Admin için varsayılan 'genel bakış' gibi düşünülebilir
+    const [activeTab, setActiveTab] = useState<DashboardTab>('appointments');
+    const [statsData, setStatsData] = useState<{
+        totalUsers: number;
+        activeUsers: number;
+        totalAppointments: number;
+        pendingApprovals: number;
+    } | null>(null);
+    const [statsLoading, setStatsLoading] = useState(true);
 
-    const stats = [
-        { title: 'Toplam Kullanıcı', value: '1,248', icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
-        { title: 'Aktif Uzmanlar', value: '86', icon: Activity, color: 'text-green-500', bg: 'bg-green-50' },
-        { title: 'Toplam Randevu', value: '4,102', icon: Calendar, color: 'text-purple-500', bg: 'bg-purple-50' },
-        { title: 'Bekleyen Onaylar', value: '12', icon: ShieldAlert, color: 'text-red-500', bg: 'bg-red-50' },
+    useEffect(() => {
+        const load = async () => {
+            const res = await api.admin.getStats();
+            if (res.success && res.data) {
+                setStatsData(res.data);
+            }
+            setStatsLoading(false);
+        };
+        load();
+    }, []);
+
+    const statsConfig = [
+        { title: 'Toplam Kullanıcı', key: 'totalUsers' as const, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
+        { title: 'Aktif Kullanıcı', key: 'activeUsers' as const, icon: Activity, color: 'text-green-500', bg: 'bg-green-50' },
+        { title: 'Toplam Randevu', key: 'totalAppointments' as const, icon: Calendar, color: 'text-purple-500', bg: 'bg-purple-50' },
+        { title: 'Bekleyen Onaylar', key: 'pendingApprovals' as const, icon: ShieldAlert, color: 'text-red-500', bg: 'bg-red-50' },
     ];
 
     return (
@@ -44,17 +64,25 @@ const AdminDashboard: React.FC = () => {
 
                                 {/* Global Stats */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {stats.map((stat, index) => (
-                                        <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.title}</p>
-                                                <p className="text-2xl font-black text-gray-900 mt-1">{stat.value}</p>
-                                            </div>
-                                            <div className={`${stat.bg} p-3 rounded-xl`}>
-                                                <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                                            </div>
+                                    {statsLoading ? (
+                                        <div className="col-span-full flex justify-center py-8">
+                                            <LoadingSpinner size="lg" />
                                         </div>
-                                    ))}
+                                    ) : (
+                                        statsConfig.map((stat, index) => (
+                                            <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.title}</p>
+                                                    <p className="text-2xl font-black text-gray-900 mt-1">
+                                                        {statsData ? statsData[stat.key].toLocaleString('tr-TR') : '0'}
+                                                    </p>
+                                                </div>
+                                                <div className={`${stat.bg} p-3 rounded-xl`}>
+                                                    <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
 
                                 {/* Admin Tools */}
