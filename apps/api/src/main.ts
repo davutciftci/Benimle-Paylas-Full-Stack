@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { setupSwagger } from './config/swagger.config';
 import { GlobalExceptionFilter } from './config/error-handler';
@@ -9,15 +10,25 @@ const session = require('express-session');
 const { RedisStore } = require('connect-redis');
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { bodyParser: true });
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: true });
+
+    // Nginx/proxy arkasında doğru host ve scheme için
+    app.set('trust proxy', 1);
 
 
     app.use(require('express').json({ limit: '20mb' }));
     app.use(require('express').urlencoded({ limit: '20mb', extended: true }));
 
 
+    const corsOrigins = process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
+        : ['http://localhost:5173', 'http://127.0.0.1:5173'];
     app.enableCors({
+<<<<<<< Updated upstream
         origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+=======
+        origin: corsOrigins,
+>>>>>>> Stashed changes
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cookie'],
@@ -40,8 +51,13 @@ async function bootstrap() {
             saveUninitialized: false,
             cookie: {
                 httpOnly: true,
+<<<<<<< Updated upstream
                 // secure=true sadece HTTPS'te çalışır - localhost HTTP kullandığında cookie gönderilmez
                 secure: process.env.COOKIE_SECURE === 'true',
+=======
+                // Secure=true sadece HTTPS ile; Docker/local HTTP'de false olmalı
+                secure: process.env.USE_HTTPS === 'true',
+>>>>>>> Stashed changes
                 sameSite: 'lax',
                 maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
             },

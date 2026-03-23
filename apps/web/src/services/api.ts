@@ -13,7 +13,8 @@ import type {
     SignLanguageWord,
 } from '../types';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000') + '/api';
+// Geliştirmede VITE_API_URL boşsa relative /api kullan (Vite proxy üzerinden - cookie aynı origin)
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '') + '/api';
 
 export const http = axios.create({
     baseURL: API_BASE_URL,

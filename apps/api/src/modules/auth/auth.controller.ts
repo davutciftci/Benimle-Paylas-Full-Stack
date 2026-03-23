@@ -16,6 +16,9 @@ export class AuthController {
     async register(@Body() dto: RegisterDto, @Session() session: Record<string, any>) {
         const result = await this.authService.register(dto);
         session.user = result.user;
+        await new Promise<void>((resolve, reject) => {
+            session.save((err: Error | null) => (err ? reject(err) : resolve()));
+        });
         return result;
     }
 
@@ -27,6 +30,9 @@ export class AuthController {
     async login(@Body() dto: LoginDto, @Session() session: Record<string, any>) {
         const result = await this.authService.login(dto);
         session.user = result.user;
+        await new Promise<void>((resolve, reject) => {
+            session.save((err: Error | null) => (err ? reject(err) : resolve()));
+        });
         return result;
     }
 
