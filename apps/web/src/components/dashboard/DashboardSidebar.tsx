@@ -82,7 +82,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
 
     menuItems.push({
       id: 'reference' as DashboardTab,
-      label: 'Referans Veriler',
+      label: 'Referans Verileri',
       icon: BookOpen,
       color: 'text-teal-500',
       bgColor: 'bg-teal-50'
