@@ -22,6 +22,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const roleStr = typeof user?.role === 'string' ? user.role : (user?.role as any)?.name;
+  const normalizedRole = (roleStr ?? '').toString().trim().toLowerCase();
 
   const handleLogout = () => {
     logout();
@@ -54,8 +55,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
 
   let menuItems: any[] = [];
 
-  const isExpert = roleStr?.toLowerCase() === 'expert';
-  const isAdmin = roleStr?.toLowerCase() === 'admin';
+  const isExpert = normalizedRole === 'expert';
+  const isAdmin = normalizedRole === 'admin';
 
   if (isExpert) {
     menuItems = [
@@ -99,7 +100,9 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-gray-900 truncate">{`${user?.firstName} ${user?.lastName}`}</h3>
-            <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">{roleStr === 'user' ? 'Danışan' : roleStr}</p>
+            <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">
+              {normalizedRole === 'user' ? 'Danışan' : (normalizedRole || roleStr)}
+            </p>
           </div>
         </div>
       </div>
