@@ -18,17 +18,12 @@ export default defineConfig(({ mode }) => ({
     envDir: path.resolve(__dirname, '../../config/web'),
     server: {
         port: 5173,
-<<<<<<< Updated upstream
-=======
         strictPort: true, // 5174'e düşmesin, 5173 meşgulse hata versin
         host: true, // 0.0.0.0 - ağdan ve localhost'tan erişim
->>>>>>> Stashed changes
         proxy: {
             '/api': {
                 target: process.env.VITE_API_URL || 'http://localhost:3000',
                 changeOrigin: true,
-<<<<<<< Updated upstream
-=======
                 secure: false,
                 configure: (proxy) => {
                     // Session cookie'lerin proxy üzerinden düzgün çalışması için
@@ -43,7 +38,6 @@ export default defineConfig(({ mode }) => ({
                         }
                     });
                 },
->>>>>>> Stashed changes
             },
         },
     },

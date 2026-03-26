@@ -3,12 +3,9 @@ import { useAuthStore } from '../../store/authStore';
 import { Users, Calendar, Activity, ShieldAlert, Settings, FileText, Lock } from 'lucide-react';
 import DashboardSidebar, { DashboardTab } from '../../components/dashboard/DashboardSidebar';
 import UserManagement from '../../components/admin/UserManagement';
-<<<<<<< HEAD
-=======
 import ReferenceDataManagement from '../../components/admin/ReferenceDataManagement';
 import { api } from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
->>>>>>> 524a7f3 (feat: Add admin statistics endpoint and integrate it into the admin dashboard, enhancing data visibility for user management.)
 
 const AdminDashboard: React.FC = () => {
     const { user } = useAuthStore();
@@ -109,6 +106,10 @@ const AdminDashboard: React.FC = () => {
 
                         {activeTab === 'users' && (
                             <UserManagement />
+                        )}
+
+                        {activeTab === 'reference' && (
+                            <ReferenceDataManagement />
                         )}
 
                         {activeTab === 'account' && (

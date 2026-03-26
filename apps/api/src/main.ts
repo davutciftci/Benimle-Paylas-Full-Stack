@@ -24,11 +24,7 @@ async function bootstrap() {
         ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
         : ['http://localhost:5173', 'http://127.0.0.1:5173'];
     app.enableCors({
-<<<<<<< Updated upstream
-        origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-=======
         origin: corsOrigins,
->>>>>>> Stashed changes
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Cookie'],
@@ -51,13 +47,10 @@ async function bootstrap() {
             saveUninitialized: false,
             cookie: {
                 httpOnly: true,
-<<<<<<< Updated upstream
-                // secure=true sadece HTTPS'te çalışır - localhost HTTP kullandığında cookie gönderilmez
-                secure: process.env.COOKIE_SECURE === 'true',
-=======
                 // Secure=true sadece HTTPS ile; Docker/local HTTP'de false olmalı
-                secure: process.env.USE_HTTPS === 'true',
->>>>>>> Stashed changes
+                secure:
+                    process.env.USE_HTTPS === 'true' ||
+                    process.env.COOKIE_SECURE === 'true',
                 sameSite: 'lax',
                 maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
             },

@@ -3,6 +3,26 @@ import { persist } from 'zustand/middleware';
 import type { AuthUser } from '../types';
 import { authApi } from '../services/api';
 
+const clearBrowserAuthData = async () => {
+    localStorage.removeItem('auth-storage');
+    sessionStorage.clear();
+
+    // connect.sid cookie'lerini hem domain'siz hem localhost domain'li şekilde temizlemeye çalışıyoruz
+    document.cookie = 'connect.sid=; Max-Age=0; path=/; SameSite=Lax';
+    document.cookie =
+        'connect.sid=; Max-Age=0; path=/; domain=localhost; SameSite=Lax';
+
+    // Cache Storage (PWA) varsa temizle
+    if (typeof window !== 'undefined' && 'caches' in window) {
+        try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map((key) => caches.delete(key)));
+        } catch {
+            // ignore
+        }
+    }
+};
+
 interface AuthState {
     user: AuthUser | null;
     isAuthenticated: boolean;
@@ -28,6 +48,7 @@ export const useAuthStore = create<AuthState>()(
                 set({ isLoading: true, error: null });
 
                 try {
+                    await clearBrowserAuthData();
                     const response = await authApi.login({ email, password });
 
                     if (response.success && response.data) {
@@ -51,6 +72,7 @@ export const useAuthStore = create<AuthState>()(
                 set({ isLoading: true, error: null });
 
                 try {
+                    await clearBrowserAuthData();
                     const response = await authApi.register({ firstName, lastName, email, password, phone });
 
                     if (response.success && response.data) {

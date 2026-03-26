@@ -18,32 +18,34 @@ export class UsersService {
                 role: true,
                 createdAt: true,
                 expertProfile: true,
+                admin: true,
             },
         });
         if (!user) return null;
-        
-        // Safety mechanism: if user is expert but profile is somehow missing
+
         if (user.role === 'expert' && !user.expertProfile) {
             const newProfile = await prisma.expertProfile.upsert({
                 where: { userId: user.id },
                 create: { userId: user.id },
                 update: {},
             });
-            return {
-                ...user,
-                expertProfile: newProfile,
-                role: 'expert'
-            };
+            return { ...user, expertProfile: newProfile };
         }
 
-        return {
-            ...user,
-            role: user.role || 'user'
-        };
+        if (user.role === 'admin' && !user.admin) {
+            const newAdmin = await prisma.admin.upsert({
+                where: { userId: user.id },
+                create: { userId: user.id },
+                update: {},
+            });
+            return { ...user, admin: newAdmin };
+        }
+
+        return user;
     }
 
     async updateMe(userId: number, dto: UpdateUserDto) {
-        const user = await prisma.user.update({
+        await prisma.user.update({
             where: { id: userId },
             data: {
                 ...(dto.firstName && { firstName: dto.firstName }),
@@ -51,8 +53,6 @@ export class UsersService {
                 ...(dto.email && { email: dto.email }),
                 ...(dto.phone && { phone: dto.phone }),
             },
-<<<<<<< HEAD
-=======
         });
         return this.getMe(userId);
     }
@@ -69,7 +69,6 @@ export class UsersService {
 
     async getAll() {
         return prisma.user.findMany({
->>>>>>> 524a7f3 (feat: Add admin statistics endpoint and integrate it into the admin dashboard, enhancing data visibility for user management.)
             select: {
                 id: true,
                 firstName: true,
@@ -78,57 +77,53 @@ export class UsersService {
                 phone: true,
                 role: true,
                 createdAt: true,
-                expertProfile: true,
-            },
-        });
-        return {
-            ...user,
-            role: user.role || 'user'
-        };
-    }
-
-    async getAll() {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true,
-                phone: true,
-                role: true,
-                createdAt: true,
+                expertProfile: { select: { id: true } },
+                admin: { select: { id: true } },
             },
             orderBy: { createdAt: 'desc' },
         });
-
-        return users.map(user => ({
-            ...user,
-            role: user.role || 'user',
-        }));
     }
 
     async updateRole(userId: number, roleName: string) {
+        const validRoles = ['user', 'admin', 'expert'];
+        if (!validRoles.includes(roleName)) {
+            throw new NotFoundException(`Geçersiz rol: ${roleName}`);
+        }
+
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) throw new NotFoundException('Kullanıcı bulunamadı');
 
+        const oldRole = user.role;
+
         const updatedUser = await prisma.user.update({
             where: { id: userId },
-            data: {
-                role: roleName as any, // Will be UserRole enum type
-            },
+            data: { role: roleName as any },
+            include: { expertProfile: true, admin: true },
         });
+
+        if (oldRole === 'expert' && roleName !== 'expert') {
+            await prisma.expertProfile.deleteMany({ where: { userId } });
+        }
+        if (oldRole === 'admin' && roleName !== 'admin') {
+            await prisma.admin.deleteMany({ where: { userId } });
+        }
 
         if (roleName === 'expert') {
             await prisma.expertProfile.upsert({
-                where: { userId: userId },
-                create: { userId: userId },
+                where: { userId },
+                create: { userId },
                 update: {},
             });
         }
 
-        return {
-            ...updatedUser,
-            role: updatedUser.role || 'user',
-        };
+        if (roleName === 'admin') {
+            await prisma.admin.upsert({
+                where: { userId },
+                create: { userId },
+                update: {},
+            });
+        }
+
+        return this.getMe(userId);
     }
 }

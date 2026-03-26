@@ -13,8 +13,7 @@ import type {
     SignLanguageWord,
 } from '../types';
 
-// Geliştirmede VITE_API_URL boşsa relative /api kullan (Vite proxy üzerinden - cookie aynı origin)
-const API_BASE_URL = (import.meta.env.VITE_API_URL || '') + '/api';
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000') + '/api';
 
 export const http = axios.create({
     baseURL: API_BASE_URL,
@@ -141,8 +140,6 @@ export const signLanguageApi = {
     },
 };
 
-<<<<<<< HEAD
-=======
 export interface ReferenceItem {
     id: number;
     name: string;
@@ -201,18 +198,14 @@ export const adminApi = {
     },
 };
 
->>>>>>> 524a7f3 (feat: Add admin statistics endpoint and integrate it into the admin dashboard, enhancing data visibility for user management.)
 export const api = {
     auth: authApi,
     experts: expertsApi,
     appointments: appointmentsApi,
     reviews: reviewsApi,
     signLanguage: signLanguageApi,
-<<<<<<< HEAD
-=======
     reference: referenceApi,
     admin: adminApi,
->>>>>>> 524a7f3 (feat: Add admin statistics endpoint and integrate it into the admin dashboard, enhancing data visibility for user management.)
 };
 
 
