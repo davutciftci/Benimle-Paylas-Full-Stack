@@ -18,7 +18,6 @@ export class UsersService {
                 role: true,
                 createdAt: true,
                 expertProfile: true,
-                admin: true,
             },
         });
         if (!user) return null;
@@ -30,15 +29,6 @@ export class UsersService {
                 update: {},
             });
             return { ...user, expertProfile: newProfile };
-        }
-
-        if (user.role === 'admin' && !user.admin) {
-            const newAdmin = await prisma.admin.upsert({
-                where: { userId: user.id },
-                create: { userId: user.id },
-                update: {},
-            });
-            return { ...user, admin: newAdmin };
         }
 
         return user;
@@ -77,8 +67,6 @@ export class UsersService {
                 phone: true,
                 role: true,
                 createdAt: true,
-                expertProfile: { select: { id: true } },
-                admin: { select: { id: true } },
             },
             orderBy: { createdAt: 'desc' },
         });
@@ -98,26 +86,14 @@ export class UsersService {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
             data: { role: roleName as any },
-            include: { expertProfile: true, admin: true },
         });
 
         if (oldRole === 'expert' && roleName !== 'expert') {
             await prisma.expertProfile.deleteMany({ where: { userId } });
         }
-        if (oldRole === 'admin' && roleName !== 'admin') {
-            await prisma.admin.deleteMany({ where: { userId } });
-        }
 
         if (roleName === 'expert') {
             await prisma.expertProfile.upsert({
-                where: { userId },
-                create: { userId },
-                update: {},
-            });
-        }
-
-        if (roleName === 'admin') {
-            await prisma.admin.upsert({
                 where: { userId },
                 create: { userId },
                 update: {},

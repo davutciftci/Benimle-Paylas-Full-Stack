@@ -16,16 +16,17 @@ export class EmailService {
         const pass = process.env.SMTP_PASS?.trim();
         const hasValidConfig = !!user && !!pass;
 
-        this.transporter = nodemailer.createTransport(
-            hasValidConfig
-                ? {
-                      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-                      port: Number(process.env.SMTP_PORT) || 587,
-                      secure: false,
-                      auth: { user, pass },
-                  }
-                : { jsonTransport: true }
-        );
+        // Nodemailer types oldukça sıkı; CI/Docker build'de TS2769 almamak için if/else ayırıyoruz.
+        if (hasValidConfig) {
+            this.transporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST || 'smtp.gmail.com',
+                port: Number(process.env.SMTP_PORT) || 587,
+                secure: false,
+                auth: { user: user as string, pass: pass as string },
+            });
+        } else {
+            this.transporter = nodemailer.createTransport({ jsonTransport: true });
+        }
 
         if (!hasValidConfig) {
             this.logger.warn(
