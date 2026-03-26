@@ -26,7 +26,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         return <Navigate to="/login" replace />;
     }
 
-    const userRole = user.role ? user.role.toLowerCase() : 'user';
+    const userRole =
+        typeof user.role === 'string' ? user.role.trim().toLowerCase() : 'user';
     const normalizedAllowed = allowedRoles.map(r => r.toLowerCase());
 
     // Eğer roller belirtilmişse ve kullanıcının rolü listede yoksa
