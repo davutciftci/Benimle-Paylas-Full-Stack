@@ -12,6 +12,7 @@ import { FaqModule } from './modules/faq';
 import { ContactModule } from './modules/contact';
 import { EmailModule } from './email/email.module';
 import { SignLanguageModule } from './modules/sign-language';
+import { ReferenceModule } from './modules/reference';
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import { SignLanguageModule } from './modules/sign-language';
         BlogModule,
         FaqModule,
         ContactModule,
+        ReferenceModule,
     ],
 })
 export class AppModule {}
