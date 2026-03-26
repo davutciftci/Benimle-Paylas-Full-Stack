@@ -13,7 +13,9 @@ import type {
     SignLanguageWord,
 } from '../types';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000') + '/api';
+// VITE_API_URL boşsa cookie'ler için aynı origin üzerinden `/api` kullan.
+// Docker'da web container /api'yi Nginx ile backend'e proxy ediyor.
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '') + '/api';
 
 export const http = axios.create({
     baseURL: API_BASE_URL,
