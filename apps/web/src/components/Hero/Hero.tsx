@@ -1,46 +1,52 @@
 import React from 'react';
 import { Users, Clock, Shield } from 'lucide-react';
+import SpotlightCard from '../common/SpotlightCard';
 
 export default function Hero() {
   return (
-    <>
-      <div className="font-nunito bg-white py-10" id="hizmetler">
-        <div className="flex flex-col items-center justify-center py-6 text-center px-4">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+    <section className="py-24 bg-white" id="hizmetler">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-heading mb-4">
             Neden Benimle Paylaş'ı Seçmelisiniz?
           </h2>
-          <p className="text-base mb-8 text-gray-600">
+          <p className="text-lg text-muted max-w-2xl mx-auto">
             Zihinsel sağlık hizmetlerimizde önceliklerimiz:
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-6xl">
+        </div>
 
-            <div className="bg-white flex flex-col items-center justify-start text-center rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow border border-gray-100">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3 bg-blue-50">
-                <Users className="w-7 h-7 text-blue-500" />
-              </div>
-              <h5 className="mb-2 text-lg font-semibold text-gray-900">Kapsamlı Uzman Ağı</h5>
-              <p className="text-sm leading-relaxed text-gray-600">Farklı uzmanlıklara sahip deneyimli terapistlerden oluşan geniş bir ağ sunuyoruz.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <SpotlightCard className="flex flex-col items-center text-center group">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-blue-50 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+              <Users className="w-8 h-8" />
             </div>
+            <h3 className="text-xl font-bold mb-3 text-heading">Kapsamlı Uzman Ağı</h3>
+            <p className="text-muted leading-relaxed">
+              Farklı uzmanlıklara sahip deneyimli terapistlerden oluşan geniş bir ağ sunuyoruz.
+            </p>
+          </SpotlightCard>
 
-            <div className="bg-white flex flex-col items-center justify-start text-center rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow border border-gray-100">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3 bg-blue-50">
-                <Clock className="w-7 h-7 text-blue-500" />
-              </div>
-              <h5 className="mb-2 text-lg font-semibold text-gray-900">Esnek Randevu Seçenekleri</h5>
-              <p className="text-sm leading-relaxed text-gray-600">Yoğun programlarınıza uyum sağlamak için online ve yüz yüze seanslar sunuyoruz.</p>
+          <SpotlightCard className="flex flex-col items-center text-center group">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-green-50 text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+              <Clock className="w-8 h-8" />
             </div>
+            <h3 className="text-xl font-bold mb-3 text-heading">Esnek Randevu Seçenekleri</h3>
+            <p className="text-muted leading-relaxed">
+              Yoğun programlarınıza uyum sağlamak için online ve yüz yüze seanslar sunuyoruz.
+            </p>
+          </SpotlightCard>
 
-            <div className="bg-white flex flex-col items-center justify-start text-center rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow border border-gray-100">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3 bg-blue-50">
-                <Shield className="w-7 h-7 text-blue-500" />
-              </div>
-              <h5 className="mb-2 text-lg font-semibold text-gray-900">Gizlilik ve Güvenlik</h5>
-              <p className="text-sm leading-relaxed text-gray-600">Kullanıcı verilerinin korunması ve gizliliği en önemli önceliğimizdir.</p>
+          <SpotlightCard className="flex flex-col items-center text-center group">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-purple-50 text-indigo-500 group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300">
+              <Shield className="w-8 h-8" />
             </div>
-
-          </div>
+            <h3 className="text-xl font-bold mb-3 text-heading">Gizlilik ve Güvenlik</h3>
+            <p className="text-muted leading-relaxed">
+              Kullanıcı verilerinin korunması ve gizliliği en önemli önceliğimizdir.
+            </p>
+          </SpotlightCard>
         </div>
       </div>
-    </>
-  )
-};
+    </section>
+  );
+}

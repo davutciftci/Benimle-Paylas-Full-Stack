@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic, Star, CheckCircle2, ChevronRight, Share2 } from 'lucide-react';
 import { api } from '../services/api';
 import type { Expert } from '../types';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import { cn } from '../components/common/utils';
+import GradientText from '../components/common/GradientText';
+import SpotlightCard from '../components/common/SpotlightCard';
 
 export default function ExpertDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [expert, setExpert] = useState<Expert | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,8 +33,9 @@ export default function ExpertDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-24">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center pt-24">
         <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted font-bold tracking-widest uppercase text-xs">Uzman Bilgileri Yükleniyor</p>
       </div>
     );
   }
@@ -39,10 +44,16 @@ export default function ExpertDetailPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center pt-24">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Uzman bulunamadı</h1>
-          <Link to="/experts" className="text-blue-600 hover:underline">
-            Uzmanlar sayfasına dön
-          </Link>
+             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+                <Search size={40} />
+             </div>
+          <h1 className="text-3xl font-black text-heading mb-4">Uzman bulunamadı</h1>
+          <button 
+            onClick={() => navigate('/find-therapist')}
+            className="btn-premium bg-primary text-white"
+          >
+            Aramaya Dön
+          </button>
         </div>
       </div>
     );
@@ -54,237 +65,240 @@ export default function ExpertDetailPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-[#f8fafc] font-nunito">
-      <div className="max-w-5xl mx-auto px-4 py-6">
-        {/* Geri Dön Butonu */}
-        <Link
-          to="/experts"
-          className="inline-flex items-center mb-6 px-4 py-2 text-sm rounded-xl bg-white border border-gray-200 font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-all"
-        >
-          <ArrowLeft size={16} className="mr-2" />
-          Geri Dön
-        </Link>
-
-        {/* ─── ÜSTTE: 2 KOLON ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-
-          {/* KART 1 – Sol Üst: Profil Bilgisi */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col items-center text-center">
-            {/* Profil Fotoğrafı */}
-            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-100 shadow-md mb-5 bg-gray-100 flex items-center justify-center">
-              {expert.profilePhotoUrl ? (
-                <img
-                  src={expert.profilePhotoUrl}
-                  alt={`${expert.user?.firstName || ''} ${expert.user?.lastName || ''}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png';
-                  }}
-                />
-              ) : (
-                <span className="text-5xl font-bold text-gray-300">
-                  {expert.user?.firstName?.charAt(0) || 'U'}
-                </span>
-              )}
-            </div>
-
-            <h1 className="text-2xl font-extrabold text-gray-900 mb-1">
-              {expert.user?.firstName} {expert.user?.lastName}
-            </h1>
-
-            {expert.title?.name && (
-              <p className="text-base text-blue-600 font-semibold mb-4">{expert.title.name}</p>
-            )}
-
-            <div className="flex items-center gap-2 text-blue-600 font-bold mb-6 text-sm">
-              <Clock size={16} />
-              <span>50 Dakika</span>
-              <span className="mx-1 text-gray-300">|</span>
-              <span>{expert.price ? `₺${expert.price} / Seans` : 'Ücret Belirtilmemi'}</span>
-            </div>
-
-            <Link
-              to="/user/dashboard"
-              className="inline-flex items-center justify-center w-full max-w-[220px] rounded-xl py-3.5 font-bold text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
-              style={{ backgroundColor: '#13a4ec' }}
+    <div className="min-h-screen bg-white pb-24 relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-[600px] bg-slate-50/50 -z-10" />
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/5 blur-[120px] rounded-full" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
+        {/* Navigation / Header */}
+        <div className="flex items-center justify-between mb-12">
+            <button
+              onClick={() => navigate(-1)}
+              className="group flex items-center gap-2 text-sm font-black text-muted hover:text-primary transition-colors"
             >
-              <Calendar size={18} className="mr-2" />
-              Randevu Al
-            </Link>
-          </div>
+              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                <ArrowLeft size={18} />
+              </div>
+              Geri Dön
+            </button>
+            <div className="flex gap-3">
+                <button className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-muted hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100">
+                    <Share2 size={18} />
+                </button>
+            </div>
+        </div>
 
-          {/* KART 2 – Sağ Üst: Müsaitlik */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 border-b border-gray-100 pb-3">
-              <MapPin size={18} className="text-blue-500" />
-              Müsaitlik ve Çalışma Saatleri
-            </h2>
-            {expert.workingHours && typeof expert.workingHours === 'object' && Object.values(expert.workingHours).some(
-              (s: any) => Array.isArray(s) && s.length > 0
-            ) ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {Object.entries(expert.workingHours).map(([day, slots]) => {
-                  if (!Array.isArray(slots) || slots.length === 0) return null;
-                  return (
-                    <div key={day} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                      <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                        {dayNames[day] || day}
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {(slots as any[]).map((slot: any, idx: number) => {
-                          const start = slot.start ?? slot.time;
-                          const end = slot.end;
-                          const label = start ? (end ? `${start} – ${end}` : start) : null;
-                          if (!label) return null;
-                          return (
-                            <span key={idx} className="bg-white text-gray-700 text-xs font-bold px-2 py-1 rounded-lg shadow-sm border border-gray-200">
-                              {label}
-                            </span>
-                          );
-                        })}
-                      </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* LEFT COLUMN - Profile & Action */}
+          <div className="lg:col-span-5">
+            <SpotlightCard className="p-10 sticky top-32 overflow-hidden border-none shadow-2xl rounded-[3rem]">
+                <div className="flex flex-col items-center text-center">
+                    <div className="relative mb-8 group">
+                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="w-48 h-48 rounded-[3rem] overflow-hidden border-8 border-white shadow-xl relative z-10 bg-slate-100 flex items-center justify-center">
+                            {expert.profilePhotoUrl ? (
+                                <img
+                                src={expert.profilePhotoUrl}
+                                alt={`${expert.user?.firstName} ${expert.user?.lastName}`}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            ) : (
+                                <span className="text-6xl font-black text-primary">
+                                {expert.user?.firstName?.charAt(0)}
+                                </span>
+                            )}
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-emerald-500 rounded-2xl border-4 border-white flex items-center justify-center text-white shadow-lg z-20">
+                            <CheckCircle2 size={24} />
+                        </div>
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="bg-gray-50 rounded-xl p-6 text-center border border-dashed border-gray-200">
-                <p className="text-gray-400 font-medium text-sm">Henüz belirlenmiş çalışma saati yok.</p>
-              </div>
-            )}
-          </div>
-        </div>
 
-        {/* ─── ORTA: 2 KOLON ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                    <div className="mb-8">
+                        <GradientText className="text-3xl md:text-4xl font-black mb-2 tracking-tight">
+                            {expert.user?.firstName} {expert.user?.lastName}
+                        </GradientText>
+                        <p className="text-lg font-bold text-primary italic">{expert.title?.name || 'Uzman Klinik Psikolog'}</p>
+                    </div>
 
-          {/* KART 3 – Sol Orta: Hakkında */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
-              <BookOpen size={18} className="text-indigo-500" />
-              Hakkında
-            </h2>
-            {expert.bio ? (
-              <p className="text-gray-600 leading-relaxed text-sm">{expert.bio}</p>
-            ) : (
-              <p className="text-gray-400 italic text-sm">Uzman henüz biyografi eklememiş.</p>
-            )}
-          </div>
+                    <div className="flex items-center justify-center gap-6 py-6 border-y border-slate-100 w-full mb-8">
+                        <div className="text-center">
+                            <p className="text-xs font-black text-muted uppercase tracking-widest mb-1">Puan</p>
+                            <div className="flex items-center gap-1 text-amber-500 font-black text-lg justify-center">
+                                <Star size={16} fill="currentColor" /> 5.0
+                            </div>
+                        </div>
+                        <div className="w-px h-10 bg-slate-100" />
+                        <div className="text-center">
+                            <p className="text-xs font-black text-muted uppercase tracking-widest mb-1">Seans</p>
+                            <p className="text-lg font-black text-heading">50 dk</p>
+                        </div>
+                        <div className="w-px h-10 bg-slate-100" />
+                        <div className="text-center">
+                            <p className="text-xs font-black text-muted uppercase tracking-widest mb-1">Ücret</p>
+                            <p className="text-lg font-black text-emerald-600 tracking-tighter">₺{expert.price || '-'}</p>
+                        </div>
+                    </div>
 
-          {/* KART 4 – Sağ Orta: Çalışma Ekolleri */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
-              <Award size={18} className="text-purple-500" />
-              Çalışma Ekolleri
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {expert.therapeuticApproaches && expert.therapeuticApproaches.length > 0 ? (
-                expert.therapeuticApproaches.map((tApp, index) => (
-                  <span
-                    key={index}
-                    className="bg-indigo-50 text-indigo-700 rounded-lg px-3 py-1.5 text-sm font-bold border border-indigo-100"
-                  >
-                    {tApp.name}
-                  </span>
-                ))
-              ) : (
-                <span className="text-sm font-medium text-gray-400 italic">Ekol belirtilmemiş.</span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ─── ALT: 2 KOLON ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-
-          {/* KART 5 – Alt Sol: Uzmanlık Alanları */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
-              <Award size={18} className="text-blue-500" />
-              Uzmanlık Alanları
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {expert.specialties && expert.specialties.length > 0 ? (
-                expert.specialties.map((spec, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-50 text-blue-700 rounded-lg px-3 py-1.5 text-sm font-bold border border-blue-100"
-                  >
-                    {spec.name}
-                  </span>
-                ))
-              ) : (
-                <span className="text-sm font-medium text-gray-400 italic">Uzmanlık alanı belirtilmemiş.</span>
-              )}
-            </div>
-          </div>
-
-          {/* KART 6 – Alt Sağ: Kariyer & Detaylar */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
-              <BookOpen size={18} className="text-green-500" />
-              Kariyer & Detaylar
-            </h2>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between py-2 border-b border-gray-50">
-                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Deneyim</span>
-                <span className="text-sm font-bold text-gray-900">
-                  {expert.yearsOfExperience ? `${expert.yearsOfExperience} Yıl` : '-'}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-2 border-b border-gray-50">
-                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Eğitim</span>
-                <span className="text-sm font-bold text-gray-900 text-right max-w-[60%]">
-                  {expert.university || '-'}
-                </span>
-              </div>
-              {expert.fieldOfStudy && (
-                <div className="flex items-center justify-between py-2 border-b border-gray-50">
-                  <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Bölüm</span>
-                  <span className="text-sm font-bold text-gray-900">{expert.fieldOfStudy}</span>
-                </div>
-              )}
-              <div className="flex items-center justify-between py-2">
-                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Seans Süresi</span>
-                <span className="text-sm font-bold text-gray-900">50 Dakika</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* KART 7 – En Alt: Seminerler */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-          <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 border-b border-gray-100 pb-3">
-            <Mic size={18} className="text-orange-500" />
-            Seminer ve Konferanslar
-          </h2>
-          {expert.seminars && expert.seminars.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {expert.seminars.map((seminar, index) => (
-                <div key={index} className="bg-gray-50 border border-gray-100 rounded-xl p-4">
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{seminar.title}</h3>
-                  {seminar.description && (
-                    <p className="text-gray-500 text-xs mb-2 leading-relaxed">{seminar.description}</p>
-                  )}
-                  {seminar.date && (
-                    <p className="text-blue-500 font-bold text-xs">
-                      {new Date(seminar.date).toLocaleDateString('tr-TR', {
-                        day: 'numeric', month: 'long', year: 'numeric'
-                      })}
+                    <button
+                        onClick={() => navigate('/user/dashboard')}
+                        className="btn-premium bg-primary text-white w-full py-5 text-lg hover:scale-[1.02] shadow-2xl shadow-primary/30"
+                    >
+                        <Calendar size={20} />
+                        Randevu Oluştur
+                    </button>
+                    <p className="mt-4 text-xs font-bold text-muted flex items-center justify-center gap-2">
+                        <ShieldCheck size={14} />
+                        Güvenli Ödeme & Gizlilik Garantisi
                     </p>
-                  )}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-400 text-sm italic text-center py-4">
-              Seminer veya konferans kaydı bulunmamaktadır.
-            </p>
-          )}
-        </div>
+            </SpotlightCard>
+          </div>
 
+          {/* RIGHT COLUMN - Details */}
+          <div className="lg:col-span-7 space-y-12">
+            {/* About Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <BookOpen size={24} />
+                </div>
+                <h2 className="text-2xl font-black text-heading tracking-tight">Hakkında</h2>
+              </div>
+              <p className="text-lg text-muted leading-relaxed font-medium">
+                {expert.bio || "Uzman henüz biyografisini eklememiş. Detaylı bilgi için randevu oluşturabilirsiniz."}
+              </p>
+            </div>
+
+            {/* Specialties & Approaches */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="glass-card p-8 rounded-3xl border-slate-100 shadow-xl">
+                    <h3 className="text-lg font-black text-heading mb-6 flex items-center gap-2">
+                        <Award size={20} className="text-blue-500" />
+                        Uzmanlık Alanları
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                        {expert.specialties && expert.specialties.length > 0 ? (
+                            expert.specialties.map((spec, i) => (
+                                <span key={i} className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-black border border-blue-100">
+                                    {spec.name}
+                                </span>
+                            ))
+                        ) : (
+                            <span className="text-sm italic text-muted">Belirtilmemiş</span>
+                        )}
+                    </div>
+                </div>
+                <div className="glass-card p-8 rounded-3xl border-slate-100 shadow-xl">
+                    <h3 className="text-lg font-black text-heading mb-6 flex items-center gap-2">
+                        <Award size={20} className="text-purple-500" />
+                        Terapi Ekolleri
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                        {expert.therapeuticApproaches && expert.therapeuticApproaches.length > 0 ? (
+                            expert.therapeuticApproaches.map((app, i) => (
+                                <span key={i} className="px-4 py-2 bg-purple-50 text-purple-700 rounded-xl text-xs font-black border border-purple-100">
+                                    {app.name}
+                                </span>
+                            ))
+                        ) : (
+                            <span className="text-sm italic text-muted">Belirtilmemiş</span>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Working Hours */}
+            <div className="glass-card p-8 rounded-[2.5rem] border-slate-100 shadow-2xl">
+              <h2 className="text-xl font-black text-heading mb-8 flex items-center gap-2">
+                <MapPin size={22} className="text-emerald-500" />
+                Müsaitlik Durumu
+              </h2>
+              {expert.workingHours && typeof expert.workingHours === 'object' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {Object.entries(expert.workingHours).map(([day, slots]) => {
+                    if (!Array.isArray(slots) || slots.length === 0) return null;
+                    return (
+                      <div key={day} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <span className="block text-[10px] font-black text-muted uppercase tracking-widest mb-3">
+                          {dayNames[day] || day}
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {(slots as any[]).map((slot, idx) => (
+                            <span key={idx} className="px-3 py-1.5 bg-white text-heading text-xs font-bold rounded-lg shadow-sm border border-slate-200">
+                              {slot.start || slot.time}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-center py-8 text-muted font-medium italic">Sistem üzerinde henüz bir program bulunmamaktadır.</p>
+              )}
+            </div>
+
+            {/* Education & Experience Details */}
+            <div className="p-8 rounded-[2.5rem] bg-slate-900 text-white shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-3xl rounded-full" />
+                <h3 className="text-xl font-black mb-8 flex items-center gap-2 relative z-10">
+                    <Mic size={22} className="text-orange-500" />
+                    Eğitim & Kariyer
+                </h3>
+                <div className="space-y-6 relative z-10">
+                    <div className="flex justify-between items-start pb-4 border-b border-white/10">
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Üniversite</span>
+                        <span className="text-lg font-bold text-right max-w-[70%]">{expert.university || "-"}</span>
+                    </div>
+                    <div className="flex justify-between items-start pb-4 border-b border-white/10">
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Bölüm</span>
+                        <span className="text-lg font-bold">{expert.fieldOfStudy || "-"}</span>
+                    </div>
+                    <div className="flex justify-between items-start">
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Deneyim</span>
+                        <span className="text-xl font-black text-emerald-400">{expert.yearsOfExperience || "0"} Yıl+</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Seminars */}
+            {expert.seminars && expert.seminars.length > 0 && (
+                <div>
+                   <h2 className="text-2xl font-black text-heading mb-6 flex items-center gap-3">
+                        <Mic size={24} className="text-orange-500" />
+                        Konferans & Seminerler
+                    </h2>
+                    <div className="space-y-4">
+                        {expert.seminars.map((seminar, idx) => (
+                            <div key={idx} className="flex gap-6 p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all group">
+                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <Star size={24} className="text-orange-400" />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-black text-heading mb-1">{seminar.title}</h4>
+                                    <p className="text-sm text-muted font-medium mb-3">{seminar.description}</p>
+                                    <span className="text-xs font-black text-primary uppercase tracking-widest">
+                                        {new Date(seminar.date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
+}
+
+// Helper icons missing in lucide-react imports above
+function Search({ size }: { size: number }) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+    );
 }

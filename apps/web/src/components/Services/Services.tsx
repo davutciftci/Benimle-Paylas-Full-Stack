@@ -1,170 +1,146 @@
 import React from 'react';
-import { Heart, Users, Home, Baby, MessageCircle, Brain, Shield, Clock } from 'lucide-react';
+import { Heart, Users, Home, Baby, MessageCircle, Brain, Shield, Clock, ChevronRight, Zap } from 'lucide-react';
+import SpotlightCard from '../common/SpotlightCard';
+import { useNavigate } from 'react-router-dom';
+import GradientText from '../common/GradientText';
+import { cn } from '../common/utils';
 
 export default function Services() {
+  const navigate = useNavigate();
   const services = [
     {
-      title: "Bireysel Terapi",
-      description: "Bireysel ihtiyaçlarınıza özel psikolojik destek ve danışmanlık hizmeti.",
+      title: "Bireysel Danışmanlık",
+      description: "Kendi iç dünyanıza yapacağınız yolculukta size rehberlik ediyoruz. Kaygı, depresyon ve stresle başa çıkmanıza yardımcı oluyoruz.",
       icon: Heart,
-      features: ["Anksiyete ve depresyon", "Stres yönetimi", "Özgüven geliştirme"]
+      features: ["Anksiyete Yönetimi", "Depresyon Desteği", "Özgüven Gelişimi"],
+      color: "text-rose-500",
+      bgColor: "bg-rose-50"
     },
     {
-      title: "Çift Terapisi",
-      description: "İlişkilerinizi güçlendirmek ve iletişim sorunlarını çözmek için uzman rehberlik.",
+      title: "Çift & İlişki Terapisi",
+      description: "İlişkilerinizdeki düğümleri birlikte çözelim. Daha güçlü iletişim ve güven dolu bağlar kurmanız için buradayız.",
       icon: Users,
-      features: ["İletişim problemleri", "Güven sorunları", "Çatışma çözümü"]
+      features: ["İletişim Geliştirme", "Güven İnşası", "Çözüm Odaklı Yaklaşım"],
+      color: "text-blue-500",
+      bgColor: "bg-blue-50"
     },
     {
-      title: "Aile Terapisi",
-      description: "Aile dinamiklerini iyileştirmek ve sağlıklı ilişkiler kurmak için aile danışmanlığı.",
+      title: "Aile Danışmanlığı",
+      description: "Aile içindeki huzuru ve uyumu yeniden keşfedin. Ebeveyn-çocuk ilişkilerini güçlendiriyoruz.",
       icon: Home,
-      features: ["Aile içi iletişim", "Ebeveyn-çocuk ilişkileri", "Boşanma süreci desteği"]
+      features: ["Aile Dinamikleri", "Ebeveynlik Desteği", "Çatışma Çözümü"],
+      color: "text-amber-500",
+      bgColor: "bg-amber-50"
     },
     {
-      title: "Çocuk ve Ergen Terapisi",
-      description: "Çocuklar ve gençler için gelişim dönemlerine uygun psikolojik destek.",
+      title: "Çocuk & Ergen Desteği",
+      description: "Geleceğimizin teminatı olan gençlerimiz için yaşlarına uygun ve güvenli bir gelişim alanı yaratıyoruz.",
       icon: Baby,
-      features: ["Davranış sorunları", "Okul başarısızlığı", "Sosyal uyum problemleri"]
-    },
-    {
-      title: "Online Terapi",
-      description: "Evinizin konforunda, güvenli video görüşme ile profesyonel psikolojik destek.",
-      icon: MessageCircle,
-      features: ["Esnek randevu saatleri", "Gizlilik garantisi", "7/24 erişilebilirlik"]
-    },
-    {
-      title: "Travma ve EMDR",
-      description: "Travmatik deneyimlerin etkilerini azaltmak için EMDR terapisi.",
-      icon: Brain,
-      features: ["Travma işleme", "EMDR teknikleri", "Güçlenme odaklı yaklaşım"]
-    },
-    {
-      title: "Stres ve Tükenmişlik",
-      description: "İş ve yaşam stresiyle başa çıkma, tükenmişlik sendromu tedavisi.",
-      icon: Shield,
-      features: ["Stres yönetimi", "İş-yaşam dengesi", "Mindfulness teknikleri"]
-    },
-    {
-      title: "Kriz Müdahalesi",
-      description: "Acil durumlarda hızlı ve etkili psikolojik destek.",
-      icon: Clock,
-      features: ["Acil psikolojik destek", "24 saat içinde randevu", "Kriz yönetimi"]
+      features: ["Davranış Gelişimi", "Okul Uyumu", "Ergenlik Süreçleri"],
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-50"
     }
   ];
 
   return (
-    <>
-      <div className="text-primary font-nunito py-18 px-4" style={{ backgroundColor: '#f6f7f8' }}>
-        <div className="w-full max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-2xl text-black md:text-3xl font-bold mb-4">
-              Hizmetlerimiz
-            </h1>
-            <p className="text-lg max-w-3xl mx-auto" style={{ color: '#1f2937', opacity: 0.8 }}>
-              Uzman psikologlarımız ile her yaştan ve her ihtiyaçtan bireylere özel,
-              kanıta dayalı terapi hizmetleri sunuyoruz.
-            </p>
+    <section className="py-32 bg-white relative overflow-hidden" id="services">
+      {/* Decorative Blur */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -mr-64 -mt-64" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-24">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-50 text-orange-600 text-xs font-black uppercase tracking-widest mb-6">
+                <Zap size={14} />
+                <span>Modern Terapi Yaklaşımları</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-heading mb-8 leading-tight tracking-tighter">
+              İhtiyaçlarınıza Özel <br />
+              <GradientText className="inline-block">Çözümler.</GradientText>
+            </h2>
           </div>
+          <p className="text-xl text-muted max-w-md lg:pt-10 font-medium leading-relaxed">
+            Uzman psikologlarımız ile her yaştan ve her ihtiyaçtan bireylere özel, bilimsel temelli ve modern terapi yöntemleri sunuyoruz.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300 border border-gray-100"
-                >
-                  <div className="flex items-center mb-4">
-                    <div className="p-3 rounded-lg" style={{ backgroundColor: '#f6f7f8' }}>
-                      <Icon className="w-6 h-6" style={{ color: '#13a4ec' }} />
-                    </div>
-                  </div>
-                  <h3 className="text-xl text-black font-semibold mb-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+          {services.map((service, index) => (
+            <SpotlightCard key={index} className="p-12 group hover:bg-slate-50 transition-colors duration-500 border-2 border-slate-50 hover:border-primary/20">
+              <div className="flex flex-col lg:flex-row gap-10">
+                <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-500", service.bgColor, service.color)}>
+                  <service.icon size={36} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-heading mb-4 group-hover:text-primary transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-sm mb-4" style={{ color: '#1f2937', opacity: 0.8 }}>
+                  <p className="text-muted leading-relaxed mb-8 text-lg font-medium">
                     {service.description}
                   </p>
-                  <ul className="space-y-2">
+                  <div className="flex flex-wrap gap-3 mb-8">
                     {service.features.map((feature, idx) => (
-                      <li key={idx} className="text-xs flex items-center" style={{ color: '#1f2937', opacity: 0.7 }}>
-                        <span className="w-1.5 h-1.5 rounded-full mr-2" style={{ backgroundColor: '#13a4ec' }}></span>
+                      <span key={idx} className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold text-muted group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                         {feature}
-                      </li>
+                      </span>
                     ))}
-                  </ul>
+                  </div>
+                  <button 
+                    onClick={() => navigate('/find-therapist')}
+                    className="flex items-center gap-2 font-black text-primary group/btn"
+                  >
+                    Detaylı Bilgi 
+                    <ChevronRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            </SpotlightCard>
+          ))}
+        </div>
 
-          {/* Why Choose Us Section */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
-            <h2 className="text-3xl text-black font-bold mb-6 text-center">
-              Neden Bizi Seçmelisiniz?
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f6f7f8' }}>
-                  <Shield className="w-8 h-8" style={{ color: '#13a4ec' }} />
+        {/* Global CTA transformation */}
+        <div className="relative group p-1 w-full rounded-[3rem] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-indigo-500 to-accent animate-gradient-move bg-[length:200%_auto]" />
+            <div className="relative bg-slate-950 p-12 md:p-20 rounded-[2.8rem] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.2),transparent_50%)]" />
+                <div className="relative z-10 max-w-2xl">
+                    <h3 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">
+                        Yeni Bir Sayfa Açmaya <br />
+                        <span className="text-primary italic">Hazır mısınız?</span>
+                    </h3>
+                    <p className="text-slate-400 text-lg font-medium">
+                        Zihinsel sağlığınız en değerli yatırımınızdır. Şimdi başlayın, kendiniz için en iyisini yapın.
+                    </p>
                 </div>
-                <h3 className="font-semibold text-black text-lg mb-2">Gizlilik Garantisi</h3>
-                <p className="text-sm" style={{ color: '#1f2937', opacity: 0.8 }}>
-                  Tüm görüşmeleriniz tamamen gizli ve güvenlidir. Kişisel bilgileriniz korunur.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f6f7f8' }}>
-                  <Users className="w-8 h-8" style={{ color: '#13a4ec' }} />
-                </div>
-                <h3 className="font-semibold text-black text-lg mb-2">Uzman Kadro</h3>
-                <p className="text-sm" style={{ color: '#1f2937', opacity: 0.8 }}>
-                  Lisanslı ve deneyimli psikologlarımız sizin için en iyi desteği sağlar.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#f6f7f8' }}>
-                  <Clock className="w-8 h-8" style={{ color: '#13a4ec' }} />
-                </div>
-                <h3 className="font-semibold text-black text-lg mb-2">Esnek Randevu</h3>
-                <p className="text-sm" style={{ color: '#1f2937', opacity: 0.8 }}>
-                  Size uygun gün ve saatte, online veya yüz yüze terapi seçeneği.
-                </p>
-              </div>
+                <button
+                    onClick={() => navigate('/register')}
+                    className="relative z-10 btn-premium bg-white text-slate-950 hover:bg-primary hover:text-white shadow-2xl transition-all scale-110 md:scale-125 px-10"
+                >
+                    Hemen Kayıt Ol
+                    <ArrowRight size={20} />
+                </button>
             </div>
-          </div>
-
-          {/* CTA Section */}
-          <div className="text-center">
-            <h2 className="text-2xl text-black font-bold mb-4">
-              Hemen Başlayın
-            </h2>
-            <p className="mb-6" style={{ color: '#1f2937', opacity: 0.8 }}>
-              Zihinsel sağlığınız için ilk adımı atın. Uzman terapistlerimizle tanışın.
-            </p>
-            <a
-              href="/find-therapist"
-              className="inline-block px-8 py-3 rounded-lg font-medium transition-all duration-300 border-2"
-              style={{
-                backgroundColor: 'transparent',
-                color: '#13a4ec',
-                borderColor: '#13a4ec'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#13a4ec';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#13a4ec';
-              }}
-            >
-              Terapist Bul
-            </a>
-          </div>
         </div>
       </div>
-    </>
+    </section>
   );
+}
+
+// Helper for ArrowRight that was missing in previous imports
+function ArrowRight({ size }: { size: number }) {
+    return (
+        <svg 
+            width={size} 
+            height={size} 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+        >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+        </svg>
+    );
 }

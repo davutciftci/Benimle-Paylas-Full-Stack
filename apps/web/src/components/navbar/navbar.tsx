@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, X, User, LogOut, Heart } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { cn } from '../common/utils';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user, logout, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -23,172 +34,146 @@ export default function Navbar() {
     return '/user/dashboard';
   };
 
-  return (
-    <>
-      <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-100">
-        <div className="max-w-6xl flex flex-wrap items-center justify-between mx-auto px-4 py-2.5">
+  const navLinks = [
+    { name: 'Nasıl Çalışır', path: '/how-it-works' },
+    { name: 'Uzmanlar', path: '/experts' },
+    { name: 'Testler', path: '/psychological-tests' },
+    { name: 'Blog', path: '/blog' },
+  ];
 
-          {/* Logo - Sadece normal kullanıcılar için; admin ve uzman için gizli */}
-          {getRoleString()?.toLowerCase() !== 'expert' && getRoleString()?.toLowerCase() !== 'admin' && (
-            <Link to="/" className="flex items-center space-x-1 rtl:space-x-reverse">
-              <span className="self-center text-xl font-nunito whitespace-nowrap font-semibold text-gray-900">
-                Benimle Paylaş
+  const isRoleSpecial = getRoleString()?.toLowerCase() === 'expert' || getRoleString()?.toLowerCase() === 'admin';
+
+  return (
+    <div className="fixed top-0 w-full z-50 px-4 pt-4 transition-all duration-500">
+      <nav 
+        className={cn(
+          "max-w-7xl mx-auto rounded-3xl transition-all duration-500 overflow-hidden",
+          scrolled || isOpen ? "glass-nav py-3 px-6 shadow-2xl" : "bg-transparent py-6 px-4"
+        )}
+      >
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          {!isRoleSpecial && (
+            <Link to="/" className="flex items-center group">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center mr-3 shadow-lg group-hover:rotate-12 transition-transform">
+                <Heart className="text-white w-6 h-6" fill="currentColor" />
+              </div>
+              <span className="text-xl font-extrabold text-heading tracking-tighter">
+                benimle <span className="text-primary font-black">paylaş</span>
               </span>
             </Link>
           )}
 
-          {/* Right Buttons + Hamburger */}
-          <div className="flex md:order-2 space-x-2 rtl:space-x-reverse items-center">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            {!isRoleSpecial && navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-sm font-bold text-muted hover:text-primary transition-colors relative group"
+              >
+                {link.name}
+                {location.pathname === link.path && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full" />
+                )}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary rounded-full transition-all group-hover:w-full" />
+              </Link>
+            ))}
+
+            {!isRoleSpecial && (
+              <div className="h-6 w-px bg-slate-200 mx-2" />
+            )}
 
             {!isAuthenticated ? (
-              <>
-                {/* Kayıt Ol - Outline button */}
-                <Link
-                  to="/register"
-                  className="font-nunito rounded-md text-xs px-4 py-2 text-center flex items-center justify-center transition-all duration-300 border hidden sm:flex"
-                  style={{
-                    color: '#13a4ec',
-                    backgroundColor: 'transparent',
-                    borderColor: '#13a4ec'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#13a4ec';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#13a4ec';
-                  }}
-                >
-                  Kayıt Ol
-                </Link>
-
-                {/* Giriş Yap - Filled button */}
+              <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="font-nunito rounded-md text-xs px-4 py-2 text-center transition-all duration-300 border"
-                  style={{
-                    color: 'white',
-                    backgroundColor: '#13a4ec',
-                    borderColor: '#13a4ec'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#13a4ec';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#13a4ec';
-                    e.currentTarget.style.color = 'white';
-                  }}
+                  className="px-6 py-2.5 text-sm font-bold text-heading hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   Giriş Yap
                 </Link>
-              </>
+                <Link
+                  to="/register"
+                  className="px-6 py-2.5 text-sm font-bold bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:scale-105 transition-all"
+                >
+                  Kayıt Ol
+                </Link>
+              </div>
             ) : (
-              <div className="flex items-center space-x-2">
-                {/* Hesabım - Link */}
+              <div className="flex items-center gap-4">
                 <Link
                   to={getDashboardLink()}
-                  className="font-nunito rounded-md text-xs px-4 py-2 text-center flex items-center justify-center transition-all duration-300 border"
-                  style={{
-                    color: '#1f2937',
-                    backgroundColor: 'transparent',
-                    borderColor: '#1f2937'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#1f2937';
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#1f2937';
-                  }}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold shadow-xl hover:bg-black transition-all"
                 >
-                  <User size={14} className="mr-1.5" />
-                  Hesabım
+                  <User size={16} />
+                  Panelim
                 </Link>
-
-                {/* Çıkış Yap - Button */}
                 <button
                   onClick={handleLogout}
-                  className="font-nunito rounded-md text-xs px-3 py-2 text-center flex items-center justify-center transition-all duration-300 text-gray-500 hover:text-red-500"
+                  className="p-2.5 text-muted hover:text-red-500 rounded-xl hover:bg-red-50 transition-all"
                 >
-                  <LogOut size={16} />
+                  <LogOut size={20} />
                 </button>
               </div>
             )}
-
-            {/* Hamburger Icon */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center text-gray-700 p-1.5 w-8 h-8 justify-center text-sm rounded-md md:hidden"
-            >
-              {isOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-
           </div>
 
-          {/* Menu List */}
-          <div
-            className={`font-nunito w-full md:flex md:w-auto md:order-1 transition-all duration-300
-              ${isOpen ? "block" : "hidden"}`}
+          {/* Mobile Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 text-heading hover:bg-slate-100 rounded-xl transition-colors"
           >
-            <ul className="flex flex-col p-2 md:p-0 mt-1 font-normal rounded text-sm
-              md:space-x-3 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:items-center">
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
-              {/* Sadece expert ve admin olmayanlara ana menü linklerini göster */}
-              {(!user || (getRoleString()?.toLowerCase() !== 'expert' && getRoleString()?.toLowerCase() !== 'admin')) && (
-                <>
-                  <li>
-                    <Link to="/how-it-works" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
-                      Nasıl Çalışır
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link to="/experts" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
-                      Uzmanlar
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link to="/psychological-tests" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
-                      Psikolojik Testler
-                    </Link>
-                  </li>
-                </>
-              )}
-
-              {(!user || (getRoleString()?.toLowerCase() !== 'admin' && getRoleString()?.toLowerCase() !== 'expert')) && (
-                <li>
-                  <Link to="/blog" className="hover:text-blue-500 block py-1.5 px-2 rounded text-sm text-gray-700">
-                    Blog
-                  </Link>
-                </li>
-              )}
-
-              {/* Sadece admin ve expert olmayanlara Psikolog Başvurusu göster */}
-              {(!user || (getRoleString()?.toLowerCase() !== 'admin' && getRoleString()?.toLowerCase() !== 'expert')) && (
-                <>
-                  {/* Separator */}
-                  <li className="hidden md:block">
-                    <div className="h-4 w-px mx-2 bg-gray-300"></div>
-                  </li>
-                  <li className="block md:hidden">
-                    <hr className="my-2 border-t border-gray-200" />
-                  </li>
-
-                  <li>
-                    <Link to="/psychologist-application" className="hover:opacity-80 block py-1.5 px-2 rounded text-sm font-medium text-blue-500">
-                      Psikolog Başvurusu
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
+        {/* Mobile Menu */}
+        <div
+          className={cn(
+            "md:hidden transition-all duration-500 ease-in-out overflow-hidden",
+            isOpen ? "max-h-[500px] mt-6 pb-4 opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="flex flex-col space-y-4">
+            {!isRoleSpecial && navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className="text-lg font-bold text-heading hover:text-primary py-2 border-b border-slate-100"
+              >
+                {link.name}
+              </Link>
+            ))}
+            
+            {!isAuthenticated ? (
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="px-6 py-3 text-center text-sm font-bold bg-slate-100 text-heading rounded-xl"
+                >
+                  Giriş
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setIsOpen(false)}
+                  className="px-6 py-3 text-center text-sm font-bold bg-primary text-white rounded-xl shadow-lg"
+                >
+                  Kayıt
+                </Link>
+              </div>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="w-full py-4 text-center text-red-500 font-bold border-t border-slate-100 mt-4"
+              >
+                Çıkış Yap
+              </button>
+            )}
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 }

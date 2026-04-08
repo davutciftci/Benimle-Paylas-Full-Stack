@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Brain, Heart, Users, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Brain, Heart, Users, ChevronRight, CheckCircle, AlertCircle, Sparkles, Clock, ArrowLeft, ArrowRight, ShieldCheck, Info } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { cn } from '../components/common/utils';
+import GradientText from '../components/common/GradientText';
+import SpotlightCard from '../components/common/SpotlightCard';
 
 interface Question {
     id: number;
@@ -12,8 +15,9 @@ interface Test {
     id: string;
     title: string;
     description: string;
-    icon: React.ReactNode;
+    icon: any;
     color: string;
+    bgColor: string;
     duration: string;
     questions: Question[];
 }
@@ -23,9 +27,10 @@ const tests: Test[] = [
         id: 'anxiety',
         title: 'Anksiyete Testi',
         description: 'Son 2 hafta içinde kendinizi ne sıklıkla aşağıdaki durumlarla karşılaştınız?',
-        icon: <Brain size={48} />,
-        color: '#13a4ec',
-        duration: '5 dakika',
+        icon: Brain,
+        color: 'text-blue-500',
+        bgColor: 'bg-blue-50',
+        duration: '5 Dakika',
         questions: [
             {
                 id: 1,
@@ -83,9 +88,10 @@ const tests: Test[] = [
         id: 'depression',
         title: 'Depresyon Testi',
         description: 'Son 2 hafta içinde aşağıdaki sorunlardan ne sıklıkla rahatsız oldunuz?',
-        icon: <Heart size={48} />,
-        color: '#13a4ec',
-        duration: '5 dakika',
+        icon: Heart,
+        color: 'text-rose-500',
+        bgColor: 'bg-rose-50',
+        duration: '5 Dakika',
         questions: [
             {
                 id: 1,
@@ -129,7 +135,7 @@ const tests: Test[] = [
             },
             {
                 id: 5,
-                text: 'Kendinizi değersiz hissettiniz veya kendinizi başarısız olarak görüp ailenizi hayal kırıklığına uğrattığınızı düşündünüz mü?',
+                text: 'Kendinizi değersiz hissettiniz veya kendinizi başarısız olarak görüp ailenizi hayal kırıklığına uğrattığınızı düşündünüz mu?',
                 options: [
                     { value: 0, label: 'Hiç' },
                     { value: 1, label: 'Birkaç gün' },
@@ -142,10 +148,11 @@ const tests: Test[] = [
     {
         id: 'social-phobia',
         title: 'Sosyal Fobi Testi',
-        description: 'Aşağıdaki durumlarla ne sıklıkla karşılaşıyorsunuz?',
-        icon: <Users size={48} />,
-        color: '#13a4ec',
-        duration: '5 dakika',
+        description: 'Aşağıdaki durumlarla ne sıklıkla karşılaşıyorsunuz? Sosyal kaygı düzeyinizi ölçün.',
+        icon: Users,
+        color: 'text-emerald-500',
+        bgColor: 'bg-emerald-50',
+        duration: '5 Dakika',
         questions: [
             {
                 id: 1,
@@ -202,6 +209,7 @@ const tests: Test[] = [
 ];
 
 export default function PsychologicalTestsPage() {
+    const navigate = useNavigate();
     const [activeTest, setActiveTest] = useState<Test | null>(null);
     const [answers, setAnswers] = useState<{ [key: number]: number }>({});
     const [showResult, setShowResult] = useState(false);
@@ -212,13 +220,14 @@ export default function PsychologicalTestsPage() {
         setAnswers({});
         setShowResult(false);
         setCurrentQuestion(0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleAnswer = (questionId: number, value: number) => {
         setAnswers(prev => ({ ...prev, [questionId]: value }));
 
         if (activeTest && currentQuestion < activeTest.questions.length - 1) {
-            setTimeout(() => setCurrentQuestion(prev => prev + 1), 300);
+            setTimeout(() => setCurrentQuestion(prev => prev + 1), 500);
         }
     };
 
@@ -230,18 +239,19 @@ export default function PsychologicalTestsPage() {
         const percentage = (score / maxScore) * 100;
 
         if (percentage <= 25) {
-            return { level: 'Düşük', message: 'Sonuçlarınız düşük düzeyde belirtiler gösteriyor.', severity: 'low' };
+            return { level: 'Düşük', message: 'Sonuçlarınız düşük düzeyde belirtiler gösteriyor. Genel halinizi korumaya devam edin.', severity: 'low', color: 'text-emerald-500' };
         } else if (percentage <= 50) {
-            return { level: 'Orta', message: 'Sonuçlarınız orta düzeyde belirtiler gösteriyor. Bir uzmanla görüşmenizi öneririz.', severity: 'medium' };
+            return { level: 'Orta', message: 'Hafif düzeyde stres/endişe belirtileri gözlemleniyor. Bir uzmanla görüşüp erken önlem almanız faydalı olabilir.', severity: 'medium', color: 'text-blue-500' };
         } else if (percentage <= 75) {
-            return { level: 'Yüksek', message: 'Sonuçlarınız yüksek düzeyde belirtiler gösteriyor. Profesyonel destek almanızı öneriyoruz.', severity: 'high' };
+            return { level: 'Yüksek', message: 'Belirgin düzeyde zorlanma belirtileri mevcut. Uzman desteği alarak bu süreci daha kolay atlatabilirsiniz.', severity: 'high', color: 'text-orange-500' };
         } else {
-            return { level: 'Çok Yüksek', message: 'Sonuçlarınız çok yüksek düzeyde belirtiler gösteriyor. Lütfen en kısa sürede bir uzmana danışın.', severity: 'very-high' };
+            return { level: 'Çok Yüksek', message: 'Ciddi düzeyde psikolojik yıpranma gözlemleniyor. Lütfen en kısa sürede profesyonel yardım alın.', severity: 'very-high', color: 'text-rose-500' };
         }
     };
 
     const handleSubmit = () => {
         setShowResult(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleBackToTests = () => {
@@ -249,237 +259,263 @@ export default function PsychologicalTestsPage() {
         setAnswers({});
         setShowResult(false);
         setCurrentQuestion(0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    // Result View
     if (activeTest && showResult) {
         const score = calculateScore();
         const maxScore = activeTest.questions.length * 3;
         const result = getResultMessage(score, maxScore);
 
         return (
-            <div className="font-nunito min-h-screen bg-gray-50">
-                <div className="max-w-2xl mx-auto px-4 py-12 pt-24">
-                    <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
-                        <div className="mb-6">
-                            {result.severity === 'low' ? (
-                                <CheckCircle size={64} className="mx-auto" style={{ color: '#10b981' }} />
-                            ) : (
-                                <AlertCircle size={64} className="mx-auto" style={{ color: result.severity === 'very-high' ? '#ef4444' : '#13a4ec' }} />
-                            )}
-                        </div>
+            <div className="min-h-screen bg-white pb-32 pt-40 px-4">
+                <div className="max-w-3xl mx-auto">
+                    <SpotlightCard className="p-12 md:p-16 rounded-[3rem] border-none shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.05),transparent_50%)]" />
+                        
+                        <div className="relative z-10 text-center">
+                            <div className="mb-10 inline-flex items-center justify-center p-6 rounded-[2rem] bg-slate-50 border border-slate-100 shadow-xl">
+                                {result.severity === 'low' ? (
+                                    <CheckCircle size={64} className="text-emerald-500" />
+                                ) : (
+                                    <AlertCircle size={64} className={result.color} />
+                                )}
+                            </div>
 
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            {activeTest.title} Sonucu
-                        </h2>
+                            <h2 className="text-3xl md:text-5xl font-black text-heading mb-6 tracking-tighter">
+                                {activeTest.title} <br />
+                                <span className={cn("italic", result.color)}>Analiz Sonucu</span>
+                            </h2>
 
-                        <div className="mb-6">
-                            <p className="text-lg mb-2 text-gray-900">
-                                Puanınız: <strong>{score} / {maxScore}</strong>
-                            </p>
-                            <p className="text-xl font-semibold mb-4" style={{ color: activeTest.color }}>
-                                Düzey: {result.level}
-                            </p>
-                            <p className="text-muted">
+                            <div className="grid grid-cols-2 gap-6 mb-12">
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <p className="text-xs font-black text-muted uppercase tracking-widest mb-2">Toplam Puan</p>
+                                    <p className="text-3xl font-black text-heading">{score} <span className="text-muted text-lg">/ {maxScore}</span></p>
+                                </div>
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <p className="text-xs font-black text-muted uppercase tracking-widest mb-2">Genel Düzey</p>
+                                    <p className={cn("text-3xl font-black tracking-tighter", result.color)}>{result.level}</p>
+                                </div>
+                            </div>
+
+                            <p className="text-xl text-muted font-medium leading-relaxed mb-12 px-4">
                                 {result.message}
                             </p>
-                        </div>
 
-                        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded">
-                            <p className="text-sm text-yellow-800">
-                                <strong>Önemli:</strong> Bu test sadece bilgilendirme amaçlıdır ve profesyonel bir değerlendirmenin yerini alamaz.
-                                Kesin bir tanı için mutlaka bir ruh sağlığı uzmanına başvurunuz.
-                            </p>
-                        </div>
+                            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                                <button
+                                    onClick={handleBackToTests}
+                                    className="btn-premium bg-slate-100 text-heading hover:bg-slate-200"
+                                >
+                                    <ArrowLeft size={20} />
+                                    Testlere Dön
+                                </button>
+                                <button
+                                    onClick={() => navigate('/find-therapist')}
+                                    className="btn-premium bg-primary text-white shadow-2xl shadow-primary/30"
+                                >
+                                    Uzman Görüşü Al
+                                    <ArrowRight size={20} />
+                                </button>
+                            </div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button
-                                onClick={handleBackToTests}
-                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90 bg-gray-900 text-white"
-                            >
-                                Testlere Dön
-                            </button>
-                            <Link
-                                to="/find-therapist"
-                                className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90 bg-primary text-white"
-                            >
-                                Psikolog Bul
-                            </Link>
+                            <div className="mt-16 pt-8 border-t border-slate-100 flex items-center justify-center gap-3 text-muted text-sm font-bold">
+                                <Info size={16} />
+                                <p>Bu sonuçlar tıbbi bir teşhis değildir, sadece bilgilendirme amaçlıdır.</p>
+                            </div>
                         </div>
-                    </div>
+                    </SpotlightCard>
                 </div>
             </div>
         );
     }
 
+    // Active Test View
     if (activeTest) {
         const question = activeTest.questions[currentQuestion];
         const progress = ((currentQuestion + 1) / activeTest.questions.length) * 100;
         const allAnswered = activeTest.questions.every(q => answers[q.id] !== undefined);
 
         return (
-            <div className="font-nunito min-h-screen bg-gray-50">
-                <div className="max-w-2xl mx-auto px-4 py-12 pt-24">
-                    <div className="bg-white rounded-2xl shadow-lg p-8">
-                        {/* Progress */}
-                        <div className="mb-8">
-                            <div className="flex justify-between text-sm mb-2 text-gray-900">
-                                <span>{activeTest.title}</span>
-                                <span>{currentQuestion + 1} / {activeTest.questions.length}</span>
+            <div className="min-h-screen bg-white pb-32 pt-40 px-4">
+                <div className="max-w-3xl mx-auto">
+                    <div className="flex items-center justify-between mb-12">
+                        <button
+                          onClick={handleBackToTests}
+                          className="group flex items-center gap-2 text-sm font-black text-muted hover:text-primary transition-colors"
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                            <ArrowLeft size={18} />
+                          </div>
+                          Vazgeç
+                        </button>
+                        <div className="flex items-center gap-3">
+                            <Clock size={18} className="text-primary" />
+                            <span className="text-sm font-black text-heading uppercase tracking-widest">{activeTest.duration} Süre</span>
+                        </div>
+                    </div>
+
+                    <SpotlightCard className="p-10 md:p-16 rounded-[3rem] border-none shadow-2xl">
+                        {/* Progress Bar */}
+                        <div className="mb-16">
+                            <div className="flex justify-between items-end mb-4">
+                                <h3 className="text-xl font-black text-heading tracking-tight">{activeTest.title}</h3>
+                                <span className="text-sm font-black text-primary bg-primary/5 px-4 py-1 rounded-full">
+                                    {currentQuestion + 1} / {activeTest.questions.length} Soru
+                                </span>
                             </div>
-                            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full transition-all duration-300 rounded-full"
-                                    style={{ width: `${progress}%`, backgroundColor: activeTest.color }}
-                                ></div>
+                            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+                                <div 
+                                    className="h-full bg-primary transition-all duration-700 ease-out rounded-full"
+                                    style={{ width: `${progress}%` }}
+                                />
                             </div>
                         </div>
 
-                        {/* Question */}
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold mb-6 text-gray-900">
+                        {/* Question Content */}
+                        <div className="mb-16">
+                            <h2 className="text-2xl md:text-3xl font-black text-heading mb-10 leading-tight">
                                 {question.text}
-                            </h3>
+                            </h2>
 
-                            <div className="space-y-3">
+                            <div className="grid grid-cols-1 gap-4">
                                 {question.options.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => handleAnswer(question.id, option.value)}
-                                        className={`w-full p-4 rounded-lg border-2 text-left transition-all ${answers[question.id] === option.value
-                                            ? 'border-opacity-100 shadow-md'
-                                            : 'border-gray-200 hover:border-opacity-50'
-                                            }`}
-                                        style={{
-                                            borderColor: answers[question.id] === option.value ? activeTest.color : undefined,
-                                            backgroundColor: answers[question.id] === option.value ? `${activeTest.color}10` : 'white'
-                                        }}
+                                        className={cn(
+                                            "p-6 rounded-3xl border-2 text-left transition-all duration-300 group flex items-center justify-between",
+                                            answers[question.id] === option.value
+                                                ? "border-primary bg-primary/5 shadow-lg shadow-primary/5"
+                                                : "border-slate-50 hover:border-slate-200 hover:bg-slate-50"
+                                        )}
                                     >
-                                        <span className="text-gray-900">{option.label}</span>
+                                        <span className={cn(
+                                            "text-lg font-bold transition-all",
+                                            answers[question.id] === option.value ? "text-primary scale-105 ml-2" : "text-muted"
+                                        )}>
+                                            {option.label}
+                                        </span>
+                                        <div className={cn(
+                                            "w-6 h-6 rounded-full border-2 transition-all flex items-center justify-center",
+                                            answers[question.id] === option.value ? "border-primary bg-primary" : "border-slate-200"
+                                        )}>
+                                            {answers[question.id] === option.value && <div className="w-2 h-2 rounded-full bg-white" />}
+                                        </div>
                                     </button>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Navigation */}
-                        <div className="flex justify-between">
+                        {/* Navigation Buttons */}
+                        <div className="flex justify-between items-center gap-6">
                             <button
                                 onClick={() => currentQuestion > 0 && setCurrentQuestion(prev => prev - 1)}
                                 disabled={currentQuestion === 0}
-                                className="px-6 py-2 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-gray-50 text-gray-900"
+                                className="flex-1 py-4 text-sm font-black text-muted hover:text-heading disabled:opacity-20 transition-colors uppercase tracking-widest"
                             >
-                                Önceki
+                                Önceki Soru
                             </button>
 
                             {currentQuestion === activeTest.questions.length - 1 ? (
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!allAnswered}
-                                    className="px-6 py-2 rounded-lg font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-primary"
+                                    className="flex-[1.5] btn-premium bg-primary text-white shadow-xl shadow-primary/20 disabled:opacity-50"
                                 >
-                                    Sonucu Gör
+                                    Sonucu Analiz Et
+                                    <ArrowRight size={20} />
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => setCurrentQuestion(prev => prev + 1)}
                                     disabled={answers[question.id] === undefined}
-                                    className="px-6 py-2 rounded-lg font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    style={{ backgroundColor: activeTest.color }}
+                                    className="flex-[1.5] btn-premium bg-slate-900 text-white shadow-xl disabled:opacity-30"
                                 >
-                                    Sonraki
+                                    Sonraki Soru
+                                    <ArrowRight size={20} />
                                 </button>
                             )}
                         </div>
-
-                        {/* Back to Tests Button - Inside card at top */}
-                        <div className="text-center pt-4 border-t mt-6" style={{ borderColor: '#e5e7eb' }}>
-                            <button
-                                onClick={handleBackToTests}
-                                className="px-6 py-2 rounded-lg font-semibold transition-all border"
-                                style={{
-                                    backgroundColor: 'transparent',
-                                    color: '#13a4ec',
-                                    borderColor: '#13a4ec'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#13a4ec';
-                                    e.currentTarget.style.color = 'white';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                    e.currentTarget.style.color = '#13a4ec';
-                                }}
-                            >
-                                ← Testlere Dön
-                            </button>
-                        </div>
-                    </div>
+                    </SpotlightCard>
                 </div>
             </div>
         );
     }
 
+    // Default Grid View
     return (
-        <div className="font-nunito min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+        <div className="min-h-screen bg-white pb-32 overflow-hidden relative">
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50/50 -z-10" />
+            <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/5 blur-[120px] rounded-full" />
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-40">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
-                        Psikolojik Testler
+                <div className="text-center max-w-4xl mx-auto mb-24">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-black uppercase tracking-widest mb-8 border border-primary/10">
+                         <Sparkles size={16} />
+                         <span>Kendinizi Keşfedin</span>
+                    </div>
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-heading leading-[1.1] mb-8 tracking-tighter">
+                        Psikolojik <br />
+                        <GradientText className="inline-block mt-2">
+                            Analiz Testleri
+                        </GradientText>
                     </h1>
-                    <p className="text-lg max-w-2xl mx-auto text-muted">
-                        Kendinizi daha iyi anlamak için aşağıdaki testleri çözebilirsiniz.
-                        Bu testler sadece bilgilendirme amaçlıdır ve profesyonel bir tanının yerini almaz.
+                    <p className="text-xl text-muted font-medium leading-relaxed max-w-2xl mx-auto">
+                        Lisanslı uzmanlarımız tarafından hazırlanan testlerle duygularınızı ve davranışlarınızı daha yakından tanıyın.
                     </p>
                 </div>
 
-                {/* Test Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Test Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
                     {tests.map((test) => (
-                        <div
-                            key={test.id}
-                            className="bg-white rounded-2xl shadow-sm border p-8 hover:shadow-lg transition-all duration-300"
-                            style={{ borderColor: test.color, borderWidth: '2px' }}
-                        >
-                            {/* Icon */}
-                            <div className="mb-6 flex justify-center" style={{ color: test.color }}>
-                                {test.icon}
+                        <SpotlightCard key={test.id} className="p-10 flex flex-col items-center text-center group border-none shadow-2xl rounded-[3rem] hover:bg-slate-50 transition-colors duration-500">
+                            <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:scale-110 transition-transform duration-500", test.bgColor, test.color)}>
+                                <test.icon size={36} />
                             </div>
-
-                            {/* Title */}
-                            <h3 className="text-2xl font-bold mb-3 text-center text-gray-900">
+                            
+                            <h3 className="text-2xl font-black text-heading mb-4 leading-tight group-hover:text-primary transition-colors tracking-tight">
                                 {test.title}
                             </h3>
+                            
+                            <div className="flex items-center gap-3 text-xs font-black text-muted uppercase tracking-widest mb-6 bg-slate-100 px-4 py-1 rounded-full overflow-hidden">
+                                <Clock size={14} />
+                                {test.duration} • {test.questions.length} Soru
+                            </div>
 
-                            {/* Duration */}
-                            <p className="text-center mb-4 text-gray-900">
-                                ⏱ {test.duration} • {test.questions.length} soru
-                            </p>
-
-                            {/* Description */}
-                            <p className="text-center mb-6 text-muted">
+                            <p className="text-muted leading-relaxed font-medium mb-10 flex-grow">
                                 {test.description}
                             </p>
 
-                            {/* Start Button */}
                             <button
                                 onClick={() => handleStartTest(test)}
-                                className="w-full py-3 rounded-lg font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
-                                style={{ backgroundColor: test.color }}
+                                className="w-full btn-premium bg-slate-900 text-white group-hover:bg-primary transition-all shadow-xl shadow-slate-900/10 group-hover:shadow-primary/20"
                             >
                                 Teste Başla
-                                <ChevronRight size={20} />
+                                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                        </div>
+                        </SpotlightCard>
                     ))}
                 </div>
 
-                {/* Disclaimer */}
-                <div className="mt-12 bg-white rounded-xl p-6 border border-heading">
-                    <p className="text-center text-sm text-muted">
-                        <strong>Önemli Bilgilendirme:</strong> Bu testler yalnızca bilgilendirme ve farkındalık oluşturma amacı taşımaktadır.
-                        Kesin bir tanı koyma veya tedavi planı oluşturma amacıyla kullanılamaz.
-                        Herhangi bir psikolojik sorun yaşadığınızı düşünüyorsanız, lütfen bir ruh sağlığı uzmanına başvurunuz.
-                    </p>
+                {/* Important Information Box */}
+                <div className="relative group p-1 w-full rounded-[3rem] overflow-hidden">
+                    <div className="absolute inset-0 bg-slate-200/50" />
+                    <div className="relative bg-white p-12 md:p-16 rounded-[2.8rem] flex flex-col md:flex-row items-center gap-10">
+                        <div className="w-20 h-20 rounded-[2rem] bg-amber-50 text-amber-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                            <ShieldCheck size={40} />
+                        </div>
+                        <div className="max-w-3xl">
+                            <h4 className="text-xl font-black text-heading mb-4 tracking-tight">Önemli Bilgilendirme</h4>
+                            <p className="text-muted font-medium leading-relaxed">
+                                Bu testler yalnızca farkındalık oluşturma amacı taşımaktadır. Kesin bir tanı koyma veya tedavi planı oluşturma amacıyla kullanılamaz. 
+                                Eğer kendinizi psikolojik olarak zorlanmış hissediyorsanız, lütfen <Link to="/find-therapist" className="text-primary font-bold hover:underline">bir ruh sağlığı uzmanına</Link> başvurunuz.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

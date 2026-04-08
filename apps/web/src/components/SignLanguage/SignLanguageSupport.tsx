@@ -19,16 +19,18 @@ const SignLanguageSupport: React.FC = () => {
     }, []);
 
     return (
-        <div className="fixed bottom-6 right-6 z-50" ref={dropdownRef}>
+        <div className="fixed bottom-8 right-8 z-50" ref={dropdownRef}>
             {isOpen && (
-                <div className="absolute bottom-16 right-0 w-72 bg-white rounded-lg shadow-xl border border-gray-200 p-4 mb-2 animate-fade-in-up">
-                    <h3 className="text-lg font-bold mb-2" style={{ color: '#1f2937' }}>İşaret Dili Desteği</h3>
-                    <p className="text-sm mb-4" style={{ color: '#1f2937', opacity: 0.8 }}>
-                        İşitme engelli kullanıcılarımız için görüntülü görüşme ile işaret dili desteği sunuyoruz.
+                <div className="absolute bottom-20 right-0 w-80 glass-card p-6 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                    <div className="flex items-center gap-3 mb-4 text-primary">
+                        <HandMetal className="w-6 h-6" />
+                        <h3 className="text-lg font-extrabold text-heading">İşaret Dili Desteği</h3>
+                    </div>
+                    <p className="text-sm text-muted mb-6 leading-relaxed">
+                        İşitme engelli kullanıcılarımız için görüntülü görüşme ile işaret dili desteği sunuyoruz. Size yardımcı olmaktan mutluluk duyarız.
                     </p>
                     <button
-                        className="w-full py-2 px-4 rounded-md transition-opacity duration-200 text-sm font-medium hover:opacity-90"
-                        style={{ backgroundColor: '#1f2937', color: '#f6f7f8' }}
+                        className="btn-premium w-full bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary/90"
                     >
                         Görüntülü Görüşme Başlat
                     </button>
@@ -36,14 +38,14 @@ const SignLanguageSupport: React.FC = () => {
             )}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{
-                    backgroundColor: '#1f2937',
-                    color: '#f6f7f8'
-                }}
+                className="w-16 h-16 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 flex items-center justify-center bg-slate-900 text-white relative group"
                 aria-label="İşaret Dili Desteği"
             >
-                <HandMetal className="w-6 h-6" />
+                <div className="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-20 transition-opacity" />
+                <HandMetal className="w-8 h-8" />
+                {!isOpen && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full border-2 border-white animate-pulse" />
+                )}
             </button>
         </div>
     );
