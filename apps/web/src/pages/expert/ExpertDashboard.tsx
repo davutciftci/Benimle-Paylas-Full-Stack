@@ -48,6 +48,12 @@ const ExpertDashboard: React.FC = () => {
     const photoInputRef = React.useRef<HTMLInputElement>(null);
 
     useEffect(() => {
+        if (user?.role === 'expert' && !user?.expertProfile?.id) {
+            fetchMe();
+        }
+    }, [user?.role, user?.expertProfile?.id, fetchMe]);
+
+    useEffect(() => {
         if (user?.expertProfile?.id) {
             fetchExpertAppointments(user.expertProfile.id.toString());
         }

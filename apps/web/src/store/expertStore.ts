@@ -70,10 +70,18 @@ export const useExpertStore = create<ExpertState>((set, get) => ({
     },
 
     setFilters: (newFilters) => {
-        set((state) => ({
-            filters: { ...state.filters, ...newFilters },
-            pagination: { ...state.pagination, page: 1 },
-        }));
+        set((state) => {
+            const merged: ExpertFilters = { ...state.filters, ...newFilters };
+            (Object.keys(merged) as (keyof ExpertFilters)[]).forEach((key) => {
+                if (merged[key] === undefined) {
+                    delete merged[key];
+                }
+            });
+            return {
+                filters: merged,
+                pagination: { ...state.pagination, page: 1 },
+            };
+        });
         get().fetchExperts(1);
     },
 

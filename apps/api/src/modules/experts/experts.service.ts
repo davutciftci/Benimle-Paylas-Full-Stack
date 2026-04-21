@@ -2,8 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { ExpertFiltersDto, UpdateExpertDto, CreateExpertDto } from './experts.dto';
 import { paginate } from '../../utils';
+import { isExpertAvailableNow } from './expert-availability.util';
 
 const prisma = new PrismaClient();
+
+const expertListInclude = {
+    user: { select: { firstName: true, lastName: true } },
+    specialties: true,
+    degree: true,
+    title: true,
+    therapeuticApproaches: true,
+    seminars: true,
+} as const;
 
 @Injectable()
 export class ExpertsService {
@@ -14,28 +24,54 @@ export class ExpertsService {
 
         const where: Record<string, unknown> = {};
 
-        // For now, simplify search to basic relations since fields like specialty were dropped.
         if (filters.search) {
             where.OR = [
                 { bio: { contains: filters.search, mode: 'insensitive' } },
                 { university: { contains: filters.search, mode: 'insensitive' } },
+                { user: { firstName: { contains: filters.search, mode: 'insensitive' } } },
+                { user: { lastName: { contains: filters.search, mode: 'insensitive' } } },
             ];
         }
 
+        if (filters.price !== undefined && filters.price !== null && !Number.isNaN(filters.price)) {
+            where.price = { lte: filters.price };
+        }
+
+        if (filters.specialty) {
+            const terms = filters.specialty
+                .split(',')
+                .map((s) => s.trim())
+                .filter(Boolean);
+            if (terms.length > 0) {
+                where.specialties = {
+                    some: {
+                        OR: terms.map((t) => ({
+                            name: { contains: t, mode: 'insensitive' as const },
+                        })),
+                    },
+                };
+            }
+        }
+
+        if (filters.availableNow) {
+            const all = await prisma.expertProfile.findMany({
+                where,
+                include: expertListInclude,
+                orderBy: { id: 'desc' },
+            });
+            const filtered = all.filter((e) => isExpertAvailableNow(e.workingHours));
+            const total = filtered.length;
+            const data = filtered.slice(skip, skip + pageSize);
+            return paginate({ data, total, page, pageSize });
+        }
+
         const [experts, total] = await Promise.all([
-            prisma.expertProfile.findMany({ 
-                where, 
-                skip, 
-                take: pageSize, 
-                include: { 
-                    user: { select: { firstName: true, lastName: true } },
-                    specialties: true,
-                    degree: true,
-                    title: true,
-                    therapeuticApproaches: true,
-                    seminars: true
-                },
-                orderBy: { id: 'desc' }, 
+            prisma.expertProfile.findMany({
+                where,
+                skip,
+                take: pageSize,
+                include: expertListInclude,
+                orderBy: { id: 'desc' },
             }),
             prisma.expertProfile.count({ where }),
         ]);

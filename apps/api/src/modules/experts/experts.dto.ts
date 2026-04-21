@@ -8,15 +8,39 @@ import {
     IsArray,
     IsInt,
     IsObject,
+    IsBoolean,
 } from 'class-validator';
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 
 export class ExpertFiltersDto {
     @ApiPropertyOptional({ description: 'Açıklama, üniversite aramak için' })
     @IsString()
     @IsOptional()
     search?: string;
+
+    @ApiPropertyOptional({ description: 'Uzmanlık alanı (virgülle ayrılmış anahtar kelimeler)' })
+    @IsString()
+    @IsOptional()
+    specialty?: string;
+
+    @ApiPropertyOptional({ description: 'Maksimum seans ücreti (TL)' })
+    @IsNumber()
+    @IsOptional()
+    @Type(() => Number)
+    price?: number;
+
+    @ApiPropertyOptional({
+        description:
+            'Şu an müsait (İstanbul saati; çalışma saatleri slotlarına göre, slot öncesi 15 dk veya seans süresi 50 dk içinde)',
+    })
+    @IsOptional()
+    @Transform(({ value }) => {
+        if (value === undefined || value === null || value === '') return undefined;
+        return value === true || value === 'true' || value === '1' || value === 1;
+    })
+    @IsBoolean()
+    availableNow?: boolean;
 
     @ApiPropertyOptional({ description: 'Sayfa numarası', default: 1 })
     @IsNumber()

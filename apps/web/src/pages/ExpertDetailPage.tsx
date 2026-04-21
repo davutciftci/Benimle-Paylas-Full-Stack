@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic, Star, CheckCircle2, ChevronRight, Share2, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, BookOpen, Award, Mic, Star, CheckCircle2, Share2, ShieldCheck } from 'lucide-react';
 import { api } from '../services/api';
 import type { Expert } from '../types';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { cn } from '../components/common/utils';
 import GradientText from '../components/common/GradientText';
 export default function ExpertDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -68,9 +67,9 @@ export default function ExpertDetailPage() {
       <div className="absolute top-0 right-0 w-1/2 h-[600px] bg-slate-50/50 -z-10" />
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/5 blur-[120px] rounded-full" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
         {/* Navigation / Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => navigate(-1)}
               className="group flex items-center gap-2 text-sm font-black text-muted hover:text-primary transition-colors"
@@ -87,14 +86,14 @@ export default function ExpertDetailPage() {
             </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* LEFT COLUMN - Profile & Action */}
           <div className="lg:col-span-5">
-            <div className="spotlight-static premium-card p-10 sticky top-32 overflow-hidden border-none shadow-2xl rounded-[3rem]">
+            <div className="spotlight-static premium-card p-6 sm:p-7 sticky top-32 overflow-hidden border-none shadow-xl rounded-2xl lg:rounded-3xl">
                 <div className="flex flex-col items-center text-center">
-                    <div className="relative mb-8 group">
+                    <div className="relative mb-6 group">
                         <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="w-48 h-48 rounded-[3rem] overflow-hidden border-8 border-white shadow-xl relative z-10 bg-slate-100 flex items-center justify-center">
+                        <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10 bg-slate-100 flex items-center justify-center">
                             {expert.profilePhotoUrl ? (
                                 <img
                                 src={expert.profilePhotoUrl}
@@ -107,19 +106,19 @@ export default function ExpertDetailPage() {
                                 </span>
                             )}
                         </div>
-                        <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-emerald-500 rounded-2xl border-4 border-white flex items-center justify-center text-white shadow-lg z-20">
-                            <CheckCircle2 size={24} />
+                        <div className="absolute -bottom-1 -right-1 w-10 h-10 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center text-white shadow-md z-20">
+                            <CheckCircle2 size={20} />
                         </div>
                     </div>
 
-                    <div className="mb-8">
-                        <GradientText className="text-3xl md:text-4xl font-black mb-2 tracking-tight">
+                    <div className="mb-6">
+                        <GradientText className="text-2xl md:text-3xl font-black mb-2 tracking-tight">
                             {expert.user?.firstName} {expert.user?.lastName}
                         </GradientText>
                         <p className="text-lg font-bold text-primary italic">{expert.title?.name || 'Uzman Klinik Psikolog'}</p>
                     </div>
 
-                    <div className="flex items-center justify-center gap-6 py-6 border-y border-slate-100 w-full mb-8">
+                    <div className="flex items-center justify-center gap-5 py-5 border-y border-slate-100 w-full mb-6">
                         <div className="text-center">
                             <p className="text-xs font-black text-muted uppercase tracking-widest mb-1">Puan</p>
                             <div className="flex items-center gap-1 text-amber-500 font-black text-lg justify-center">
@@ -140,7 +139,7 @@ export default function ExpertDetailPage() {
 
                     <button
                         onClick={() => navigate('/user/dashboard')}
-                        className="btn-premium bg-primary text-white w-full py-5 text-lg hover:scale-[1.02] shadow-2xl shadow-primary/30"
+                        className="btn-premium bg-primary text-white w-full py-4 text-base hover:scale-[1.02] shadow-lg shadow-primary/25"
                     >
                         <Calendar size={20} />
                         Randevu Oluştur
@@ -154,7 +153,7 @@ export default function ExpertDetailPage() {
           </div>
 
           {/* RIGHT COLUMN - Details */}
-          <div className="lg:col-span-7 space-y-12">
+          <div className="lg:col-span-7 space-y-8">
             {/* About Section */}
             <div>
               <div className="flex items-center gap-3 mb-6">
@@ -169,9 +168,9 @@ export default function ExpertDetailPage() {
             </div>
 
             {/* Specialties & Approaches */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="glass-card p-8 rounded-3xl border-slate-100 shadow-xl">
-                    <h3 className="text-lg font-black text-heading mb-6 flex items-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="glass-card p-5 sm:p-6 rounded-2xl border-slate-100 shadow-lg">
+                    <h3 className="text-base font-black text-heading mb-4 flex items-center gap-2">
                         <Award size={20} className="text-primary" />
                         Uzmanlık Alanları
                     </h3>
@@ -187,15 +186,15 @@ export default function ExpertDetailPage() {
                         )}
                     </div>
                 </div>
-                <div className="glass-card p-8 rounded-3xl border-slate-100 shadow-xl">
-                    <h3 className="text-lg font-black text-heading mb-6 flex items-center gap-2">
-                        <Award size={20} className="text-purple-500" />
+                <div className="glass-card p-5 sm:p-6 rounded-2xl border-slate-100 shadow-lg">
+                    <h3 className="text-base font-black text-heading mb-4 flex items-center gap-2">
+                        <Award size={20} className="text-primary" />
                         Terapi Ekolleri
                     </h3>
                     <div className="flex flex-wrap gap-2">
                         {expert.therapeuticApproaches && expert.therapeuticApproaches.length > 0 ? (
                             expert.therapeuticApproaches.map((app, i) => (
-                                <span key={i} className="px-4 py-2 bg-purple-50 text-purple-700 rounded-xl text-xs font-black border border-purple-100">
+                                <span key={i} className="px-3 py-1.5 bg-primary/10 text-primary rounded-xl text-xs font-black border border-primary/15">
                                     {app.name}
                                 </span>
                             ))
@@ -207,17 +206,17 @@ export default function ExpertDetailPage() {
             </div>
 
             {/* Working Hours */}
-            <div className="glass-card p-8 rounded-[2.5rem] border-slate-100 shadow-2xl">
-              <h2 className="text-xl font-black text-heading mb-8 flex items-center gap-2">
-                <MapPin size={22} className="text-emerald-500" />
+            <div className="glass-card p-5 sm:p-6 rounded-2xl border-slate-100 shadow-lg">
+              <h2 className="text-lg font-black text-heading mb-5 flex items-center gap-2">
+                <MapPin size={20} className="text-primary" />
                 Müsaitlik Durumu
               </h2>
               {expert.workingHours && typeof expert.workingHours === 'object' ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {Object.entries(expert.workingHours).map(([day, slots]) => {
                     if (!Array.isArray(slots) || slots.length === 0) return null;
                     return (
-                      <div key={day} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                      <div key={day} className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                         <span className="block text-[10px] font-black text-muted uppercase tracking-widest mb-3">
                           {dayNames[day] || day}
                         </span>
@@ -238,7 +237,7 @@ export default function ExpertDetailPage() {
             </div>
 
             {/* Education & Experience Details */}
-            <div className="p-8 rounded-[2.5rem] bg-slate-900 text-white shadow-2xl relative overflow-hidden">
+            <div className="p-6 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-3xl rounded-full" />
                 <h3 className="text-xl font-black mb-8 flex items-center gap-2 relative z-10">
                     <Mic size={22} className="text-orange-500" />
@@ -270,7 +269,7 @@ export default function ExpertDetailPage() {
                     <div className="space-y-4">
                         {expert.seminars.map((seminar, idx) => (
                             <div key={idx} className="flex gap-6 p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all group">
-                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                                     <Star size={24} className="text-orange-400" />
                                 </div>
                                 <div>

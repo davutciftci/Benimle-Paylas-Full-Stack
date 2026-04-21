@@ -113,6 +113,8 @@ export interface ExpertFilters {
     price?: number;
     availability?: string; // day of week
     rating?: number;
+    /** Sunucu: bugünkü çalışma slotlarına göre şu an müsait uzmanlar */
+    availableNow?: boolean;
 }
 
 // Pagination

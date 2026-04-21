@@ -87,10 +87,13 @@ export const expertsApi = {
             page,
             pageSize,
             ...(filters?.search && { search: filters.search }),
-            ...(filters?.specialty && { specialty: filters.specialty.join(',') }),
+            ...(filters?.specialty && filters.specialty.length > 0 && {
+                specialty: filters.specialty.join(','),
+            }),
             ...(filters?.insurance && { insurance: filters.insurance.join(',') }),
             ...(filters?.price !== undefined && { price: filters.price }),
             ...(filters?.rating !== undefined && { rating: filters.rating }),
+            ...(filters?.availableNow === true && { availableNow: true }),
         };
         return wrap(() => http.get('/experts', { params }));
     },

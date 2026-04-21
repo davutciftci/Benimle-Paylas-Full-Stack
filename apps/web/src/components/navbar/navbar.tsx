@@ -1,24 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { cn } from '../common/utils';
 import logoImg from '../../../img/logo.png';
 
+/** Bu kadar px aşağı inildikten sonra aşağı kaydırma ile navbar gizlenir */
+const SCROLL_HIDE_AFTER = 96;
+/** Üstten bu kadar px kala navbar tekrar gösterilir (yukarı kaydırırken ortada değil, sadece üste yaklaşınca) */
+const REVEAL_NEAR_TOP = 120;
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const { user, logout, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const y = window.scrollY;
+      setScrolled(y > 20);
+
+      if (isOpen) {
+        setNavHidden(false);
+        lastScrollY.current = y;
+        return;
+      }
+
+      if (y <= REVEAL_NEAR_TOP) {
+        setNavHidden(false);
+      } else if (y > lastScrollY.current && y > SCROLL_HIDE_AFTER) {
+        setNavHidden(true);
+      }
+      lastScrollY.current = y;
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) setNavHidden(false);
+  }, [isOpen]);
 
   const handleLogout = () => {
     logout();
@@ -45,11 +71,16 @@ export default function Navbar() {
   const isRoleSpecial = getRoleString()?.toLowerCase() === 'expert' || getRoleString()?.toLowerCase() === 'admin';
 
   return (
-    <div className="fixed top-0 w-full z-50 px-4 pt-4 transition-all duration-500">
-      <nav 
+    <div
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 px-4 pt-4 transition-transform duration-300 ease-out will-change-transform',
+        navHidden && !isOpen ? '-translate-y-[calc(100%+0.5rem)] pointer-events-none' : 'translate-y-0 pointer-events-auto'
+      )}
+    >
+      <nav
         className={cn(
-          "max-w-7xl mx-auto rounded-3xl transition-all duration-500 overflow-hidden",
-          scrolled || isOpen ? "glass-nav py-3 px-6 shadow-2xl" : "bg-transparent py-6 px-4"
+          'max-w-7xl mx-auto rounded-3xl transition-all duration-500 overflow-hidden',
+          scrolled || isOpen ? 'glass-nav py-3 px-6 shadow-2xl' : 'bg-transparent py-6 px-4'
         )}
       >
         <div className="flex items-center justify-between">

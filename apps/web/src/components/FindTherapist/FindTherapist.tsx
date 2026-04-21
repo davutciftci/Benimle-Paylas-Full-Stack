@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ChevronLeft, ChevronRight, Clock, Star, MapPin, Award, Filter, X, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Clock, Star, MapPin, Filter, X, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useExpertStore } from '../../store/expertStore';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { cn } from '../common/utils';
@@ -21,6 +21,7 @@ export default function FindTherapist() {
   const [searchTerm, setSearchTerm] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [price, setPrice] = useState<string>('');
+  const availableNowFilter = filters.availableNow === true;
 
   useEffect(() => {
     fetchExperts();
@@ -46,6 +47,10 @@ export default function FindTherapist() {
     } else {
       setFilters({ price: undefined });
     }
+  };
+
+  const handleAvailableNowChange = (checked: boolean) => {
+    setFilters({ availableNow: checked ? true : undefined });
   };
 
   const handleClearFilters = () => {
@@ -162,6 +167,25 @@ export default function FindTherapist() {
                         </div>
                     </div>
 
+                    {/* Available now */}
+                    <div>
+                        <label className="text-xs font-black text-muted uppercase tracking-[0.2em] mb-4 block">Müsaitlik</label>
+                        <label className="flex items-center gap-3 cursor-pointer group rounded-2xl bg-slate-50 border-2 border-transparent px-4 py-3.5 hover:border-primary/30 transition-colors has-[:focus-visible]:border-primary">
+                            <input
+                                type="checkbox"
+                                checked={availableNowFilter}
+                                onChange={(e) => handleAvailableNowChange(e.target.checked)}
+                                className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary focus:ring-offset-0"
+                            />
+                            <span className="text-sm font-bold text-heading group-hover:text-primary transition-colors">
+                                Şu an müsait
+                            </span>
+                        </label>
+                        <p className="mt-2 text-[11px] font-medium text-muted leading-snug">
+                            Bugünkü çalışma saatlerinize göre, şu an randevu penceresinde olan uzmanlar.
+                        </p>
+                    </div>
+
                     <button
                         onClick={handleClearFilters}
                         className="w-full py-5 rounded-2xl border-2 border-slate-200 text-xs font-black uppercase tracking-widest text-muted hover:border-slate-900 hover:text-heading transition-all flex items-center justify-center gap-2"
@@ -194,103 +218,98 @@ export default function FindTherapist() {
                     <p className="text-muted font-medium">Filtrelerinizi değiştirerek daha geniş bir arama yapabilirsiniz.</p>
                 </div>
             ) : (
-              <div className="space-y-12 mb-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
                 {experts.map((therapist) => (
                     <div
                         key={therapist.id}
-                        className="relative premium-card p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group"
+                        className="premium-card p-4 sm:p-5 flex flex-col border border-slate-100 shadow-premium hover:shadow-xl hover:border-primary/20 transition-all duration-300 rounded-2xl group"
                     >
-                        <div className="flex flex-col md:flex-row bg-white">
-                            {/* Image Left */}
-                            <div className="md:w-64 relative h-64 md:h-auto overflow-hidden bg-slate-100 flex-shrink-0">
-                                <img
-                                    src={therapist.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
-                                    alt={therapist.user?.firstName}
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                                />
-                                <div className="absolute top-4 left-4 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-white text-[9px] font-black uppercase tracking-widest border border-white/10">
+                        <div className="flex gap-4">
+                            <div className="relative shrink-0">
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-white shadow-md bg-slate-100 ring-2 ring-slate-100">
+                                    <img
+                                        src={therapist.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
+                                        alt={therapist.user?.firstName}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="absolute -bottom-0.5 -right-0.5 px-2 py-0.5 bg-slate-900/90 backdrop-blur-sm rounded-full text-white text-[8px] font-black uppercase tracking-wide border border-white/20">
                                     Çevrimiçi
                                 </div>
                             </div>
-                            
-                            {/* Content Right */}
-                            <div className="flex-1 p-10 flex flex-col justify-center">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div>
-                                        <h3 className="text-2xl md:text-3xl font-black text-heading mb-1 tracking-tight group-hover:text-primary transition-colors">
+
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-start justify-between gap-2 mb-1">
+                                    <div className="min-w-0">
+                                        <h3 className="text-lg sm:text-xl font-black text-heading tracking-tight truncate group-hover:text-primary transition-colors">
                                             {therapist.user?.firstName} {therapist.user?.lastName}
                                         </h3>
-                                        <p className="text-md font-bold text-primary italic mb-6">
+                                        <p className="text-sm font-bold text-primary italic line-clamp-2">
                                             {therapist.title?.name || "Uzman Psikolog"}
                                         </p>
                                     </div>
-                                    <div className="flex flex-col items-end">
-                                        <div className="flex items-center gap-1 text-amber-500 font-bold mb-1">
-                                            <Star size={16} fill="currentColor" />
+                                    <div className="flex flex-col items-end shrink-0">
+                                        <div className="flex items-center gap-0.5 text-amber-500 font-bold text-sm">
+                                            <Star size={14} fill="currentColor" />
                                             <span>5.0</span>
                                         </div>
-                                        <span className="text-[10px] font-black text-muted uppercase tracking-widest">+120 Danışan</span>
+                                        <span className="text-[9px] font-black text-muted uppercase tracking-widest">+120 Danışan</span>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8 py-6 border-y border-slate-50">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100">
-                                            <Clock size={18} />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[9px] font-black text-muted uppercase tracking-widest">Süre</span>
-                                            <span className="text-xs font-bold text-heading">50 Dakika</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-emerald-500 border border-slate-100">
-                                            <Award size={18} />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[9px] font-black text-muted uppercase tracking-widest">Ücret</span>
-                                            <span className="text-xs font-bold text-heading uppercase tracking-tighter">₺{therapist.price || "---"}</span>
-                                        </div>
-                                    </div>
-                                    <div className="hidden md:flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100">
-                                            <MapPin size={18} />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[9px] font-black text-muted uppercase tracking-widest">Konum</span>
-                                            <span className="text-xs font-bold text-heading">Online</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Specialties */}
-                                <div className="flex flex-wrap gap-2 mb-10">
-                                    {therapist.specialties && therapist.specialties.slice(0, 4).map(spec => (
-                                        <span key={spec.id} className="px-3 py-1 bg-slate-50 text-[10px] font-black text-muted uppercase tracking-widest rounded-lg border border-slate-100 hover:border-primary/30 transition-colors">
-                                            {spec.name}
+                                <div className="grid grid-cols-3 gap-2 py-3 mt-2 border-y border-slate-100">
+                                    <div className="min-w-0">
+                                        <span className="text-[8px] font-black text-muted uppercase tracking-widest block mb-0.5">Süre</span>
+                                        <span className="text-[11px] font-bold text-heading flex items-center gap-1">
+                                            <Clock size={12} className="text-primary shrink-0" />
+                                            50 dk
                                         </span>
-                                    ))}
-                                    {therapist.specialties && therapist.specialties.length > 4 && (
-                                        <span className="px-3 py-1 text-[10px] font-black text-primary uppercase tracking-widest">+{therapist.specialties.length - 4} Daha</span>
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                    <button
-                                        onClick={() => navigate(`/expert/${therapist.id}`)}
-                                        className="flex-1 btn-premium bg-slate-900 text-white w-full sm:w-auto"
-                                    >
-                                        Profili İncele
-                                        <ArrowRight size={18} />
-                                    </button>
-                                    <button 
-                                        onClick={() => navigate(`/user/dashboard`)}
-                                        className="flex-1 btn-premium bg-primary text-white w-full sm:w-auto shadow-xl shadow-primary/20"
-                                    >
-                                        Randevu Al
-                                    </button>
+                                    </div>
+                                    <div className="min-w-0">
+                                        <span className="text-[8px] font-black text-muted uppercase tracking-widest block mb-0.5">Ücret</span>
+                                        <span className="text-[11px] font-bold text-heading truncate">₺{therapist.price ?? "—"}</span>
+                                    </div>
+                                    <div className="min-w-0">
+                                        <span className="text-[8px] font-black text-muted uppercase tracking-widest block mb-0.5">Konum</span>
+                                        <span className="text-[11px] font-bold text-heading flex items-center gap-1">
+                                            <MapPin size={12} className="text-primary shrink-0" />
+                                            Online
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-1.5 mt-3 mb-4">
+                            {therapist.specialties && therapist.specialties.slice(0, 3).map((spec) => (
+                                <span
+                                    key={spec.id}
+                                    className="px-2 py-0.5 bg-primary/10 text-[9px] font-black text-primary uppercase tracking-wider rounded-md border border-primary/15"
+                                >
+                                    {spec.name}
+                                </span>
+                            ))}
+                            {therapist.specialties && therapist.specialties.length > 3 && (
+                                <span className="px-2 py-0.5 text-[9px] font-black text-muted">+{therapist.specialties.length - 3}</span>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 mt-auto">
+                            <button
+                                type="button"
+                                onClick={() => navigate(`/expert/${therapist.id}`)}
+                                className="flex-1 btn-premium bg-slate-900 text-white py-3 text-sm rounded-xl"
+                            >
+                                Profili İncele
+                                <ArrowRight size={16} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => navigate(`/user/dashboard`)}
+                                className="flex-1 btn-premium bg-primary text-white py-3 text-sm rounded-xl shadow-lg shadow-primary/20"
+                            >
+                                Randevu Al
+                            </button>
                         </div>
                     </div>
                 ))}

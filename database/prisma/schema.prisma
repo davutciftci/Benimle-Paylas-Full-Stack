@@ -101,7 +101,7 @@ model ExpertProfile {
   graduationYear        Int?                  @map("graduation_year") @db.SmallInt
   licenseNumber         String?               @unique @map("license_number") @db.VarChar(100)
   yearsOfExperience     Int?                  @map("years_of_experience") @db.SmallInt
-  profilePhotoUrl       String?               @map("profile_photo_url") @db.VarChar(255)
+  profilePhotoUrl       String?               @map("profile_photo_url") @db.Text
   price                 Int?                  @map("price")
   isVerified            Boolean               @default(false) @map("is_verified")
   createdAt             DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)

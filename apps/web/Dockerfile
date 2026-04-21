@@ -1,5 +1,6 @@
 # Web - Vite/React
-FROM oven/bun:1-alpine AS builder
+# Debian tabanlı imaj: bun + Alpine'da bazı registry tarball'ları çıkarılamıyor (react-icons vb.)
+FROM oven/bun:1 AS builder
 
 WORKDIR /app
 

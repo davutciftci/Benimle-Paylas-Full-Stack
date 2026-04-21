@@ -1,5 +1,6 @@
 # API - NestJS + Prisma (Monorepo)
-FROM oven/bun:1-alpine AS builder
+# Debian tabanlı imaj: Alpine/musl + bun bazen büyük paketlerde (ör. react-icons) tarball çıkarımında hata veriyor
+FROM oven/bun:1 AS builder
 
 WORKDIR /app
 
@@ -16,7 +17,7 @@ RUN cd database && bunx prisma generate
 RUN cd apps/api && bun run build
 
 # Production image - builder'dan node_modules kopyala (lockfile sorunundan kaçın)
-FROM oven/bun:1-alpine
+FROM oven/bun:1
 
 WORKDIR /app
 

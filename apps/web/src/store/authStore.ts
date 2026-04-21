@@ -53,6 +53,10 @@ export const useAuthStore = create<AuthState>()(
 
                     if (response.success && response.data) {
                         set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+                        const u = response.data.user;
+                        if (u.role === 'expert' && !u.expertProfile?.id) {
+                            await get().fetchMe();
+                        }
                         return true;
                     } else {
                         set({ error: response.error || 'Giriş başarısız', isLoading: false, isAuthenticated: false });
