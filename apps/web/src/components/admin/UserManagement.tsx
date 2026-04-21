@@ -112,7 +112,7 @@ export default function UserManagement() {
                       className={`text-sm font-bold border-2 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-offset-1 focus:outline-none transition-all cursor-pointer ${
                         u.role === 'admin' ? 'bg-red-50 text-red-700 border-red-200 focus:ring-red-500' :
                         u.role === 'expert' ? 'bg-purple-50 text-purple-700 border-purple-200 focus:ring-purple-500' :
-                        'bg-blue-50 text-blue-700 border-blue-200 focus:ring-blue-500'
+                        'bg-primary/10 text-primary border-primary/20 focus:ring-primary'
                       }`}
                     >
                       <option value="user" className="font-medium">Danışan (Kullanıcı)</option>

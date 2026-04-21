@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic, Star, CheckCircle2, ChevronRight, Share2 } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, BookOpen, Award, Mic, Star, CheckCircle2, ChevronRight, Share2, ShieldCheck } from 'lucide-react';
 import { api } from '../services/api';
 import type { Expert } from '../types';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { cn } from '../components/common/utils';
 import GradientText from '../components/common/GradientText';
-import SpotlightCard from '../components/common/SpotlightCard';
-
 export default function ExpertDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -92,7 +90,7 @@ export default function ExpertDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* LEFT COLUMN - Profile & Action */}
           <div className="lg:col-span-5">
-            <SpotlightCard className="p-10 sticky top-32 overflow-hidden border-none shadow-2xl rounded-[3rem]">
+            <div className="spotlight-static premium-card p-10 sticky top-32 overflow-hidden border-none shadow-2xl rounded-[3rem]">
                 <div className="flex flex-col items-center text-center">
                     <div className="relative mb-8 group">
                         <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -152,7 +150,7 @@ export default function ExpertDetailPage() {
                         Güvenli Ödeme & Gizlilik Garantisi
                     </p>
                 </div>
-            </SpotlightCard>
+            </div>
           </div>
 
           {/* RIGHT COLUMN - Details */}
@@ -160,7 +158,7 @@ export default function ExpertDetailPage() {
             {/* About Section */}
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                     <BookOpen size={24} />
                 </div>
                 <h2 className="text-2xl font-black text-heading tracking-tight">Hakkında</h2>
@@ -174,13 +172,13 @@ export default function ExpertDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="glass-card p-8 rounded-3xl border-slate-100 shadow-xl">
                     <h3 className="text-lg font-black text-heading mb-6 flex items-center gap-2">
-                        <Award size={20} className="text-blue-500" />
+                        <Award size={20} className="text-primary" />
                         Uzmanlık Alanları
                     </h3>
                     <div className="flex flex-wrap gap-2">
                         {expert.specialties && expert.specialties.length > 0 ? (
                             expert.specialties.map((spec, i) => (
-                                <span key={i} className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-black border border-blue-100">
+                                <span key={i} className="px-4 py-2 bg-primary/10 text-primary rounded-xl text-xs font-black border border-primary/15">
                                     {spec.name}
                                 </span>
                             ))
@@ -279,7 +277,13 @@ export default function ExpertDetailPage() {
                                     <h4 className="text-lg font-black text-heading mb-1">{seminar.title}</h4>
                                     <p className="text-sm text-muted font-medium mb-3">{seminar.description}</p>
                                     <span className="text-xs font-black text-primary uppercase tracking-widest">
-                                        {new Date(seminar.date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                        {seminar.date
+                                            ? new Date(seminar.date).toLocaleDateString('tr-TR', {
+                                                  year: 'numeric',
+                                                  month: 'long',
+                                                  day: 'numeric',
+                                              })
+                                            : '—'}
                                     </span>
                                 </div>
                             </div>

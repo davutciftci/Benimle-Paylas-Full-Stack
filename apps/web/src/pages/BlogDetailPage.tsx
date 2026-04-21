@@ -78,7 +78,7 @@ export default function BlogDetailPage() {
                     <p className="text-gray-600 mb-6">Aradığınız blog yazısı mevcut değil veya yayından kaldırılmış.</p>
                     <Link
                         to="/blog"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:brightness-90 transition-colors"
                     >
                         <ArrowLeft size={16} />
                         Blog'a Dön
@@ -112,7 +112,7 @@ export default function BlogDetailPage() {
                     {/* Header */}
                     <div className="p-8 pb-6 border-b border-gray-100">
                         {post.category && (
-                            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-600 text-white mb-4">
+                            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-primary text-white mb-4">
                                 {post.category}
                             </span>
                         )}
@@ -139,7 +139,7 @@ export default function BlogDetailPage() {
                     {/* Content */}
                     <div className="p-8">
                         {post.excerpt && (
-                            <p className="text-lg text-gray-600 leading-relaxed mb-8 font-medium border-l-4 border-blue-500 pl-4">
+                            <p className="text-lg text-gray-600 leading-relaxed mb-8 font-medium border-l-4 border-primary pl-4">
                                 {post.excerpt}
                             </p>
                         )}
@@ -155,7 +155,7 @@ export default function BlogDetailPage() {
                 <div className="mt-10 text-center">
                     <Link
                         to="/blog"
-                        className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all"
+                        className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all"
                     >
                         <ArrowLeft size={16} />
                         Tüm Yazılara Dön

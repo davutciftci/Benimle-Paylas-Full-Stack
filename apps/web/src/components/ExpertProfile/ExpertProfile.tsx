@@ -106,7 +106,7 @@ export default function ExpertProfile() {
                             <Clock size={16} style={{ color: '#1f2937' }} />
                             50 Dakika
                           </span>
-                          <span className="flex items-center gap-1.5 text-blue-600">
+                          <span className="flex items-center gap-1.5 text-primary">
                             Seans Ücreti: {expert.price ? `₺${expert.price}` : 'Belirtilmedi'}
                           </span>
                         </div>

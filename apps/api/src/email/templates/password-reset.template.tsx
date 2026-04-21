@@ -22,7 +22,7 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
                     <td align="center" style={{ padding: '40px 0' }}>
                         <table width="600" cellPadding={0} cellSpacing={0} style={{ backgroundColor: '#ffffff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
                             <tr>
-                                <td style={{ backgroundColor: '#2563eb', padding: '32px', textAlign: 'center' }}>
+                                <td style={{ backgroundColor: '#00435a', padding: '32px', textAlign: 'center' }}>
                                     <h1 style={{ color: '#ffffff', margin: 0, fontSize: '24px' }}>Benimle Paylaş</h1>
                                 </td>
                             </tr>
@@ -45,7 +45,7 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
                                                     href={resetUrl}
                                                     style={{
                                                         display: 'inline-block',
-                                                        backgroundColor: '#2563eb',
+                                                        backgroundColor: '#00435a',
                                                         color: '#ffffff',
                                                         padding: '14px 32px',
                                                         borderRadius: '6px',
@@ -65,7 +65,7 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
                                     <p style={{ color: '#94a3b8', fontSize: '13px' }}>
                                         Bağlantı çalışmıyorsa aşağıdaki URL'yi tarayıcınıza kopyalayın:
                                         <br />
-                                        <span style={{ color: '#2563eb', wordBreak: 'break-all' }}>{resetUrl}</span>
+                                        <span style={{ color: '#00435a', wordBreak: 'break-all' }}>{resetUrl}</span>
                                     </p>
                                 </td>
                             </tr>

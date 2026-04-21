@@ -6,7 +6,6 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import { ZodError } from 'zod';
 import { User, Mail, Lock, ArrowRight, Sparkles, ShieldCheck, ChevronLeft, CheckCircle2 } from 'lucide-react';
 import GradientText from '../common/GradientText';
-import SpotlightCard from '../common/SpotlightCard';
 import { cn } from '../common/utils';
 
 interface FormErrors {
@@ -86,7 +85,7 @@ export default function UserRegister() {
                   Anasayfaya Dön
                 </button>
 
-                <SpotlightCard className="p-10 md:p-16 rounded-[4rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
+                <div className="spotlight-static premium-card p-10 md:p-16 rounded-[4rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
                     <div className="mb-12 text-center">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-6 border border-primary/10">
                             <Sparkles size={14} />
@@ -264,7 +263,7 @@ export default function UserRegister() {
                             Kayıt olarak, <Link to="/terms" className="text-heading hover:underline">Hizmet Şartları</Link> ve <Link to="/privacy" className="text-heading hover:underline">Gizlilik Politikamızı</Link> kabul etmiş olursunuz.
                         </p>
                     </div>
-                </SpotlightCard>
+                </div>
             </div>
         </div>
     );

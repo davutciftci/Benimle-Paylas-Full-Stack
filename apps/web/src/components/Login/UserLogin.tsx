@@ -6,7 +6,6 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import { ZodError } from 'zod';
 import { Mail, Lock, ArrowRight, Sparkles, ShieldCheck, ChevronLeft } from 'lucide-react';
 import GradientText from '../common/GradientText';
-import SpotlightCard from '../common/SpotlightCard';
 import { cn } from '../common/utils';
 
 interface FormErrors {
@@ -85,7 +84,7 @@ export default function UserLogin() {
           Anasayfaya Dön
         </button>
 
-        <SpotlightCard className="p-12 md:p-16 rounded-[3.5rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
+        <div className="spotlight-static premium-card p-12 md:p-16 rounded-[3.5rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
           <div className="mb-12 text-center">
              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-6 border border-primary/10">
                 <Sparkles size={14} />
@@ -137,7 +136,7 @@ export default function UserLogin() {
             <div className="space-y-2">
               <div className="flex justify-between items-center ml-2">
                 <label className="text-xs font-black text-muted uppercase tracking-widest">Şifre</label>
-                <Link to="/forgot-password" size={14} className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">Şifremi Unuttum</Link>
+                <Link to="/forgot-password" className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">Şifremi Unuttum</Link>
               </div>
               <div className="relative group">
                 <Lock className={cn(
@@ -185,7 +184,7 @@ export default function UserLogin() {
                 </div>
              </div>
           </div>
-        </SpotlightCard>
+        </div>
       </div>
     </div>
   );

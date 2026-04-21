@@ -4,7 +4,6 @@ import { Calendar, Clock, ArrowRight, Search, Sparkles, User, Tag, ChevronRight,
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { cn } from '../components/common/utils';
 import GradientText from '../components/common/GradientText';
-import SpotlightCard from '../components/common/SpotlightCard';
 
 interface BlogPost {
     id: number;
@@ -129,9 +128,9 @@ export default function BlogPage() {
                 ) : filteredPosts.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredPosts.map((post) => (
-                            <SpotlightCard
+                            <div
                                 key={post.id}
-                                className="p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group bg-white hover:bg-slate-50 transition-colors"
+                                className="spotlight-static premium-card p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group bg-white hover:bg-slate-50 transition-colors"
                             >
                                 {/* Image Container */}
                                 <div className="h-64 relative overflow-hidden bg-slate-900 flex items-center justify-center">
@@ -178,7 +177,7 @@ export default function BlogPage() {
                                         </Link>
                                     </div>
                                 </div>
-                            </SpotlightCard>
+                            </div>
                         ))}
                     </div>
                 ) : (
@@ -199,7 +198,7 @@ export default function BlogPage() {
 
                 {/* Bottom CTA Block */}
                 <div className="mt-32 relative group p-1 w-full rounded-[3.5rem] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-blue-400 to-emerald-400 opacity-20" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/60 to-emerald-400 opacity-20" />
                     <div className="relative bg-white p-12 md:p-20 rounded-[3.4rem] flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
                         <div className="max-w-2xl">
                             <h2 className="text-4xl md:text-5xl font-black text-heading mb-6 tracking-tighter leading-tight">

@@ -59,7 +59,7 @@ export const AppointmentConfirmationEmail: React.FC<AppointmentConfirmationEmail
                                         {meetingLink && (
                                             <tr>
                                                 <td style={{ color: '#64748b' }}><strong>Toplantı Bağlantısı</strong></td>
-                                                <td><a href={meetingLink} style={{ color: '#2563eb' }}>{meetingLink}</a></td>
+                                                <td><a href={meetingLink} style={{ color: '#00435a' }}>{meetingLink}</a></td>
                                             </tr>
                                         )}
                                     </table>

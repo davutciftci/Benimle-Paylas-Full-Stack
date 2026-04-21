@@ -30,7 +30,7 @@ const AdminDashboard: React.FC = () => {
     }, []);
 
     const statsConfig = [
-        { title: 'Toplam Kullanıcı', key: 'totalUsers' as const, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
+        { title: 'Toplam Kullanıcı', key: 'totalUsers' as const, icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
         { title: 'Aktif Kullanıcı', key: 'activeUsers' as const, icon: Activity, color: 'text-green-500', bg: 'bg-green-50' },
         { title: 'Toplam Randevu', key: 'totalAppointments' as const, icon: Calendar, color: 'text-purple-500', bg: 'bg-purple-50' },
         { title: 'Bekleyen Onaylar', key: 'pendingApprovals' as const, icon: ShieldAlert, color: 'text-red-500', bg: 'bg-red-50' },
@@ -122,11 +122,11 @@ const AdminDashboard: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1"> AD</label>
-                                            <input type="text" defaultValue={user?.firstName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" defaultValue={user?.firstName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1"> SOYAD</label>
-                                            <input type="text" defaultValue={user?.lastName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" defaultValue={user?.lastName} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-POSTA</label>

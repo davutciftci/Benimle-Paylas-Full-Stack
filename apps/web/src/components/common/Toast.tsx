@@ -46,7 +46,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             case 'error':
                 return <XCircle className="w-5 h-5 text-red-500" />;
             case 'info':
-                return <Info className="w-5 h-5 text-blue-500" />;
+                return <Info className="w-5 h-5 text-primary" />;
         }
     };
 
@@ -57,7 +57,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             case 'error':
                 return 'bg-red-50 border-red-200';
             case 'info':
-                return 'bg-blue-50 border-blue-200';
+                return 'bg-primary/10 border-primary/20';
         }
     };
 

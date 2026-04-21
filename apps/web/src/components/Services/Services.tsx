@@ -1,6 +1,5 @@
 import React from 'react';
 import { Heart, Users, Home, Baby, MessageCircle, Brain, Shield, Clock, ChevronRight, Zap } from 'lucide-react';
-import SpotlightCard from '../common/SpotlightCard';
 import { useNavigate } from 'react-router-dom';
 import GradientText from '../common/GradientText';
 import { cn } from '../common/utils';
@@ -21,8 +20,8 @@ export default function Services() {
       description: "İlişkilerinizdeki düğümleri birlikte çözelim. Daha güçlü iletişim ve güven dolu bağlar kurmanız için buradayız.",
       icon: Users,
       features: ["İletişim Geliştirme", "Güven İnşası", "Çözüm Odaklı Yaklaşım"],
-      color: "text-blue-500",
-      bgColor: "bg-blue-50"
+      color: "text-primary",
+      bgColor: "bg-primary/10"
     },
     {
       title: "Aile Danışmanlığı",
@@ -66,7 +65,12 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
           {services.map((service, index) => (
-            <SpotlightCard key={index} className="p-12 group hover:bg-slate-50 transition-colors duration-500 border-2 border-slate-50 hover:border-primary/20">
+            <div
+              key={index}
+              className={cn(
+                "spotlight-static premium-card p-12 group hover:bg-slate-50 transition-colors duration-500 border-2 border-slate-50 hover:border-primary/20"
+              )}
+            >
               <div className="flex flex-col lg:flex-row gap-10">
                 <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-500", service.bgColor, service.color)}>
                   <service.icon size={36} />
@@ -94,15 +98,15 @@ export default function Services() {
                   </button>
                 </div>
               </div>
-            </SpotlightCard>
+            </div>
           ))}
         </div>
 
         {/* Global CTA transformation */}
         <div className="relative group p-1 w-full rounded-[3rem] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-indigo-500 to-accent animate-gradient-move bg-[length:200%_auto]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/70 to-accent animate-gradient-move bg-[length:200%_auto]" />
             <div className="relative bg-slate-950 p-12 md:p-20 rounded-[2.8rem] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
-                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.2),transparent_50%)]" />
+                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(0,67,90,0.2),transparent_50%)]" />
                 <div className="relative z-10 max-w-2xl">
                     <h3 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">
                         Yeni Bir Sayfa Açmaya <br />

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Users, Clock, Shield } from 'lucide-react';
-import SpotlightCard from '../common/SpotlightCard';
+
+const heroCard =
+  'spotlight-static premium-card p-6 flex flex-col items-center text-center group';
 
 export default function Hero() {
   return (
@@ -16,17 +18,17 @@ export default function Hero() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <SpotlightCard className="flex flex-col items-center text-center group">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-blue-50 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+          <div className={heroCard}>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
               <Users className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-bold mb-3 text-heading">Kapsamlı Uzman Ağı</h3>
             <p className="text-muted leading-relaxed">
               Farklı uzmanlıklara sahip deneyimli terapistlerden oluşan geniş bir ağ sunuyoruz.
             </p>
-          </SpotlightCard>
+          </div>
 
-          <SpotlightCard className="flex flex-col items-center text-center group">
+          <div className={heroCard}>
             <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-green-50 text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300">
               <Clock className="w-8 h-8" />
             </div>
@@ -34,17 +36,17 @@ export default function Hero() {
             <p className="text-muted leading-relaxed">
               Yoğun programlarınıza uyum sağlamak için online ve yüz yüze seanslar sunuyoruz.
             </p>
-          </SpotlightCard>
+          </div>
 
-          <SpotlightCard className="flex flex-col items-center text-center group">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-purple-50 text-indigo-500 group-hover:bg-indigo-500 group-hover:text-white transition-colors duration-300">
+          <div className={heroCard}>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
               <Shield className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-bold mb-3 text-heading">Gizlilik ve Güvenlik</h3>
             <p className="text-muted leading-relaxed">
               Kullanıcı verilerinin korunması ve gizliliği en önemli önceliğimizdir.
             </p>
-          </SpotlightCard>
+          </div>
         </div>
       </div>
     </section>

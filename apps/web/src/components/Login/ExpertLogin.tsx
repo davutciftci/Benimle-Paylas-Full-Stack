@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Hand, Mail, Lock, ArrowRight, Sparkles, ShieldCheck, ChevronLeft, Briefcase } from 'lucide-react';
 import GradientText from '../common/GradientText';
-import SpotlightCard from '../common/SpotlightCard';
-import { cn } from '../common/utils';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ExpertLogin() {
@@ -37,7 +35,7 @@ export default function ExpertLogin() {
           Anasayfaya Dön
         </button>
 
-        <SpotlightCard className="p-12 md:p-16 rounded-[3.5rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
+        <div className="spotlight-static premium-card p-12 md:p-16 rounded-[3.5rem] border-none shadow-2xl bg-white/80 backdrop-blur-xl">
           <div className="mb-12 text-center">
              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-6 shadow-xl">
                 <Briefcase size={14} />
@@ -119,7 +117,7 @@ export default function ExpertLogin() {
                    Güvenli Uzman Erişimi
                 </div>
           </div>
-        </SpotlightCard>
+        </div>
         
         <p className="mt-12 text-center text-[10px] font-black text-muted uppercase tracking-[0.3em]">
             © 2024 Benimle Paylaş • Profesyonel Uzman Portalı

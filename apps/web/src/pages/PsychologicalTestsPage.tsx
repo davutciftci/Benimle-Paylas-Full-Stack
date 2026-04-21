@@ -3,8 +3,6 @@ import { Brain, Heart, Users, ChevronRight, CheckCircle, AlertCircle, Sparkles, 
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../components/common/utils';
 import GradientText from '../components/common/GradientText';
-import SpotlightCard from '../components/common/SpotlightCard';
-
 interface Question {
     id: number;
     text: string;
@@ -28,8 +26,8 @@ const tests: Test[] = [
         title: 'Anksiyete Testi',
         description: 'Son 2 hafta içinde kendinizi ne sıklıkla aşağıdaki durumlarla karşılaştınız?',
         icon: Brain,
-        color: 'text-blue-500',
-        bgColor: 'bg-blue-50',
+        color: 'text-primary',
+        bgColor: 'bg-primary/10',
         duration: '5 Dakika',
         questions: [
             {
@@ -241,7 +239,7 @@ export default function PsychologicalTestsPage() {
         if (percentage <= 25) {
             return { level: 'Düşük', message: 'Sonuçlarınız düşük düzeyde belirtiler gösteriyor. Genel halinizi korumaya devam edin.', severity: 'low', color: 'text-emerald-500' };
         } else if (percentage <= 50) {
-            return { level: 'Orta', message: 'Hafif düzeyde stres/endişe belirtileri gözlemleniyor. Bir uzmanla görüşüp erken önlem almanız faydalı olabilir.', severity: 'medium', color: 'text-blue-500' };
+            return { level: 'Orta', message: 'Hafif düzeyde stres/endişe belirtileri gözlemleniyor. Bir uzmanla görüşüp erken önlem almanız faydalı olabilir.', severity: 'medium', color: 'text-primary' };
         } else if (percentage <= 75) {
             return { level: 'Yüksek', message: 'Belirgin düzeyde zorlanma belirtileri mevcut. Uzman desteği alarak bu süreci daha kolay atlatabilirsiniz.', severity: 'high', color: 'text-orange-500' };
         } else {
@@ -271,8 +269,8 @@ export default function PsychologicalTestsPage() {
         return (
             <div className="min-h-screen bg-white pb-32 pt-40 px-4">
                 <div className="max-w-3xl mx-auto">
-                    <SpotlightCard className="p-12 md:p-16 rounded-[3rem] border-none shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.05),transparent_50%)]" />
+                    <div className="spotlight-static premium-card p-12 md:p-16 rounded-[3rem] border-none shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(0,67,90,0.05),transparent_50%)]" />
                         
                         <div className="relative z-10 text-center">
                             <div className="mb-10 inline-flex items-center justify-center p-6 rounded-[2rem] bg-slate-50 border border-slate-100 shadow-xl">
@@ -325,7 +323,7 @@ export default function PsychologicalTestsPage() {
                                 <p>Bu sonuçlar tıbbi bir teşhis değildir, sadece bilgilendirme amaçlıdır.</p>
                             </div>
                         </div>
-                    </SpotlightCard>
+                    </div>
                 </div>
             </div>
         );
@@ -356,7 +354,7 @@ export default function PsychologicalTestsPage() {
                         </div>
                     </div>
 
-                    <SpotlightCard className="p-10 md:p-16 rounded-[3rem] border-none shadow-2xl">
+                    <div className="spotlight-static premium-card p-10 md:p-16 rounded-[3rem] border-none shadow-2xl">
                         {/* Progress Bar */}
                         <div className="mb-16">
                             <div className="flex justify-between items-end mb-4">
@@ -438,7 +436,7 @@ export default function PsychologicalTestsPage() {
                                 </button>
                             )}
                         </div>
-                    </SpotlightCard>
+                    </div>
                 </div>
             </div>
         );
@@ -472,7 +470,12 @@ export default function PsychologicalTestsPage() {
                 {/* Test Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
                     {tests.map((test) => (
-                        <SpotlightCard key={test.id} className="p-10 flex flex-col items-center text-center group border-none shadow-2xl rounded-[3rem] hover:bg-slate-50 transition-colors duration-500">
+                        <div
+                            key={test.id}
+                            className={cn(
+                                "spotlight-static premium-card p-10 flex flex-col items-center text-center group border-none shadow-2xl rounded-[3rem] hover:bg-slate-50 transition-colors duration-500"
+                            )}
+                        >
                             <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:scale-110 transition-transform duration-500", test.bgColor, test.color)}>
                                 <test.icon size={36} />
                             </div>
@@ -497,7 +500,7 @@ export default function PsychologicalTestsPage() {
                                 Teste Başla
                                 <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                        </SpotlightCard>
+                        </div>
                     ))}
                 </div>
 

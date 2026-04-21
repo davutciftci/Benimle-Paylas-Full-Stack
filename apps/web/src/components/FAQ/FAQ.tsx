@@ -17,7 +17,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
             >
                 <span className="text-lg font-medium text-gray-800">{question}</span>
                 {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-indigo-600" />
+                    <ChevronUp className="w-5 h-5 text-primary" />
                 ) : (
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                 )}

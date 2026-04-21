@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, User, LogOut, Heart } from 'lucide-react';
+import { Menu, X, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { cn } from '../common/utils';
+import logoImg from '../../../img/logo.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,12 +55,17 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           {!isRoleSpecial && (
-            <Link to="/" className="flex items-center group">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center mr-3 shadow-lg group-hover:rotate-12 transition-transform">
-                <Heart className="text-white w-6 h-6" fill="currentColor" />
-              </div>
+            <Link to="/" className="flex items-center group gap-3" aria-label="Benimle Paylaş ana sayfa">
+              <img
+                src={logoImg}
+                alt=""
+                className="h-10 w-auto object-contain shrink-0 group-hover:scale-105 transition-transform"
+                width={120}
+                height={40}
+              />
               <span className="text-xl font-extrabold text-heading tracking-tighter">
-                benimle <span className="text-primary font-black">paylaş</span>
+                benimle{' '}
+                <span className="font-black text-primary">paylaş</span>
               </span>
             </Link>
           )}

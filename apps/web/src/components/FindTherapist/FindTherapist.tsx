@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ChevronLeft, ChevronRight, Clock, Star, MapPin, Award, Filter, X, Sparkles, ShieldCheck } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Clock, Star, MapPin, Award, Filter, X, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useExpertStore } from '../../store/expertStore';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { cn } from '../common/utils';
 import GradientText from '../common/GradientText';
-import TiltedCard from '../common/TiltedCard';
 
 export default function FindTherapist() {
   const navigate = useNavigate();
@@ -197,9 +196,9 @@ export default function FindTherapist() {
             ) : (
               <div className="space-y-12 mb-16">
                 {experts.map((therapist) => (
-                    <TiltedCard 
+                    <div
                         key={therapist.id}
-                        className="p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group"
+                        className="relative premium-card p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group"
                     >
                         <div className="flex flex-col md:flex-row bg-white">
                             {/* Image Left */}
@@ -254,7 +253,7 @@ export default function FindTherapist() {
                                         </div>
                                     </div>
                                     <div className="hidden md:flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-indigo-500 border border-slate-100">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100">
                                             <MapPin size={18} />
                                         </div>
                                         <div className="flex flex-col">
@@ -293,7 +292,7 @@ export default function FindTherapist() {
                                 </div>
                             </div>
                         </div>
-                    </TiltedCard>
+                    </div>
                 ))}
               </div>
             )}

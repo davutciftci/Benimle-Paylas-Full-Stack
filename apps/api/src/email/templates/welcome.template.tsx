@@ -21,7 +21,7 @@ export const WelcomeEmail: React.FC<WelcomeEmailProps> = ({
                     <td align="center" style={{ padding: '40px 0' }}>
                         <table width="600" cellPadding={0} cellSpacing={0} style={{ backgroundColor: '#ffffff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
                             <tr>
-                                <td style={{ backgroundColor: '#2563eb', padding: '32px', textAlign: 'center' }}>
+                                <td style={{ backgroundColor: '#00435a', padding: '32px', textAlign: 'center' }}>
                                     <h1 style={{ color: '#ffffff', margin: 0, fontSize: '24px' }}>Benimle Paylaş</h1>
                                     <p style={{ color: '#bfdbfe', margin: '8px 0 0' }}>Psikolojik Danışmanlık Platformu</p>
                                 </td>
@@ -42,7 +42,7 @@ export const WelcomeEmail: React.FC<WelcomeEmailProps> = ({
                                                     href={loginUrl}
                                                     style={{
                                                         display: 'inline-block',
-                                                        backgroundColor: '#2563eb',
+                                                        backgroundColor: '#00435a',
                                                         color: '#ffffff',
                                                         padding: '14px 32px',
                                                         borderRadius: '6px',

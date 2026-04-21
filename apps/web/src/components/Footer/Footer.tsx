@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Heart, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, ChevronRight } from 'lucide-react';
+import logoImg from '../../../img/logo.png';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -27,10 +28,10 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { name: 'Facebook', icon: Facebook, color: 'hover:bg-blue-600' },
+    { name: 'Facebook', icon: Facebook, color: 'hover:bg-primary' },
     { name: 'Twitter', icon: Twitter, color: 'hover:bg-sky-500' },
     { name: 'Instagram', icon: Instagram, color: 'hover:bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500' },
-    { name: 'Linkedin', icon: Linkedin, color: 'hover:bg-blue-700' },
+    { name: 'Linkedin', icon: Linkedin, color: 'hover:bg-primary' },
     { name: 'Youtube', icon: Youtube, color: 'hover:bg-red-600' },
   ];
 
@@ -44,10 +45,14 @@ export default function Footer() {
           
           {/* Brand Section */}
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center group mb-8">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center mr-3 shadow-lg group-hover:rotate-12 transition-transform">
-                <Heart className="text-white w-6 h-6" fill="currentColor" />
-              </div>
+            <Link to="/" className="flex items-center group gap-3 mb-8" aria-label="Benimle Paylaş ana sayfa">
+              <img
+                src={logoImg}
+                alt=""
+                className="h-11 w-auto object-contain shrink-0 group-hover:scale-105 transition-transform"
+                width={132}
+                height={44}
+              />
               <span className="text-2xl font-black text-white tracking-tighter">
                 benimle <span className="text-primary">paylaş</span>
               </span>
@@ -126,7 +131,11 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
           <p className="text-sm font-medium">
-            © {currentYear} <span className="text-white font-bold tracking-tighter">benimle <span className="text-primary">paylaş</span></span> — Tüm hakları saklıdır.
+            © {currentYear}{' '}
+            <span className="text-white font-bold tracking-tighter">
+              benimle <span className="text-primary">paylaş</span>
+            </span>{' '}
+            — Tüm hakları saklıdır.
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
             {footerLinks.legal.map((link) => (

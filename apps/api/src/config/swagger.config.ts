@@ -43,7 +43,7 @@ export function setupSwagger(app: INestApplication): void {
         },
         customSiteTitle: 'Benimle Paylaş API Docs',
         customCss: `
-            .swagger-ui .topbar { background-color: #2563eb; }
+            .swagger-ui .topbar { background-color: #00435a; }
             .swagger-ui .topbar-wrapper .link span { color: white; }
         `,
     });

@@ -34,8 +34,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
       id: 'account' as DashboardTab,
       label: 'Hesap Bilgileri',
       icon: User,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-50'
+      color: 'text-primary',
+      bgColor: 'bg-primary/10'
     },
     {
       id: 'security' as DashboardTab,
@@ -60,11 +60,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
 
   if (isExpert) {
     menuItems = [
-      { id: 'dashboard' as DashboardTab, label: 'Genel Bakış', icon: LayoutDashboard, color: 'text-indigo-500', bgColor: 'bg-indigo-50' },
+      { id: 'dashboard' as DashboardTab, label: 'Genel Bakış', icon: LayoutDashboard, color: 'text-primary', bgColor: 'bg-primary/10' },
       { id: 'appointments' as DashboardTab, label: 'Randevularım', icon: Calendar, color: 'text-green-500', bgColor: 'bg-green-50' },
       { id: 'profile' as DashboardTab, label: 'Uzmanlık & Profil', icon: Briefcase, color: 'text-purple-500', bgColor: 'bg-purple-50' },
       { id: 'workingHours' as DashboardTab, label: 'Çalışma Saatleri', icon: Clock, color: 'text-amber-500', bgColor: 'bg-amber-50' },
-      { id: 'account' as DashboardTab, label: 'Hesap Bilgileri', icon: User, color: 'text-blue-500', bgColor: 'bg-blue-50' },
+      { id: 'account' as DashboardTab, label: 'Hesap Bilgileri', icon: User, color: 'text-primary', bgColor: 'bg-primary/10' },
       { id: 'security' as DashboardTab, label: 'Şifre Değiştirme', icon: Lock, color: 'text-gray-500', bgColor: 'bg-gray-50' },
     ];
   } else {
@@ -95,7 +95,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
       {/* User Header */}
       <div className="p-6 border-b border-gray-50 bg-linear-to-r from-gray-50 to-white">
         <div className="flex items-center space-x-4">
-          <div className="h-14 w-14 rounded-2xl bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-lg">
+          <div className="h-14 w-14 rounded-2xl bg-linear-to-br from-primary to-[#003548] flex items-center justify-center text-white shadow-lg">
             <span className="text-xl font-bold uppercase">{user?.firstName?.charAt(0) || 'U'}</span>
           </div>
           <div className="flex-1 min-w-0">
@@ -117,7 +117,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
               onClick={() => onTabChange(item.id)}
               className={`w-full flex items-center justify-between p-3.5 rounded-xl transition-all duration-300 group ${
                 isActive 
-                  ? `${item.bgColor} shadow-sm border-l-4 border-l-blue-500` 
+                  ? `${item.bgColor} shadow-sm border-l-4 border-l-primary` 
                   : 'hover:bg-gray-50 text-gray-600'
               }`}
             >
@@ -131,7 +131,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, onTabCha
                   {item.label}
                 </span>
               </div>
-              {isActive && <ChevronRight className="w-4 h-4 text-blue-500" />}
+              {isActive && <ChevronRight className="w-4 h-4 text-primary" />}
             </button>
           );
         })}

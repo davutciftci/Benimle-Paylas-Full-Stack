@@ -46,8 +46,8 @@ export default function ContactPage() {
 
                             <div className="space-y-6">
                                 <div className="flex items-start space-x-4">
-                                    <div className="p-3 rounded-full bg-blue-50">
-                                        <Mail className="w-6 h-6 text-blue-500" />
+                                    <div className="p-3 rounded-full bg-primary/10">
+                                        <Mail className="w-6 h-6 text-primary" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold mb-1" style={{ color: '#1f2937' }}>E-posta</h3>
@@ -57,8 +57,8 @@ export default function ContactPage() {
                                 </div>
 
                                 <div className="flex items-start space-x-4">
-                                    <div className="p-3 rounded-full bg-blue-50">
-                                        <Phone className="w-6 h-6 text-blue-500" />
+                                    <div className="p-3 rounded-full bg-primary/10">
+                                        <Phone className="w-6 h-6 text-primary" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold mb-1" style={{ color: '#1f2937' }}>Telefon</h3>
@@ -68,8 +68,8 @@ export default function ContactPage() {
                                 </div>
 
                                 <div className="flex items-start space-x-4">
-                                    <div className="p-3 rounded-full bg-blue-50">
-                                        <MapPin className="w-6 h-6 text-blue-500" />
+                                    <div className="p-3 rounded-full bg-primary/10">
+                                        <MapPin className="w-6 h-6 text-primary" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold mb-1" style={{ color: '#1f2937' }}>Ofis</h3>

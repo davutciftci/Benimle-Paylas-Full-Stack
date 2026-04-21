@@ -113,7 +113,7 @@ const UserDashboardPage: React.FC = () => {
                                     </div>
                                     <Link
                                         to="/find-therapist"
-                                        className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-blue-700 transition-all flex items-center space-x-2"
+                                        className="bg-primary text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:brightness-90 transition-all flex items-center space-x-2"
                                     >
                                         <Search size={18} />
                                         <span>Yeni Randevu</span>
@@ -123,7 +123,7 @@ const UserDashboardPage: React.FC = () => {
                                 {/* Quick Stats Section */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                     {[
-                                        { title: 'Toplam Randevu', val: appointments.length, icon: Calendar, color: 'text-blue-500', bg: 'bg-blue-50' },
+                                        { title: 'Toplam Randevu', val: appointments.length, icon: Calendar, color: 'text-primary', bg: 'bg-primary/10' },
                                         { title: 'Yaklaşan Seans', val: upcomingAppointments.length, icon: Clock, color: 'text-green-500', bg: 'bg-green-50' },
                                         { title: 'Geçmiş Seans', val: pastAppointments.length, icon: Star, color: 'text-orange-500', bg: 'bg-orange-50' },
                                         { title: 'Favori Uzmanlar', val: favorites.length, icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50' }
@@ -144,39 +144,39 @@ const UserDashboardPage: React.FC = () => {
                                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                                     <div className="p-6 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
                                         <h2 className="text-lg font-bold text-gray-900 flex items-center">
-                                            <div className="w-1.5 h-6 bg-blue-500 rounded-full mr-3"></div>
+                                            <div className="w-1.5 h-6 bg-primary/100 rounded-full mr-3"></div>
                                             Yaklaşan Randevular
                                         </h2>
-                                        <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-bold">
+                                        <span className="bg-primary/15 text-primary px-3 py-1 rounded-lg text-xs font-bold">
                                             {upcomingAppointments.length} Bekleyen
                                         </span>
                                     </div>
                                     <div className="p-6">
                                         {upcomingAppointments.length === 0 ? (
                                             <div className="text-center py-10">
-                                                <div className="w-16 h-16 bg-blue-50 text-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <div className="w-16 h-16 bg-primary/10 text-primary/30 rounded-full flex items-center justify-center mx-auto mb-4">
                                                     <Calendar size={32} />
                                                 </div>
                                                 <p className="text-gray-500 font-bold">Henüz yaklaşan bir randevunuz yok</p>
-                                                <Link to="/find-therapist" className="text-blue-500 text-sm font-bold mt-2 inline-block hover:underline">Şimdi uzman keşfet</Link>
+                                                <Link to="/find-therapist" className="text-primary text-sm font-bold mt-2 inline-block hover:underline">Şimdi uzman keşfet</Link>
                                             </div>
                                         ) : (
                                             <div className="space-y-4">
                                                 {upcomingAppointments.map((apt) => {
                                                     const expert = experts.find(e => e.id === Number(apt.expertId));
                                                     return (
-                                                        <div key={apt.id} className="group flex items-center justify-between p-5 bg-white border border-gray-100 rounded-2xl hover:border-blue-200 hover:shadow-md transition-all duration-300">
+                                                        <div key={apt.id} className="group flex items-center justify-between p-5 bg-white border border-gray-100 rounded-2xl hover:border-primary/25 hover:shadow-md transition-all duration-300">
                                                             <div className="flex items-center space-x-5">
                                                                 <div className="relative">
                                                                     <img src={expert?.profilePhotoUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"} alt={expert?.user?.firstName} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm" />
                                                                     <div className="absolute -bottom-1 -right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
                                                                 </div>
                                                                 <div>
-                                                                    <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{expert?.user?.firstName} {expert?.user?.lastName}</h4>
+                                                                    <h4 className="font-bold text-gray-900 group-hover:text-primary transition-colors">{expert?.user?.firstName} {expert?.user?.lastName}</h4>
                                                                     <p className="text-xs text-gray-500 font-medium">{expert?.degree?.name || 'Uzman'}</p>
                                                                     <div className="flex items-center mt-2 space-x-3">
                                                                         <div className="flex items-center text-xs text-gray-600 font-bold bg-gray-100 px-2 py-1 rounded-md">
-                                                                            <Calendar size={12} className="mr-1.5 text-blue-500" />
+                                                                            <Calendar size={12} className="mr-1.5 text-primary" />
                                                                             {new Date(apt.date).toLocaleDateString('tr-TR')}
                                                                         </div>
                                                                         <div className="flex items-center text-xs text-gray-600 font-bold bg-gray-100 px-2 py-1 rounded-md">
@@ -188,11 +188,11 @@ const UserDashboardPage: React.FC = () => {
                                                             </div>
                                                             <div className="flex flex-col items-end space-y-2">
                                                                 <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${
-                                                                    apt.sessionType === 'online' ? 'bg-indigo-50 text-indigo-600' : 'bg-green-50 text-green-600'
+                                                                    apt.sessionType === 'online' ? 'bg-primary/10 text-primary' : 'bg-green-50 text-green-600'
                                                                 }`}>
                                                                     {apt.sessionType === 'online' ? '🌐 ONLINE' : '👥 YÜZ YÜZE'}
                                                                 </span>
-                                                                <button className="text-xs font-bold text-blue-500 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">Detaylar</button>
+                                                                <button className="text-xs font-bold text-primary hover:bg-primary/10 px-3 py-1.5 rounded-lg transition-colors">Detaylar</button>
                                                             </div>
                                                         </div>
                                                     );
@@ -244,14 +244,14 @@ const UserDashboardPage: React.FC = () => {
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">AD</label>
                                                     <div className="relative">
                                                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="text" name="firstName" value={accountData.firstName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="text" name="firstName" value={accountData.firstName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">SOYAD</label>
                                                     <div className="relative">
                                                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="text" name="lastName" value={accountData.lastName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="text" name="lastName" value={accountData.lastName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2">
@@ -265,7 +265,7 @@ const UserDashboardPage: React.FC = () => {
                                                     <label className="text-xs font-bold text-gray-500 uppercase ml-1">TELEFON</label>
                                                     <div className="relative">
                                                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                        <input type="tel" name="phone" value={accountData.phone} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                        <input type="tel" name="phone" value={accountData.phone} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -282,10 +282,10 @@ const UserDashboardPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-6">
-                                        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                                        <div className="bg-gradient-to-br from-primary to-[#003548] rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
                                             <ShieldCheck className="absolute -bottom-4 -right-4 w-32 h-32 opacity-10" />
                                             <h3 className="text-xl font-black mb-4">Profil Durumu</h3>
-                                            <p className="text-blue-100 text-sm font-medium mb-6 leading-relaxed">Profiliniz şu anda aktif ve randevu alabilir durumdasınız.</p>
+                                            <p className="text-white/80 text-sm font-medium mb-6 leading-relaxed">Profiliniz şu anda aktif ve randevu alabilir durumdasınız.</p>
                                             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex items-center space-x-3">
                                                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                                                 <span className="text-sm font-bold uppercase tracking-wider">DOĞRULANMIŞ HESAP</span>
@@ -315,13 +315,13 @@ const UserDashboardPage: React.FC = () => {
                                                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">{field.label}</label>
                                                 <div className="relative">
                                                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                                    <input type="password" placeholder={field.placeholder} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                                    <input type="password" placeholder={field.placeholder} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 pl-12 pr-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                     <div className="pt-4">
-                                        <button className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2">
+                                        <button className="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg hover:brightness-90 transition-all flex items-center justify-center space-x-2">
                                             <ShieldCheck size={20} />
                                             <span>Şifreyi Güncelle</span>
                                         </button>

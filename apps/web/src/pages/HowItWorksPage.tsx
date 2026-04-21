@@ -2,7 +2,6 @@ import React from 'react';
 import { Search, CreditCard, Video, ArrowRight, CheckCircle2, Sparkles, MessageSquare, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import GradientText from '../components/common/GradientText';
-import SpotlightCard from '../components/common/SpotlightCard';
 
 export default function HowItWorksPage() {
     const navigate = useNavigate();
@@ -14,8 +13,8 @@ export default function HowItWorksPage() {
             title: 'Uzmanını Keşfet',
             description: 'İhtiyaçlarınıza en uygun terapisti bulmak için uzman kadromuzu filtreleyin. Deneyim, uzmanlık alanları ve danışan yorumlarını inceleyerek doğru eşleşmeyi yakalayın.',
             details: ['Alanında Uzman Kadro', 'Gerçek Danışan Yorumları', 'Detaylı Uzman Profilleri'],
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-50'
+            color: 'text-primary',
+            bgColor: 'bg-primary/10'
         },
         {
             icon: CreditCard,
@@ -95,7 +94,7 @@ export default function HowItWorksPage() {
                                 
                                 {/* Visual Card */}
                                 <div className="flex-1 w-full">
-                                    <SpotlightCard className="p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group">
+                                    <div className="spotlight-static premium-card p-0 overflow-hidden border-none shadow-2xl rounded-[3rem] group">
                                         <div className={`aspect-video lg:aspect-square flex items-center justify-center p-12 relative overflow-hidden ${step.bgColor}`}>
                                             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-40 transition-opacity" />
                                             <step.icon size={120} className={`${step.color} relative z-10 transition-transform duration-700 group-hover:scale-110`} />
@@ -104,7 +103,7 @@ export default function HowItWorksPage() {
                                             <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-white/50 blur-3xl" />
                                             <div className="absolute top-10 left-10 w-20 h-20 rounded-full bg-white/30 blur-2xl" />
                                         </div>
-                                    </SpotlightCard>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -114,7 +113,7 @@ export default function HowItWorksPage() {
 
             {/* Bottom Info Bar - Trust Factors */}
             <section className="py-24 bg-slate-950 text-white overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.1),transparent_50%)]" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(0,67,90,0.1),transparent_50%)]" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
                         <div className="space-y-4">

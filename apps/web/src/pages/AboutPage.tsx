@@ -35,15 +35,15 @@ const AboutPage: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-2xl font-bold text-indigo-600 mb-2">500+</div>
+              <div className="text-2xl font-bold text-primary mb-2">500+</div>
               <div className="text-gray-600 font-medium">Uzman Psikolog</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-indigo-600 mb-2">10k+</div>
+              <div className="text-2xl font-bold text-primary mb-2">10k+</div>
               <div className="text-gray-600 font-medium">Mutlu Danışan</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-indigo-600 mb-2">24/7</div>
+              <div className="text-2xl font-bold text-primary mb-2">24/7</div>
               <div className="text-gray-600 font-medium">Canlı Destek</div>
             </div>
           </div>

@@ -267,8 +267,8 @@ const ExpertDashboard: React.FC = () => {
             title: 'Toplam Randevu',
             value: appointments.length,
             icon: Calendar,
-            color: 'text-blue-500',
-            bg: 'bg-blue-50',
+            color: 'text-primary',
+            bg: 'bg-primary/10',
         },
         {
             title: 'Yaklaşan',
@@ -332,9 +332,9 @@ const ExpertDashboard: React.FC = () => {
                                 <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
                                     <Link
                                         to="/expert/appointments"
-                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-blue-200 transition-all flex items-center space-x-4"
+                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-primary/25 transition-all flex items-center space-x-4"
                                     >
-                                        <div className="bg-blue-50 p-4 rounded-xl text-blue-600">
+                                        <div className="bg-primary/10 p-4 rounded-xl text-primary">
                                             <Calendar className="w-8 h-8" />
                                         </div>
                                         <div>
@@ -360,9 +360,9 @@ const ExpertDashboard: React.FC = () => {
                                 <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
                                     <Link
                                         to="/expert/appointments"
-                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-blue-200 transition-all flex items-center space-x-4"
+                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-primary/25 transition-all flex items-center space-x-4"
                                     >
-                                        <div className="bg-blue-50 p-4 rounded-xl text-blue-600">
+                                        <div className="bg-primary/10 p-4 rounded-xl text-primary">
                                             <Calendar className="w-8 h-8" />
                                         </div>
                                         <div>
@@ -376,7 +376,7 @@ const ExpertDashboard: React.FC = () => {
                                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                                     <div className="p-6 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
                                         <h2 className="text-lg font-bold text-gray-900 flex items-center">
-                                            <div className="w-1.5 h-6 bg-blue-500 rounded-full mr-3"></div>
+                                            <div className="w-1.5 h-6 bg-primary/100 rounded-full mr-3"></div>
                                             Yaklaşan Randevular
                                         </h2>
                                     </div>
@@ -388,8 +388,8 @@ const ExpertDashboard: React.FC = () => {
                                                 {upcomingAppointments.slice(0, 5).map((appointment) => (
                                                     <div key={appointment.id} className="flex items-center justify-between p-5 bg-white border border-gray-100 rounded-2xl hover:shadow-md transition-all">
                                                         <div className="flex items-center space-x-4">
-                                                            <div className="bg-blue-50 p-3 rounded-xl">
-                                                                <Calendar className="w-6 h-6 text-blue-500" />
+                                                            <div className="bg-primary/10 p-3 rounded-xl">
+                                                                <Calendar className="w-6 h-6 text-primary" />
                                                             </div>
                                                             <div>
                                                                 <p className="font-bold text-gray-900">
@@ -400,7 +400,7 @@ const ExpertDashboard: React.FC = () => {
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${appointment.sessionType === 'online' ? 'bg-indigo-50 text-indigo-600' : 'bg-green-50 text-green-600'}`}>
+                                                        <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${appointment.sessionType === 'online' ? 'bg-primary/10 text-primary' : 'bg-green-50 text-green-600'}`}>
                                                             {appointment.sessionType === 'online' ? '🌐 ONLINE' : '👥 YÜZ YÜZE'}
                                                         </span>
                                                     </div>
@@ -423,11 +423,11 @@ const ExpertDashboard: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">AD</label>
-                                            <input type="text" name="firstName" value={accountData.firstName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="firstName" value={accountData.firstName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">SOYAD</label>
-                                            <input type="text" name="lastName" value={accountData.lastName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="lastName" value={accountData.lastName} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">E-POSTA</label>
@@ -435,7 +435,7 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">TELEFON</label>
-                                            <input type="tel" name="phone" value={accountData.phone} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="tel" name="phone" value={accountData.phone} onChange={handleAccountChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                     </div>
                                     {saveMessage.text && activeTab === 'account' && (
@@ -444,7 +444,7 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                     )}
                                     <div className="pt-4 border-t border-gray-50">
-                                        <button onClick={handleSaveAccount} disabled={isSaving} className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                                        <button onClick={handleSaveAccount} disabled={isSaving} className="bg-primary text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:brightness-90 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
                                             {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
                                         </button>
                                     </div>
@@ -462,7 +462,7 @@ const ExpertDashboard: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2 md:col-span-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">KISA BİYOGRAFİ (BİO)</label>
-                                            <textarea name="bio" value={profileData.bio} onChange={handleProfileChange} rows={3} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <textarea name="bio" value={profileData.bio} onChange={handleProfileChange} rows={3} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         
                                         <div className="space-y-2 md:col-span-2">
@@ -474,7 +474,7 @@ const ExpertDashboard: React.FC = () => {
                                                         <button 
                                                             key={`spec-${spec.id}`} 
                                                             onClick={() => toggleSpecialty(spec.id)}
-                                                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${isSelected ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${isSelected ? 'bg-primary text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                                                         >
                                                             {spec.name}
                                                         </button>
@@ -491,7 +491,7 @@ const ExpertDashboard: React.FC = () => {
                                                         <button 
                                                             key={`tApp-${tApp.id}`} 
                                                             onClick={() => toggleApproach(tApp.id)}
-                                                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${isSelected ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${isSelected ? 'bg-primary text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                                                         >
                                                             {tApp.name}
                                                         </button>
@@ -501,41 +501,41 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">ÜNİVERSİTE</label>
-                                            <input type="text" name="university" value={profileData.university} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="university" value={profileData.university} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">BÖLÜM</label>
-                                            <input type="text" name="fieldOfStudy" value={profileData.fieldOfStudy} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="fieldOfStudy" value={profileData.fieldOfStudy} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">UZMAN ÜNVANI</label>
-                                            <select name="titleId" value={(profileData as any).titleId || ''} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500">
+                                            <select name="titleId" value={(profileData as any).titleId || ''} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary">
                                                 <option value="">Seçiniz</option>
                                                 {titlesList.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                                             </select>
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">MEZUNİYET DERECESİ (TİPİ)</label>
-                                            <select name="degreeId" value={(profileData as any).degreeId || ''} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500">
+                                            <select name="degreeId" value={(profileData as any).degreeId || ''} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary">
                                                 <option value="">Seçiniz</option>
                                                 {degreesList.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
                                             </select>
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">MEZUNİYET YILI</label>
-                                            <input type="number" name="graduationYear" value={profileData.graduationYear} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="number" name="graduationYear" value={profileData.graduationYear} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">MESLEK LİSANS NUMARASI</label>
-                                            <input type="text" name="licenseNumber" value={profileData.licenseNumber} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="text" name="licenseNumber" value={profileData.licenseNumber} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">DENEYİM (YIL)</label>
-                                            <input type="number" name="yearsOfExperience" value={profileData.yearsOfExperience} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="number" name="yearsOfExperience" value={profileData.yearsOfExperience} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">SEANS ÜCRETİ (₺)</label>
-                                            <input type="number" name="price" value={profileData.price} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
+                                            <input type="number" name="price" value={profileData.price} onChange={handleProfileChange} className="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-4 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
                                         </div>
                                         <div className="space-y-2 md:col-span-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">PROFİL FOTOĞRAFI</label>
@@ -554,7 +554,7 @@ const ExpertDashboard: React.FC = () => {
                                                     <button
                                                         type="button"
                                                         onClick={() => photoInputRef.current?.click()}
-                                                        className="absolute -bottom-1 -right-1 bg-indigo-600 text-white rounded-full p-2 shadow-lg hover:bg-indigo-700 transition-all"
+                                                        className="absolute -bottom-1 -right-1 bg-primary text-white rounded-full p-2 shadow-lg hover:brightness-90 transition-all"
                                                         title="Fotoğraf Değiştir"
                                                     >
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -577,7 +577,7 @@ const ExpertDashboard: React.FC = () => {
                                                     <button
                                                         type="button"
                                                         onClick={() => photoInputRef.current?.click()}
-                                                        className="mt-3 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                                                        className="mt-3 text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                                                     >
                                                         Fotoğraf Seç veya Değiştir
                                                     </button>
@@ -587,7 +587,7 @@ const ExpertDashboard: React.FC = () => {
                                         <div className="space-y-2 md:col-span-2">
                                             <label className="text-xs font-bold text-gray-500 uppercase ml-1 flex justify-between items-center">
                                                 SEMİNER VE KONFERANSLAR
-                                                <button onClick={addSeminar} className="text-indigo-600 hover:text-indigo-800 text-sm flex items-center gap-1 font-bold">
+                                                <button onClick={addSeminar} className="text-primary hover:text-primary/80 text-sm flex items-center gap-1 font-bold">
                                                     <span className="text-lg">+</span> Ekle
                                                 </button>
                                             </label>
@@ -598,11 +598,11 @@ const ExpertDashboard: React.FC = () => {
                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                                         </button>
                                                         <div>
-                                                            <input type="text" placeholder="Seminer/Konferans Adı" value={seminar.title} onChange={(e) => updateSeminar(index, 'title', e.target.value)} className="w-full bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500 pr-10" />
+                                                            <input type="text" placeholder="Seminer/Konferans Adı" value={seminar.title} onChange={(e) => updateSeminar(index, 'title', e.target.value)} className="w-full bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-900 focus:ring-2 focus:ring-primary pr-10" />
                                                         </div>
                                                         <div className="flex gap-3">
-                                                            <input type="text" placeholder="Açıklama (İsteğe Bağlı)" value={seminar.description || ''} onChange={(e) => updateSeminar(index, 'description', e.target.value)} className="w-2/3 bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-900 focus:ring-2 focus:ring-blue-500" />
-                                                            <input type="date" value={seminar.date ? seminar.date.split('T')[0] : ''} onChange={(e) => updateSeminar(index, 'date', e.target.value)} className="w-1/3 bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-500 focus:ring-2 focus:ring-blue-500" />
+                                                            <input type="text" placeholder="Açıklama (İsteğe Bağlı)" value={seminar.description || ''} onChange={(e) => updateSeminar(index, 'description', e.target.value)} className="w-2/3 bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-900 focus:ring-2 focus:ring-primary" />
+                                                            <input type="date" value={seminar.date ? seminar.date.split('T')[0] : ''} onChange={(e) => updateSeminar(index, 'date', e.target.value)} className="w-1/3 bg-gray-50 border-none rounded-lg py-2 px-3 font-semibold text-gray-500 focus:ring-2 focus:ring-primary" />
                                                         </div>
                                                     </div>
                                                 ))}
@@ -620,7 +620,7 @@ const ExpertDashboard: React.FC = () => {
                                         </div>
                                     )}
                                     <div className="pt-4 border-t border-gray-50">
-                                        <button onClick={handleSaveProfile} disabled={isSaving} className="bg-indigo-600 text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:bg-indigo-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                                        <button onClick={handleSaveProfile} disabled={isSaving} className="bg-primary text-white px-8 py-3.5 rounded-2xl font-bold shadow-lg hover:brightness-90 transition-all disabled:opacity-70 disabled:cursor-not-allowed">
                                             {isSaving ? 'Kaydediliyor...' : 'Profil Bilgilerini Kaydet'}
                                         </button>
                                     </div>
@@ -653,7 +653,7 @@ const ExpertDashboard: React.FC = () => {
                                                                         type="time" 
                                                                         value={slot.time || slot.start || ''} 
                                                                         onChange={(e) => updateTimeSlot(day.key, index, e.target.value)}
-                                                                        className="border border-gray-300 rounded-xl py-2 px-3 text-sm font-bold bg-gray-200 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-inner"
+                                                                        className="border border-gray-300 rounded-xl py-2 px-3 text-sm font-bold bg-gray-200 text-gray-900 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary shadow-inner"
                                                                     />
                                                                     <button 
                                                                         onClick={() => removeTimeSlot(day.key, index)}

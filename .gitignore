@@ -4,6 +4,9 @@ node_modules/
 .pnp.js
 bun.lockb
 
+# Design exports (repo dışında tutulur)
+figma/
+
 # Build outputs
 dist/
 build/
