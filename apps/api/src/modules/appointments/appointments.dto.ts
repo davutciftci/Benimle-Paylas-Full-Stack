@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsEnum, IsDateString, IsNumber, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsDateString, IsNumber } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateAppointmentDto {
@@ -6,16 +6,19 @@ export class CreateAppointmentDto {
     @IsNumber()
     expertId: number;
 
-    @ApiProperty({ example: '2024-12-15', description: 'Randevu tarihi (YYYY-MM-DD)' })
+    @ApiProperty({ example: '2026-05-08T14:00:00.000Z', description: 'Randevu başlangıç tarihi/saati (ISO 8601)' })
     @IsDateString()
     date: string;
-
-
 
     @ApiPropertyOptional({ description: 'Notlar' })
     @IsString()
     @IsOptional()
     notes?: string;
+
+    @ApiPropertyOptional({ enum: ['online', 'in-person'], default: 'online' })
+    @IsEnum(['online', 'in-person'])
+    @IsOptional()
+    sessionType?: 'online' | 'in-person';
 }
 
 export class UpdateAppointmentStatusDto {

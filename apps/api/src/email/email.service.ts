@@ -5,6 +5,7 @@ import { render } from '@react-email/render';
 import { PasswordResetEmail } from './templates/password-reset.template';
 import { WelcomeEmail } from './templates/welcome.template';
 import { AppointmentConfirmationEmail } from './templates/appointment-confirmation.template';
+import { AppointmentCreatedEmail } from './templates/appointment-created.template';
 
 @Injectable()
 export class EmailService {
@@ -79,5 +80,22 @@ export class EmailService {
     ): Promise<void> {
         const html = await render(React.createElement(AppointmentConfirmationEmail, props));
         await this.send(email, 'Randevunuz Onaylandı - Benimle Paylaş', html);
+    }
+
+    async sendAppointmentCreatedEmail(
+        email: string,
+        props: {
+            recipientName: string;
+            counterpartName: string;
+            counterpartRole: 'expert' | 'user';
+            date: string;
+            startTime: string;
+            endTime: string;
+            sessionType: 'online' | 'in-person';
+            notes?: string;
+        }
+    ): Promise<void> {
+        const html = await render(React.createElement(AppointmentCreatedEmail, props));
+        await this.send(email, 'Yeni Randevu Bilgilendirmesi - Benimle Paylaş', html);
     }
 }

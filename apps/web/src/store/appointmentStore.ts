@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Appointment } from '../types';
+import type { Appointment, CreateAppointmentPayload } from '../types';
 import { appointmentsApi } from '../services/api';
 
 interface AppointmentState {
@@ -12,7 +12,7 @@ interface AppointmentState {
     fetchUserAppointments: (userId: string) => Promise<void>;
     fetchExpertAppointments: (expertId: string) => Promise<void>;
     createAppointment: (
-        appointment: Omit<Appointment, 'id' | 'createdAt'>
+        appointment: CreateAppointmentPayload
     ) => Promise<boolean>;
     updateAppointmentStatus: (
         appointmentId: string,

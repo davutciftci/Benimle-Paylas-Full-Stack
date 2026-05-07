@@ -70,6 +70,25 @@ export interface Appointment {
     sessionType: 'online' | 'in-person';
     meetingLink?: string;
     createdAt: string;
+    durationMinutes?: number;
+    client?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
+    };
+    expert?: {
+        id: number;
+        userId?: number;
+        profilePhotoUrl?: string | null;
+    };
+}
+
+export interface CreateAppointmentPayload {
+    expertId: number;
+    date: string;
+    notes?: string;
+    sessionType?: 'online' | 'in-person';
 }
 
 // Review types

@@ -3,6 +3,7 @@ import axios from 'axios';
 import type {
     Expert,
     Appointment,
+    CreateAppointmentPayload,
     Review,
     ExpertFilters,
     PaginatedResponse,
@@ -108,7 +109,7 @@ export const expertsApi = {
 };
 
 export const appointmentsApi = {
-    async create(appointment: Omit<Appointment, 'id' | 'createdAt'>): Promise<ApiResponse<Appointment>> {
+    async create(appointment: CreateAppointmentPayload): Promise<ApiResponse<Appointment>> {
         return wrap(() => http.post('/appointments', appointment));
     },
 
